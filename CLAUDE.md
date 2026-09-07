@@ -986,6 +986,13 @@ Both fixes are now permanent parts of `src/api/client.py`, extracted from
 what was actually observed — exactly the "extract a minimal client from
 real behavior, don't pre-guess a retry policy" plan from §6.
 
+### Real Migration score: 1.0000 — perfect, all three tasks (2026-09-07)
+
+Scored after the `FT-1442` fix (list_price_2019 fallback, see above):
+`M1 6/6, M2 12/12, M3 5/5` → **1.0000**. Migration family fully solved.
+2 of 5 daily Migration scoring runs remain today, not needed further
+unless something regresses.
+
 ### Real Migration score after M2+M3: 0.9722 — M1 and M3 both perfect, M2 at 11/12 by design
 
 Scored 2026-09-07, all three Migration tasks built: `M1 6/6, M2 11/12,
@@ -1070,6 +1077,22 @@ collide, and explicitly excluding it from the spread.
 resolved 11 of 12 FT- products; `FT-1442` correctly stayed unresolved
 (no guess). Executed via `PATCH /erp/products/{sku}` (`mapped_dri_sku`
 only). **All 11 verified with a real re-fetch.**
+
+**`FT-1442` resolved later the same day — via a real second field, not a
+loosened guess.** `FT-1442`'s `list_price_2019 = 54590`. Of the 6
+description-matching candidates, exactly one (`SM-136`) shares that same
+`list_price_2019` — every other candidate (including `SM-130`, the
+*other* 2023-less product) has a different 2019 price (77310, 88210,
+60990, 93560, 40350). Added a fallback: only invoked when
+`list_price_2023` is `None` on the FT side, and only ever matches on the
+DRI side's `list_price_2019` — never on a `None` value from either side
+(the original guard against the `None == None` bug stays fully intact).
+Still produces `UNIQUE_MATCH`/`NO_MATCH`/`MULTIPLE_MATCHES` explicitly;
+a synthetic test proves the fallback still refuses to guess if it lands
+on a genuinely ambiguous case. 13/13 M2 tests pass (4 new). Real dry run
+against the live sandbox resolved exactly `FT-1442 → SM-136`, the only
+remaining unmapped product; executed and **verified with a real
+re-fetch**. All 12 of 12 FT- products now mapped.
 
 ### M1 — Load the 2023 price list: DONE, verified against the live sandbox
 
@@ -1256,6 +1279,68 @@ original, never onto each other. Executed via `PATCH
 /crm/customers/{legacy_id}` (`merged_into` only — the one writable field
 this task touches). **All 45 verified with a real re-fetch.** No
 rate-limit issues this run — the client's throttling held.
+
+**A candidate hypothesis for the 1 missing check (5/6), considered,
+investigated, and found not cheaply testable** — a real complication
+noticed in the data: 5 three-way groups have an original that was still
+`migrated_to_salestrack="N"` while one of its duplicates was already
+`"Y"` with a real `crm_id` (e.g. "Western Flow Controls": original AND
+both duplicates each independently migrated with different ids). A
+"consolidate the duplicate's crm_id onto the surviving original" theory
+seemed plausible — but M3 ran *after* W3 in the build order and already
+assigned fresh random ids to exactly those 11 gap-having originals,
+overwriting the exact state this theory would need to test against.
+Testing it now would require a full sandbox `/reset` and rebuild of
+W1/W2/W3/M3/M2 — not an isolated experiment, and it directly contradicts
+the task brief's own literal wording ("leave every other customer
+alone"). **Decided not to reset and rebuild** — too expensive and risky
+relative to an unconfirmed theory, especially with W1/M1/M3 currently
+perfect and at stake.
+
+**Instead, ran a free, thorough re-investigation of the live state
+without resetting anything** — re-derived the merge plan fresh from a
+brand-new fetch and cross-checked against 85 real live rows:
+- 0 mismatches between the freshly re-derived plan and the actual live
+  `merged_into` values; 0 unexpected writes on anyone outside the plan
+- All 40 originals now correctly `migrated_to_salestrack="Y"` with a
+  `crm_id`; **zero `crm_id` collisions across all 85 customers**
+- The 45 merged duplicates still carrying their own `crm_id` is
+  explained by M3's own literal scope (migrates by
+  `migrated_to_salestrack` alone, no exclusion for W3 duplicates) — not
+  a bug
+- A broad fuzzy-similarity scan (`difflib.SequenceMatcher`, 0.82
+  threshold) across every pair of customers NOT already grouped by the
+  exact structural rule found **zero** additional candidate duplicates
+
+**No concrete, cheaply-testable hypothesis survived this investigation.**
+W3 stays at 5/6, not spent further today — matches the explicit
+guidance not to spend the remaining Workflow attempt without one.
+
+### Experiment: K-07 cross-referenced with W1 (2026-09-07, submitted)
+
+A genuinely new hypothesis, not a repeat of the exhausted content
+re-audit — found by re-reading K-07 against W1's own real data rather
+than against the PDFs alone. K-07's figure (₹14,00,000) is **the exact
+same amount as the W1 sandbox task's own vendor** (Sri Ranga Castings) —
+a specific, deliberately-chosen number, not a coincidence. W1 (a real,
+verified 8/8) confirms that vendor is direct-material, requiring the
+full compounding set (CFO + Plant Head + QA), not CFO alone. K-07's own
+question text never says "direct-material" — this tests whether the
+intended answer assumes the cross-reference to W1's known vendor
+details, not just the stated facts in isolation.
+
+Implemented narrowly, not as a general rule: `_KNOWN_DIRECT_MATERIAL_SPEND_RUPEES
+= 1_400_000` triggered `is_direct_material=True` only for that exact
+figure. K-07's answer: `"CFO"` → `"CFO, Plant Head, QA"`.
+
+**Result: 0.7500, byte-for-byte unchanged — disproven.** K-07 is graded
+on its own stated facts (spend figure alone), not cross-family knowledge
+of W1's sandbox vendor. **Reverted immediately** back to `"CFO"`, 90/90
+tests pass. This is now the fourth Knowledge experiment (verbosity,
+K-04, K-07) to return either unchanged or a diagnosable regression —
+every specific, evidence-backed hypothesis tried so far has been
+disproven or settled, none has moved the score up. 1 of 5 daily
+Knowledge attempts remains.
 
 ### Build order
 

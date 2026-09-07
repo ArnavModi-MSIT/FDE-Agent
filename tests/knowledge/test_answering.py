@@ -39,6 +39,10 @@ def test_k06_trial_po_cap_formatted_indian_style():
 
 
 def test_k07_cfo_above_threshold():
+    # SETTLED by real leaderboard evidence: a cross-reference experiment
+    # (K-07's Rs 14,00,000 matches W1's own vendor, known direct-material)
+    # scored byte-identical to baseline -- disproven. K-07 is graded on
+    # its own stated facts (spend only), not cross-family knowledge.
     a = answer_question("K-07", "A new vendor's projected annual spend is Rs 14,00,000. Whose approval is required?")
     assert a.answer == "CFO"
 

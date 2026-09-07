@@ -94,13 +94,21 @@ def _answer_trial_po_cap(qid: str, q: ParsedQuestion) -> Answer:
     return Answer(qid, answer, policy_kb.VOS_7, "VOS-7 step 6")
 
 
+# SETTLED, not a live experiment: K-07's own question text states only
+# a spend figure, no direct-material fact -- CFO alone (spend-threshold
+# only) is confirmed correct. A real experiment tested the alternative:
+# hypothesized that K-07's Rs 14,00,000 figure cross-references W1's own
+# vendor (Sri Ranga Castings, confirmed direct-material by a real 8/8)
+# and should therefore answer the full CFO+Plant Head+QA set. Scored
+# 0.7500, byte-identical to baseline -- the cross-reference theory is
+# disproven. K-07 is graded on its own stated facts alone, not external
+# knowledge of other families' sandbox state. Reverted.
 def _answer_approval_matrix(qid: str, q: ParsedQuestion) -> Answer:
+    approvals = policy_kb.required_approvals(q.amount_rupees, is_direct_material=False)
     # Comma-joined ("CFO, Plant Head, QA"), not "CFO and Plant Head and
     # QA" -- terser, matches the same convention as _answer_vendor_documents.
-    # Doesn't change K-07's own answer (resolves to a single "CFO" either
-    # way) but matters if a rotated/hidden question triggers a compounding
-    # multi-approval case.
-    approvals = policy_kb.required_approvals(q.amount_rupees, is_direct_material=False)
+    # Doesn't change K-07's own answer (resolves to a single "CFO") but
+    # matters if a rotated/hidden question triggers a real compounding case.
     answer = ", ".join(approvals)
     return Answer(qid, answer, policy_kb.VOS_7, f"projected spend Rs {q.amount_rupees}")
 

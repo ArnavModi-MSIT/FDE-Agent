@@ -6,58 +6,33 @@ project record with all context/rationale lives in `CLAUDE.md`.
 
 ## What changed
 
-You shared an external score-improvement plan. Cross-checked its key
-claims, then did a free investigation sweep against real sandbox
-endpoints never queried before, rather than spend an attempt guessing.
+Checked the real Migration score after the `FT-1442` fix: **1.0000 —
+perfect.** M1 6/6, M2 12/12, M3 5/5. Migration family fully solved.
 
-## Plan cross-check
+## Full picture across all four families now
 
-Confirmed real: the "#1 99.44%..." competitive numbers match your own
-earlier leaderboard screenshot exactly, and the composite math (≈86.38%)
-checks out. Flagged as unverified: "we're currently #7" — that depends
-on other participants' live scores, not something the plan could have
-actually observed. One internal inconsistency noted: the plan's
-"priority order" (Knowledge first) contradicts its own composite-math
-scenarios (Workflow/Reconciliation fixes are worth more) — the real
-justification is tractability, not value, and the doc doesn't say so.
+| Family | Score | Weight |
+|---|---|---|
+| Reconciliation | 0.8700 | 30% |
+| Knowledge | 0.7500 | 20% |
+| Workflow | 0.8611 | 30% |
+| **Migration** | **1.0000** | 20% |
 
-## Free investigation results — big one first
-
-**`GET /vault/documents`** (never queried before) returns each policy
-doc as `{code, title, body}` — and `code`'s values are **exactly**
-`PP-2019`/`PP-2023`/`VOS-7`/`WRP-2020`, the platform's own canonical
-identifier. This is real confirmation, not a guess: our `governing_source`
-format has been correct all along. No experiment needed — settled for
-free. Also cross-checked the full document text against `policy_kb.py`:
-byte-for-byte consistent, zero discrepancies.
-
-**Vendor-name variance and PO-reference validity**, re-checked against
-the *sandbox's* real `/erp/invoices` and `/erp/purchase_orders` (not
-just the local practice CSV): both confirmed clean a second, independent
-way — 0 name mismatches, same 12 genuinely-synthetic missing PO
-references.
-
-**`/tickets` and `/email/messages`**, read in full for the first time:
-identical content to local practice data, narrating scenarios already
-correctly handled. Nothing new.
-
-## Honest bottom line
-
-Every free, well-reasoned investigation path for both Reconciliation
-and Knowledge is now exhausted. Everything checkable without spending
-an attempt has been checked — all either confirmed correct or already
-disproven via a real submission. No new concrete lever for either
-family's remaining gap right now.
+Composite: `0.3×0.87 + 0.2×0.75 + 0.3×0.8611 + 0.2×1.00 ≈ 0.8693` —
+86.93%, up from 86.38% before the M2 fix.
 
 ## Recorded in CLAUDE.md
 
-Full sweep documented in place, folded into the existing experiment
-logs rather than a separate section.
+Migration's experiment log now shows the full arc: 0.4667 (baseline,
+before M2/M3 built) → 0.9722 (after M2/M3 first built, FT-1442
+unresolved by design) → **1.0000** (after the real list_price_2019
+fallback fix). 2 of 5 daily Migration attempts used, not needed further
+unless something regresses.
 
 ## Still open
 
-- Reconciliation (0.87) and Knowledge (0.75): no untested hypothesis
-  remains for either — 2 attempts left on each today
-- Workflow W2 (6/8) / W3 (5/6): same shared-wall situation, not
-  independently investigated this round
-- Repo: not re-pushed since before the whole Workflow/Migration build
+- Reconciliation (0.87): still no untested hypothesis, 2/5 attempts remain
+- Knowledge (0.75): 1 attempt left, no new hypothesis
+- W3 (5/6): genuinely unexplained, no further action without new evidence
+- Repo: pushed as of commit `c804907`; today's later changes (M2 fix,
+  the two reverted/tested Knowledge experiments) not yet re-pushed
