@@ -1,8 +1,8 @@
 qid,answer,governing_source
 K-01,10%,PP-2023
 K-02,30 days,PP-2023
-K-03,The buyer (distributor),PP-2023
-K-04,"24 months from despatch (per WRP-2020 Addendum A -- an unsigned, undated scan on file, flagged by Compliance for regularization)",WRP-2020
+K-03,Buyer,PP-2023
+K-04,24 months from despatch,WRP-2020
 K-05,"GST registration certificate, cancelled cheque, and MSME declaration (where applicable)",VOS-7
 K-06,"Rs 2,00,000",VOS-7
 K-07,CFO,VOS-7

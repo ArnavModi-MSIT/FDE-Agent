@@ -6,75 +6,58 @@ project record with all context/rationale lives in `CLAUDE.md`.
 
 ## What changed
 
-Built the entire Knowledge family from scratch: a real policy-reasoning
-engine (not a hardcoded lookup of the 12 practice answers), full test
-suite, and a generated submission ready to upload.
+You shared an external score-improvement plan. Cross-checked its key
+claims, then did a free investigation sweep against real sandbox
+endpoints never queried before, rather than spend an attempt guessing.
 
-## Why a reasoning engine, not a lookup table
+## Plan cross-check
 
-The rules page says scored sets "rotate weekly." Combined with the R-05
-submission spec ("one row per qid in `knowledge_questions.csv`" — your
-own downloaded file), the most likely shape is: same question
-*templates*, different numbers/dates/tiers each week. A hardcoded
-qid->answer table would break on refresh; a real parser + policy engine
-survives it.
+Confirmed real: the "#1 99.44%..." competitive numbers match your own
+earlier leaderboard screenshot exactly, and the composite math (≈86.38%)
+checks out. Flagged as unverified: "we're currently #7" — that depends
+on other participants' live scores, not something the plan could have
+actually observed. One internal inconsistency noted: the plan's
+"priority order" (Knowledge first) contradicts its own composite-math
+scenarios (Workflow/Reconciliation fixes are worth more) — the real
+justification is tractability, not value, and the doc doesn't say so.
 
-## Architecture (mirrors reconciliation's proven shape)
+## Free investigation results — big one first
 
-`parsing.py` (question text -> topic + extracted amount/date/tier, regex
--based) -> `answering.py` (topic-routed handler) -> `policy_kb.py`
-(every rule transcribed from the real PDFs, cited inline) + `temporal.py`
-(date -> PP-2019/PP-2023 resolution) -> `submission.py`
-(`qid,answer,governing_source`). Zero LLM calls, fully deterministic.
+**`GET /vault/documents`** (never queried before) returns each policy
+doc as `{code, title, body}` — and `code`'s values are **exactly**
+`PP-2019`/`PP-2023`/`VOS-7`/`WRP-2020`, the platform's own canonical
+identifier. This is real confirmation, not a guess: our `governing_source`
+format has been correct all along. No experiment needed — settled for
+free. Also cross-checked the full document text against `policy_kb.py`:
+byte-for-byte consistent, zero discrepancies.
 
-## Two real bugs found and fixed
+**Vendor-name variance and PO-reference validity**, re-checked against
+the *sandbox's* real `/erp/invoices` and `/erp/purchase_orders` (not
+just the local practice CSV): both confirmed clean a second, independent
+way — 0 name mismatches, same 12 genuinely-synthetic missing PO
+references.
 
-**1. Tier extraction bug, caught by reading the reasoning trace, not a
-failing test.** K-02 asks about a "standard credit terms for a **Gold**
--tier distributor" — the tier regex grabbed "standard" (an adjective
-appearing earlier in the sentence) instead of "Gold" (the real tier,
-appearing later). The final answer was accidentally still correct
-(neither maps to Platinum, so both give 30 days) — exactly the kind of
-bug that hides silently. Fixed by requiring a `-tier` suffix as the real
-tier designation before falling back to a bare word match.
+**`/tickets` and `/email/messages`**, read in full for the first time:
+identical content to local practice data, narrating scenarios already
+correctly handled. Nothing new.
 
-**2. Test collision bug**: gave `tests/knowledge/` an `__init__.py`
-(unlike `tests/reconciliation/`, which deliberately has none) — this made
-pytest treat `tests/knowledge` itself as the `knowledge` package,
-shadowing `src/knowledge` entirely. Every test failed importing
-`policy_kb`. Fixed by removing the `__init__.py`.
+## Honest bottom line
 
-## Verified
+Every free, well-reasoned investigation path for both Reconciliation
+and Knowledge is now exhausted. Everything checkable without spending
+an attempt has been checked — all either confirmed correct or already
+disproven via a real submission. No new concrete lever for either
+family's remaining gap right now.
 
-- **54/54 tests pass** (25 new for knowledge: policy_kb boundary cases
-  including the exact 2023-10-01 cutover, topic classification against
-  all 12 real questions, the tier-extraction regression, pipeline
-  determinism, submission structural invariants)
-- **All 12 real practice questions answered and manually cross-checked**
-  by independent domain reasoning: K-01 10%, K-02 30 days, K-03 buyer
-  bears freight, K-04 24 months + Addendum A caveat, K-05 the 3 VOS-7
-  documents, K-06 ₹2,00,000, K-07 CFO, K-08 Nil, K-09 10% restocking,
-  K-10 15 days, K-11 June 2026, K-12 60 days — every one matches
-  independent hand-reasoning, not just "the code produced something"
+## Recorded in CLAUDE.md
 
-## Two open, unverified assumptions (same shape as reconciliation's)
+Full sweep documented in place, folded into the existing experiment
+logs rather than a separate section.
 
-- `governing_source`'s exact expected string format (used each
-  document's own "Document code," e.g. `PP-2023`, `VOS-7`) — not
-  confirmed against any spec text, since none states the expected
-  granularity
-- `answer` text's exact expected precision/format — chose natural,
-  information-dense short strings; scoring method (exact/substring/
-  semantic) is unknown
+## Still open
 
-## Ready to submit
-
-`submissions/knowledge_submission.csv` is generated and ready. This is
-the first Knowledge attempt — unlike Reconciliation, we have zero prior
-signal here, so whatever score comes back is entirely new information.
-
-## Still open (unrelated to Knowledge)
-
-- Reconciliation: 2 of 5 daily attempts remain, no new hypothesis to
-  spend them on (see previous investigation — all local levers exhausted)
-- Workflow/Migration: still blocked on the sandbox API key
+- Reconciliation (0.87) and Knowledge (0.75): no untested hypothesis
+  remains for either — 2 attempts left on each today
+- Workflow W2 (6/8) / W3 (5/6): same shared-wall situation, not
+  independently investigated this round
+- Repo: not re-pushed since before the whole Workflow/Migration build
