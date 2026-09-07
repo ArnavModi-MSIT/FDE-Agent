@@ -4,6 +4,17 @@
 quick "what just happened and why" for a human checking in — the full
 project record with all context/rationale lives in `CLAUDE.md`.
 
+## Real confirmation: the corrected submission scored 0.8700, unchanged
+
+The reverted/corrected `submission.csv` (both deviations below removed)
+was submitted for real — result matches the local byte-identical
+prediction exactly: **0.8700**, no movement. **5/5 Reconciliation
+attempts are now used for today (2026-09-07, IST)** — none remain until
+the daily quota resets. The codebase is left in its most
+organizer-aligned state so far: matches `starter_reconciliation.py`'s
+literal logic on every dimension except the one evidenced `UOM_MISMATCH`
+canonicalization deviation.
+
 ## What changed
 
 Followed the explicit instruction to build a status-definition matrix
@@ -54,15 +65,6 @@ example and ticket FIX-3418), unlike the two reverted changes.
   0 UOM_MISMATCH — exactly as predicted (both reversions are the
   symmetric opposite of already-tested, already-neutral changes).
 
-## No attempt spent
-
-Per the standing rule (formulate a specific hypothesis before spending a
-scored attempt, never guess), this is a **code-only correction**, not a
-new submission — the matrix's own null result on new hidden-set
-hypotheses, combined with the reversions being predictably neutral, means
-there's nothing new to test on the leaderboard. Holding at **0.8700**,
-2 of 5 daily Reconciliation attempts still unspent.
-
 ## Recorded in CLAUDE.md
 
 Full matrix findings, reasoning, and both corrections documented in
@@ -71,11 +73,11 @@ place (Reconciliation section — duplicate pass, precedence, and a new
 
 ## Still open
 
-- Reconciliation: holding at 0.87, 2/5 attempts remain if new evidence
-  ever appears — per the user's own instruction, this matrix was the
-  agreed final check before preserving the last attempt
+- Reconciliation: holding at 0.87, **0/5 attempts remain today** — quota
+  resets tomorrow (IST); no further Reconciliation experimentation
+  possible today regardless of any new hypothesis
 - Knowledge (0.75): 1 attempt left, no new hypothesis
 - W3 (5/6): genuinely unexplained, no further action without new evidence
-- Repo: pushed as of commit `e8e029c`; today's rounds since then (UOM
-  proof test, external review responses, this matrix audit + reversions)
-  not yet re-pushed — push only on explicit request
+- Repo: local commit `90c8ee9` has the matrix + both reversions on top of
+  `e8e029c` (last pushed); not yet re-pushed — push only on explicit
+  request

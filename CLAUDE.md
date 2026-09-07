@@ -457,7 +457,7 @@ reviews converged on.
 | 1 | Baseline (UOM canonicalization engine) | — | — | **0.8700** (2026-09-07) |
 | 2 | Duplicate key `po_number` -> `(po_number, sku)` + deterministic tiebreak | Byte-identical (0 rows changed) | Hidden set may have multi-line POs the practice set's 1:1 structure can't exercise | **0.8700** (2026-09-07, unchanged) |
 | 3 | Precedence: `GST_ERROR` promoted above `QTY_MISMATCH`/`RATE_MISMATCH` | Byte-identical (0 rows changed — 0/250 invoices ever fail 2+ checks, so no reorder can move local output) | An internal arithmetic check (gst) should outrank an externally-compared value check (qty/rate) when both fail on the same invoice | **0.8700** (2026-09-07, unchanged) |
-| — | *Code-only correction, no submission*: both #2's key and #3's reorder reverted back to `starter_reconciliation.py`'s literal logic, per the status-definition matrix audit | Byte-identical (168/21/16/16/12/12/5/0, confirmed post-revert) | Matrix audit found no organizer evidence supporting either deviation; both directions already proven neutral by #2/#3 themselves | *(no submission — predictably neutral, not spent)* |
+| 4 | Both #2's key and #3's reorder reverted back to `starter_reconciliation.py`'s literal logic, per the status-definition matrix audit | Byte-identical (168/21/16/16/12/12/5/0, confirmed pre- and post-submission) | Matrix audit found no organizer evidence supporting either deviation; both directions already proven neutral by #2/#3 themselves | **0.8700** (2026-09-07, unchanged — real confirmation, not just local prediction) |
 
 **Attempts #2 and #3 submitted identical CSV content to #1** — neither
 change alters any row's classification, confirmed before each submission.
@@ -594,10 +594,18 @@ is the matrix doing exactly what it was asked to do: either surface a
 real semantic discrepancy worth a submission, or — as happened here —
 come back empty on new hypotheses and instead tidy two already-tested,
 unvalidated deviations toward the one confirmed organizer reference.
-Per the standing instruction that a null result here means preserving
-the final Reconciliation attempt rather than spending it on a guess:
-holding at 0.8700, 2 of 5 daily attempts still unspent, no new
-hypothesis to test them with.
+
+**Submitted anyway (user's call) and confirmed for real: 0.8700,
+byte-identical, unchanged.** The corrected/reverted `submission.csv`
+(both deviations removed) was scored on the live leaderboard — result
+matches the local prediction exactly, closing the loop with real
+evidence rather than resting on the "predictably neutral" inference
+alone. As of this submission, **5/5 Reconciliation attempts are used for
+today (2026-09-07, IST)** — none remain until the daily quota resets.
+No further Reconciliation experimentation possible today regardless of
+any new hypothesis; the codebase itself is left in its most
+organizer-aligned state so far (matches the starter's literal logic on
+every dimension except the one evidenced UOM deviation).
 
 ---
 
