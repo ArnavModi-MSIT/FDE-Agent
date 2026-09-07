@@ -8,22 +8,21 @@
 # and CLEAN are deliberately not here: duplicates are only ever decided in a
 # second pass over rows that are otherwise CLEAN (see duplicates/detector.py).
 #
-# EXPERIMENT (2026-09-07, not yet locally verifiable): 0 of 250 practice
-# invoices fail more than one check, so this order has never actually been
-# exercised against real data -- any choice here is a genuine hypothesis,
-# not a proven-correct rule. Current hypothesis, one isolated change from
-# the starter kit's own order: GST_ERROR promoted above QTY_MISMATCH/
-# RATE_MISMATCH. Reasoning: gst is the only check computed entirely from
-# the invoice's own fields (taxable_value vs gst_amount) -- quantity/rate
-# both depend on comparing against an external reference (the PO), which
-# could plausibly tolerate legitimate real-world variance in ways an
-# internal arithmetic inconsistency shouldn't. See CLAUDE.md's experiment
-# log for the submitted result once known.
+# SETTLED: matches the organizer's own reference implementation exactly
+# (starter_reconciliation.py's literal if/elif chain -- MISSING_PO,
+# VENDOR_MISMATCH, UOM_MISMATCH, QTY_MISMATCH, RATE_MISMATCH, GST_ERROR,
+# in that order, then CLEAN). A prior experiment promoted GST_ERROR above
+# QTY_MISMATCH/RATE_MISMATCH -- submitted, scored byte-identical to
+# baseline (0.8700), no local rows changed either (0/250 invoices ever
+# fail 2+ checks). No evidence supported that deviation, so it was
+# reverted back to the organizer's own literal order once
+# reconciliation_status_matrix.md's audit surfaced the starter's code
+# itself as authoritative reference, not just its prose comments.
 PRECEDENCE = [
     ("MISSING_PO", "po_exists"),
     ("VENDOR_MISMATCH", "vendor"),
     ("UOM_MISMATCH", "uom"),
-    ("GST_ERROR", "gst"),
     ("QTY_MISMATCH", "quantity"),
     ("RATE_MISMATCH", "rate"),
+    ("GST_ERROR", "gst"),
 ]

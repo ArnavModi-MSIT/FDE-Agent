@@ -48,6 +48,23 @@ def test_uom_mismatch_when_unit_unresolvable():
     assert _classify(_inv(uom="Kg"), [_po()]).status == "UOM_MISMATCH"
 
 
+def test_incompatible_uom_never_masked_by_qty_rate_gst_even_when_all_also_fail():
+    # A genuinely incompatible UOM must win even when the invoice ALSO
+    # has a wildly wrong quantity, rate, and GST simultaneously -- proves
+    # quantity/rate checks are never even evaluated when uom fails (they
+    # live inside `if uom_outcome.result.passed:`), so they can never be
+    # selected over UOM_MISMATCH by precedence order. Checked directly
+    # against a real external review's specific concern, not assumed.
+    detail = _classify(
+        _inv(uom="Kg", qty=999.0, rate=1.0, taxable_value=999.0, gst_amount=1.0),
+        [_po()],
+    )
+    assert detail.status == "UOM_MISMATCH"
+    checked_names = {r.check for r in detail.check_results}
+    assert "quantity" not in checked_names
+    assert "rate" not in checked_names
+
+
 def test_box_packaging_reconciles_not_uom_mismatch():
     # The real trap: a naive string/raw-number comparison would call this
     # BOTH UOM_MISMATCH and RATE_MISMATCH. Once canonicalized it's CLEAN.
@@ -91,13 +108,15 @@ def test_gst_error_wrong_declared_rate():
     assert _classify(_inv(gst_rate_pct=12.0), [_po()]).status == "GST_ERROR"
 
 
-def test_precedence_gst_error_outranks_quantity_mismatch():
+def test_precedence_matches_starter_reference_quantity_outranks_gst():
     # No real practice invoice ever fails more than one check (0/250), so
-    # this is a synthetic proof the precedence.py reorder actually took
-    # effect -- not a claim it's the CORRECT order (unverifiable locally,
+    # this is a synthetic proof the precedence order matches the
+    # organizer's own reference implementation (starter_reconciliation.py's
+    # literal if/elif chain checks quantity before GST) -- not a claim
+    # this order is proven correct on hidden data (unverifiable locally,
     # see classify/precedence.py's own comment). Constructs a single
     # invoice that genuinely fails BOTH gst and quantity simultaneously.
     detail = _classify(_inv(qty=9.0, gst_amount=100.0), [_po()])
-    assert detail.status == "GST_ERROR"
+    assert detail.status == "QTY_MISMATCH"
     failed = {r.check for r in detail.check_results if not r.passed}
     assert failed == {"quantity", "gst"}  # both genuinely fired -- not a strawman

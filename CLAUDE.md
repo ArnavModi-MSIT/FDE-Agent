@@ -238,28 +238,30 @@ starter kit exactly.
 
 **Duplicate pass (`duplicates/detector.py`)**: runs *after* every other
 check, only among rows currently `CLEAN`. Within a group sharing the same
-**`(po_number, sku)`** — not `po_number` alone — the earliest-dated
-invoice stays `CLEAN`; the rest become `DUPLICATE_INVOICE`, with
-`invoice_number` as a deterministic tiebreak on same-date ties. A row
-that already carries a genuine defect (e.g. `RATE_MISMATCH`) is never
-touched by this pass — that defect is real regardless of billing
-duplication. Verified against real data: exactly 5 `po_number`s are each
-billed by 2 invoices in the practice set, all 5 resolve as expected, and
-all 5 also happen to share the same `sku` (see §5's leaderboard-driven
-hardening for why the key includes `sku` anyway).
+**`po_number`** — matching the starter kit's own literal
+`duplicated(subset=["po_number"])` exactly — the earliest-dated invoice
+stays `CLEAN`; the rest become `DUPLICATE_INVOICE`, with `invoice_number`
+as a deterministic tiebreak on same-date ties. A row that already carries
+a genuine defect (e.g. `RATE_MISMATCH`) is never touched by this pass —
+that defect is real regardless of billing duplication. Verified against
+real data: exactly 5 `po_number`s are each billed by 2 invoices in the
+practice set, all 5 resolve as expected.
 
-**Important honesty check, raised by a second external review and
-correct**: `(po_number, sku)` is *my own reasonable extension*, not a
-confirmed official rule. The only authoritative text on this class is the
-starter kit's own comment: "multiple invoices against one PO" — it never
-mentions SKU at all. The extension is defensible (a genuine duplicate
-should mean the same billed line item, not merely the same PO number),
-and it's provably safe (zero change to local behavior), but it is not
-verified against an official spec, because no such spec text exists
-beyond that one sentence. Don't treat this as settled — if the hidden
-duplicate rule turns out to be pure `po_number`-only, this key is still
-correct, but if it's something else entirely (e.g. matching amount too),
-this hasn't ruled that out.
+**SETTLED, following the status-definition matrix audit (§5)**: this
+was briefly keyed on `(po_number, sku)` instead — a defensive extension
+against a hypothetical multi-line PO, added before there was any hard
+evidence either way. Reverted back to `po_number` alone for two combined
+reasons, not one: (1) building `submissions/reconciliation_status_matrix.md`
+surfaced the starter kit's own reference code as real specification, and
+its literal grouping key is `po_number` alone, with no mention of SKU
+anywhere in any organizer text; (2) the extension is also structurally
+moot on data we can actually see — `po_number` is confirmed globally
+unique in *both* the 250-invoice practice set and the live sandbox
+(260/260 rows, both places), so no multi-line PO exists anywhere to
+protect against. The earlier submitted experiment (row 2 in §5's
+experiment log) already proved this change is byte-identical on local
+output either direction, so reverting spends no new attempt and is
+predictably neutral, not a guess.
 
 **Precedence (`classify/precedence.py`)**: kept as its own module,
 separate from the classifier's mechanics, specifically because it's a
@@ -268,21 +270,25 @@ macro-F1, and its own confirmed prose explicitly declines to state a rule
 for invoices with multiple defects. Represented as `(status, check_name)`
 pairs so the classifier never hardcodes the status-to-check mapping twice.
 
-**Current order is an active, labeled experiment, not the starter kit's
-default anymore**: `MISSING_PO > VENDOR_MISMATCH > UOM_MISMATCH >
-GST_ERROR > QTY_MISMATCH > RATE_MISMATCH` — `GST_ERROR` promoted above
-`QTY_MISMATCH`/`RATE_MISMATCH` (one isolated swap from the starter kit's
-original order). Reasoning: `gst` is the only check computed entirely
-from the invoice's own fields (`taxable_value` vs `gst_amount`) — quantity
-and rate both depend on comparing against an external reference (the PO),
-which could plausibly tolerate legitimate real-world variance in ways an
-internal arithmetic inconsistency shouldn't. **This cannot be verified
-locally**: 0 of 250 practice invoices ever fail more than one check, so
-no reorder — this one or any other — changes the local pipeline output at
-all (confirmed: still byte-identical 168/21/16/16/12/12/5/0 after this
-change). A synthetic test (`test_precedence_gst_error_outranks_quantity_mismatch`)
-proves the mechanism actually took effect in code, not that the order is
-correct — that can only come from a submission. See §5's experiment log.
+**SETTLED, following the status-definition matrix audit (§5): back to
+the starter kit's own literal order** — `MISSING_PO > VENDOR_MISMATCH >
+UOM_MISMATCH > QTY_MISMATCH > RATE_MISMATCH > GST_ERROR`. This briefly
+had `GST_ERROR` promoted above `QTY_MISMATCH`/`RATE_MISMATCH` — one
+isolated swap, on the reasoning that `gst` is computed entirely from the
+invoice's own fields while quantity/rate compare against an external
+reference (the PO) — submitted as experiment #3 in §5's log and found
+**byte-identical, zero score movement** (0.8700, unchanged). Reverted for
+the same combined reason as the duplicate key above: the status-matrix
+audit surfaced `starter_reconciliation.py`'s literal `if/elif` chain as
+real organizer specification (checks quantity and rate *before* GST),
+and the earlier submitted experiment already proved the swap carries no
+supporting evidence — it was neutral in both directions, so reverting
+spends no new attempt. A synthetic test
+(`test_precedence_matches_starter_reference_quantity_outranks_gst`) now
+proves the *reverted* order — `QTY_MISMATCH` outranking `GST_ERROR` on a
+synthetic invoice that genuinely fails both — actually took effect in
+code, not that the order is provably correct on hidden data (that's still
+only knowable from a submission — see §5).
 
 **Every check returns a `CheckResult`** (`check`, `passed`, `observed`,
 `expected`, `reason`), not a bare bool — added after an external review
@@ -451,6 +457,7 @@ reviews converged on.
 | 1 | Baseline (UOM canonicalization engine) | — | — | **0.8700** (2026-09-07) |
 | 2 | Duplicate key `po_number` -> `(po_number, sku)` + deterministic tiebreak | Byte-identical (0 rows changed) | Hidden set may have multi-line POs the practice set's 1:1 structure can't exercise | **0.8700** (2026-09-07, unchanged) |
 | 3 | Precedence: `GST_ERROR` promoted above `QTY_MISMATCH`/`RATE_MISMATCH` | Byte-identical (0 rows changed — 0/250 invoices ever fail 2+ checks, so no reorder can move local output) | An internal arithmetic check (gst) should outrank an externally-compared value check (qty/rate) when both fail on the same invoice | **0.8700** (2026-09-07, unchanged) |
+| — | *Code-only correction, no submission*: both #2's key and #3's reorder reverted back to `starter_reconciliation.py`'s literal logic, per the status-definition matrix audit | Byte-identical (168/21/16/16/12/12/5/0, confirmed post-revert) | Matrix audit found no organizer evidence supporting either deviation; both directions already proven neutral by #2/#3 themselves | *(no submission — predictably neutral, not spent)* |
 
 **Attempts #2 and #3 submitted identical CSV content to #1** — neither
 change alters any row's classification, confirmed before each submission.
@@ -548,6 +555,49 @@ the same file, confirmed twice). Recommendation: stop spending
 Reconciliation attempts without a genuinely new hypothesis — pivot effort
 to Knowledge (untouched, fully self-contained) or the sandbox
 (Workflow/Migration) rather than guessing further here today.
+
+**Status-definition matrix audit (`submissions/reconciliation_status_matrix.md`,
+2026-09-07)**: a follow-up review asked a genuinely different question
+than any prior pass — not "is there a bug in our checks" but "are we
+even interpreting the 8 status labels the way the hidden generator
+defines them, semantically." Built a 7-column matrix (organizer
+definition / example-ticket / required conditions / excluding conditions
+/ coexistence / our implementation / unverified) for all 8 classes,
+compiled from *every* organizer-authored source: the copy-ready brief,
+all 18 tickets, all 14 emails, and — the decisive addition — a direct
+read of `starter_reconciliation.py`'s actual code, treated as real
+specification rather than just its own prose comments.
+
+**Result: no new hidden-set hypothesis, but two confirmed, real
+deviations from that reference code, both already known-neutral and now
+corrected**: the `GST_ERROR`-promoted precedence order (above) and the
+`(po_number, sku)` duplicate key (above) were the only two places our
+implementation differed from the starter's literal logic without
+organizer evidence supporting the deviation — both already tested via
+real submissions (#2, #3 in the log below) and confirmed byte-identical
+locally either way. Reverted both to match the starter exactly. Every
+other class (`MISSING_PO`, `VENDOR_MISMATCH`, `QTY_MISMATCH`,
+`RATE_MISMATCH`, `CLEAN`) matches the starter's literal logic already;
+`UOM_MISMATCH` is the one deliberate, evidenced deviation kept as-is —
+canonicalizing `Label(N)` packaging rather than the starter's raw string
+compare, backed by *two independent* organizer sources (the brief's own
+`Box(10)` example and ticket FIX-3418's "value tallies, count does not").
+No corrections needed anywhere the matrix didn't already predict.
+
+**Both reversions are predictably neutral, not new guesses spending an
+attempt**: since the *opposite* direction of each (adding the deviation)
+was already submitted and scored byte-identical/unchanged, removing it
+is symmetric and equally neutral by the same logic — confirmed locally
+after the code change (`scripts/run_reconciliation.py` still reports
+168/21/16/16/12/12/5/0, byte-identical) rather than merely assumed. This
+is the matrix doing exactly what it was asked to do: either surface a
+real semantic discrepancy worth a submission, or — as happened here —
+come back empty on new hypotheses and instead tidy two already-tested,
+unvalidated deviations toward the one confirmed organizer reference.
+Per the standing instruction that a null result here means preserving
+the final Reconciliation attempt rather than spending it on a guess:
+holding at 0.8700, 2 of 5 daily attempts still unspent, no new
+hypothesis to test them with.
 
 ---
 
@@ -900,6 +950,72 @@ genuinely-missing) or already disproven via a real submission
 (verbosity, K-04 conservative reading, duplicate key, precedence order).
 Nothing currently points at a specific, testable next lever for either
 family's remaining gap (Reconciliation's ~0.13, Knowledge's ~0.25).
+
+### Two more external reviews (2026-09-07) — one hypothesis rejected with counter-evidence, PO-key uniqueness confirmed, UOM semantics dead-ended for real
+
+A follow-up external document proposed a genuinely new angle
+("duplicate detection should consider non-CLEAN rows too — a later
+-dated invoice that ALSO has an independent defect should still be
+DUPLICATE_INVOICE, not its own defect type") and re-raised PO-matching
+-key uniqueness as an unclosed free check.
+
+**Rejected with real counter-evidence, not just reasoning**: the
+proposed change contradicts **FIX-3401**, the actual ticket that
+inspired this project's duplicate rule — *"Two invoices... look
+**identical** against one PO. Different invoice numbers, **same
+value**."* That's the organizers' own canonical illustration of
+duplicate billing, explicitly framed as "identical, same value," not
+"one has an independent defect too." This is real textual evidence
+*for* the current design (a duplicate must otherwise validate cleanly),
+not a reason to change it. Not submitted.
+
+**PO-key uniqueness, closed for real**: confirmed directly against the
+live sandbox — `po_number` is globally unique (260/260), and so are
+`(po_number, sku)` and `(po_number, vendor_id)`. Matching on `po_number`
+alone is safe; no composite key is needed. This closes the "PO number
+may not be the full matching key" hypothesis definitively, not just
+provisionally.
+
+**UOM semantics, mined exhaustively from every real organizer source,
+found to confirm the current design a second independent way**:
+`FIX-3418` ("Spares billed in boxes," Vadodara Plant) — *"Vendor bills
+in boxes of ten, our PO is in numbers. **Value tallies, count does
+not.**"* This is a second, independent organizer-authored description of
+the exact `Box(N)` vs `Nos` scenario, explicitly confirming "value
+tallies" once the packaging multiplier is accounted for — precisely the
+conversion-then-compare-value logic already implemented. Combined with
+the copy-ready brief's own `Box(10)` vs `Nos` example, that's two
+independent real sources, zero sources suggesting an alternative rule.
+Checked every organizer text source that could plausibly mention UOM —
+the brief, all 18 tickets, all 4 policy PDFs (silent on
+inventory/UOM), the vault documents. No third example exists.
+
+**Decision: hold at 0.8700, do not spend either remaining Reconciliation
+attempt.** Per the explicit decision rule both external documents
+converged on — submit only if a concrete alternative rule emerges from
+real evidence, otherwise preserve the attempt — this investigation
+produced confirmation of the existing design, not an alternative. There
+is currently no untested, evidence-backed hypothesis for Reconciliation
+remaining.
+
+### One more sharp, concrete question, checked directly against code — false for this implementation
+
+A follow-up review asked something genuinely different from "does
+`Box(10)` convert correctly": *could an invoice with a genuinely
+incompatible UOM still get classified as `QTY_MISMATCH`/`RATE_MISMATCH`
+because those checks run before UOM incompatibility is established?*
+This didn't need a submission to answer — it's a claim about code
+structure, checkable directly. `classify/classifier.py`'s quantity/rate
+checks live **inside** `if uom_outcome.result.passed:` — they never run
+at all when UOM fails. Proved with a real invoice carrying incompatible
+UOM (`Kg`) AND a wildly wrong quantity, rate, and GST simultaneously:
+result is `UOM_MISMATCH`, and `quantity`/`rate` never even appear in
+`check_results` — not just unselected, structurally never evaluated.
+Locked in as a permanent regression test
+(`test_incompatible_uom_never_masked_by_qty_rate_gst_even_when_all_also_fail`).
+This specific concern is **false** for this implementation, not merely
+unlikely — one more real question closed with certainty rather than
+left open.
 
 ---
 
