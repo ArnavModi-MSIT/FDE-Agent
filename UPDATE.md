@@ -4,39 +4,36 @@
 quick "what just happened and why" for a human checking in — the full
 project record with all context/rationale lives in `CLAUDE.md`.
 
-## Re-posted W2's exceptions report with the fixed classifier
+## W2 confirmed fixed: 8/8, Workflow composite now 0.9444
 
-Now that Reconciliation's UOM fix is confirmed (real leaderboard score:
-1.0000), the natural next step was checking whether that same fix
-propagates to Workflow's W2 — it deliberately reuses `classify_invoice`
-directly, so any classification improvement there should carry straight
-into W2's `counts`/`value_at_risk`.
+Re-posting W2's exceptions report with the corrected (post-UOM-fix)
+classifier worked exactly as predicted: **W1 8/8, W2 8/8, W3 5/6** →
+Workflow composite **0.9444**. W2's prior 6/8 gap was never a
+W2-specific bug — it was the same UOM misclassification propagating
+through the shared `classify_invoice` call. Fixing Reconciliation fixed
+W2 as a side effect, no separate work needed.
 
-## What was checked before posting
+## What's left
 
-Dry-run (`scripts/run_w2.py`, no `--execute`) against the live sandbox
-confirmed the effect for real, not just assumed: `UOM_MISMATCH 0 → 13`
-(exactly matching the local shift), `value_at_risk` moved from
-₹8,30,99,028.06 to ₹8,84,04,135.42. This is the same, well-understood
-fix — no new hypothesis, no new risk.
-
-## Posted
-
-`scripts/run_w2.py --execute` — confirmed accepted by the sandbox
-(echoed back exactly what was sent). **Posting doesn't consume a scoring
-attempt** — only clicking "Run the checks and score" on the site does.
-That's the next step, at your call, to see whether W2's 6/8 improves.
+**W3's 5/6 is now the only remaining Workflow gap.** It's already been
+investigated extensively in an earlier session — all 45 merges verified
+row-by-row against the real 85-customer sandbox data, a fuzzy-similarity
+scan for missed duplicates came back empty, and a plausible CRM-id
+-consolidation theory was ruled out as too costly to test (would need a
+full sandbox reset). No concrete new hypothesis identified yet, though
+today's lesson (an "Open" ticket + "look past the surface" reasoning has
+now been wrong twice, in both Reconciliation and the vendor-GSTIN
+experiment) is worth applying to whatever W3-related tickets exist.
 
 ## Recorded in CLAUDE.md
 
-Dated note added directly after the original W2 writeup in §9.
+Real confirmation added directly after the W2 repost writeup.
 
 ## Still open
 
 - Reconciliation: **1.0000, solved.**
-- Workflow: W1 was last known at 8/8 (perfect, untouched by this
-  change). W2's corrected report is posted but not yet scored — check
-  the sandbox for the real result. W3 (5/6) still genuinely unexplained.
+- Workflow: **0.9444** (W1 8/8, W2 8/8, W3 5/6) — only W3 left, no fresh
+  hypothesis yet
 - Knowledge (0.75): attempt count from before today's reset — check
   current count before spending
 - Migration: 1.0000, already solved

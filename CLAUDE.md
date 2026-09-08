@@ -1536,6 +1536,21 @@ clicking "Run the checks and score" does — that's the next step, at the
 user's call, to see whether W2's 6/8 improves now that the same root
 cause behind Reconciliation's 0.13 gap is fixed.
 
+**Confirmed for real: W2 is now 8/8, perfect.** Scored on the live
+sandbox: `W1 8/8, W2 8/8, W3 5/6` → Workflow composite **0.9444**
+(`(1.0 + 1.0 + 0.8333) / 3`) — exact match. This directly confirms the
+standing theory (already stated above, now proven rather than inferred):
+W2's 6/8 gap was never a W2-specific bug, it was the same UOM
+misclassification propagating through the shared classifier. Fixing
+Reconciliation fixed W2 as a side effect, at zero additional cost — the
+clearest demonstration yet of why W2 deliberately reuses
+`classify_invoice` instead of a second implementation. **W3's 5/6 is now
+the only remaining gap in Workflow**, and it's the one already
+extensively investigated with no surviving hypothesis (see W3's own
+section below) — worth a fresh look given today's UOM lesson (an "Open"
+ticket + "look past the surface" reasoning has now been wrong twice),
+but nothing concrete identified yet as of this entry.
+
 ### W1 — Onboard the casting vendor: DONE, created and verified on the live sandbox
 
 `src/workflow/w1_vendor_onboarding.py` reuses `knowledge/policy_kb.py`'s
