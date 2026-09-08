@@ -4,68 +4,58 @@
 quick "what just happened and why" for a human checking in — the full
 project record with all context/rationale lives in `CLAUDE.md`.
 
-## The big one: reverted UOM canonicalization, using the last daily attempt
+## Reconciliation is solved: 1.0000
 
-A third external review made the case that the starter kit's own
-literal code treats `Box(10)` vs `Nos` as `UOM_MISMATCH` (not `CLEAN`),
-that `UOM_MISMATCH` never fires locally under our canonicalization logic
-(a macro-F1 class scoring near-zero costs up to `1/8 = 0.125` — almost
-exactly the observed 0.13 gap), and that 6+ leaderboard participants hit
-a perfect score without inventing packaging-aware conversion. This
-question has been open since the project's very first leaderboard
-result but was never directly tested.
+The UOM revert scored **1.0000 — a perfect score**, confirmed for real
+on the leaderboard. Reconciliation now matches Migration as a fully
+solved family. This closes the entire ~0.13 gap that had persisted since
+the very first submission on 2026-09-07.
 
-## What actually tipped it: today's own vendor-GSTIN result
+## What it turned out to be
 
-This project's justification for canonicalization rested on ticket
-FIX-3418 ("value tallies, count does not"). Re-reading it: it's an
-**"Open"** ticket whose first sentence is *"Stores GRN shows quantity
-mismatch."* Same ticket-status pattern as FIX-3402 — which the
-vendor-GSTIN experiment (earlier today, real regression, 0.8700→0.8579)
-just proved means "flag the defect," not "resolve it away." That's a
-real, symmetric counter-example from this project's own evidence, not
-just an external opinion.
+`checks/uom.py`'s packaging-aware canonicalization (`Box(10)` → treated
+as `Nos × 10`, reconciling as `CLEAN`) was wrong. The organizer's own
+literal starter code — raw string comparison, `Box(10) != Nos` →
+`UOM_MISMATCH` — was the correct rule all along. This project's original
+justification rested on ticket FIX-3418 ("value tallies, count does
+not"), which is itself an "Open" ticket opening with "Stores GRN shows
+quantity mismatch" — the same status pattern as FIX-3402, which the
+vendor-GSTIN experiment (same day, real regression) had just proven
+means "flag the defect," not "resolve it away." That internal
+counter-example is what actually tipped the decision to test this,
+alongside the external review's structural argument (a near-zero-F1
+class costs up to 1/8 = 0.125 of macro-F1 — almost exactly the observed
+gap) and the fact that 6+ leaderboard participants hit 1.000 without
+apparent packaging-aware logic.
 
-## What changed
+## The generalizable lesson
 
-`src/reconciliation/checks/uom.py` reverted to the starter's literal raw
-string comparison. When uom strings match, `quantity`/`rate` now compare
-RAW values (no conversion) — matching the starter's actual behavior.
-`uom/registry.py`/`uom/converter.py` kept, unused, in case this
-hypothesis is wrong. 2 tests updated, 1 new test added. **95/95 tests
-pass.**
+"Look past the surface label to the real transaction" isn't a
+free-standing principle in this dataset — it was wrong for UOM and wrong
+for vendor codes, both times because it was applied by analogy from
+somewhere it wasn't actually evidenced, rather than checked against real
+outcomes. Every check's exact tolerance needs its own evidence.
 
-## Verified as strongly as this project verifies anything
+## Verified
 
-Local output: `CLEAN 155, QTY_MISMATCH 21, RATE_MISMATCH 16, GST_ERROR
-16, UOM_MISMATCH 13, MISSING_PO 12, VENDOR_MISMATCH 12, DUPLICATE_INVOICE
-5` — **byte-for-byte identical to `starter_reconciliation.py`'s own
-output on all 250 rows, 0 differing predictions.** Stronger confirmation
-than any prior Reconciliation change.
-
-## Not yet submitted
-
-`submissions/submission.csv` is regenerated and ready. This is the last
-of today's 5 daily Reconciliation attempts — recommending it actually be
-spent this time, unlike prior "hold" recommendations, because this is
-the first hypothesis with genuine structural support (matches the
-macro-F1 math, matches the one organizer reference implementation
-byte-for-byte, and has a real internal counter-example backing the
-reasoning).
+Local output before submitting was byte-for-byte identical to
+`starter_reconciliation.py`'s own output on all 250 practice rows — the
+strongest local confirmation this project has ever had for a change,
+and it held on the hidden set too.
 
 ## Recorded in CLAUDE.md
 
-Full writeup in §4 (UOM section, marked REVERTED with both the original
-and new reasoning) and a new dated subsection after §5's experiment log,
-plus experiment-log row #6 (pending).
+Full writeup in §4 (UOM section) and the dated experiment subsection
+after §5's log, including the generalizable lesson, plus the log's
+row #6 updated with the real 1.0000 result.
 
 ## Still open
 
-- Reconciliation: **last daily attempt queued** for this UOM revert —
-  once scored, revert-if-regressed or keep-if-improved per the standard
-  decision rule
+- Reconciliation: **1.0000, solved.** 3/5 daily attempts used today, no
+  further work needed barring a future regression.
 - Knowledge (0.75): attempt count from before today's reset — check
   current count before spending
 - W3 (5/6), W2 (0.75 of weight): no new investigation this round
+- Migration: 1.0000, already solved
 - Repo: local commits through this round; not yet pushed — push only on
   explicit request

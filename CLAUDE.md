@@ -470,7 +470,7 @@ reviews converged on.
 | 3 | Precedence: `GST_ERROR` promoted above `QTY_MISMATCH`/`RATE_MISMATCH` | Byte-identical (0 rows changed — 0/250 invoices ever fail 2+ checks, so no reorder can move local output) | An internal arithmetic check (gst) should outrank an externally-compared value check (qty/rate) when both fail on the same invoice | **0.8700** (2026-09-07, unchanged) |
 | 4 | Both #2's key and #3's reorder reverted back to `starter_reconciliation.py`'s literal logic, per the status-definition matrix audit | Byte-identical (168/21/16/16/12/12/5/0, confirmed pre- and post-submission) | Matrix audit found no organizer evidence supporting either deviation; both directions already proven neutral by #2/#3 themselves | **0.8700** (2026-09-07, unchanged — real confirmation, not just local prediction) |
 | 5 | Vendor check: GSTIN-equivalence fallback for duplicate vendor codes (ticket FIX-3402 + real GSTIN duplicates in `vendors.csv`) | **Real change**: CLEAN 168→170, VENDOR_MISMATCH 12→10 | Same-real-vendor-under-a-different-code should resolve as CLEAN, not a genuine mismatch, mirroring UOM's "look past superficial coding" logic | **0.8579** (2026-09-08, **regressed** — reverted immediately) |
-| 6 | UOM check reverted to the starter's literal raw string comparison (`checks/uom.py`) — `Box(10)` vs `Nos` now `UOM_MISMATCH`, not `CLEAN` | **Real change, largest yet**: CLEAN 168→155, UOM_MISMATCH 0→13 — output now byte-identical to `starter_reconciliation.py` on all 250 rows | FIX-3418 (the ticket justifying canonicalization) is itself "Open," same as FIX-3402 — which #5 just proved means "flag the defect," not "resolve it away." Starter's literal code + 6+ leaderboard participants at 1.000 without (as far as known) inventing packaging-aware conversion | *(pending — last daily attempt, 2026-09-08)* |
+| 6 | UOM check reverted to the starter's literal raw string comparison (`checks/uom.py`) — `Box(10)` vs `Nos` now `UOM_MISMATCH`, not `CLEAN` | **Real change, largest yet**: CLEAN 168→155, UOM_MISMATCH 0→13 — output now byte-identical to `starter_reconciliation.py` on all 250 rows | FIX-3418 (the ticket justifying canonicalization) is itself "Open," same as FIX-3402 — which #5 just proved means "flag the defect," not "resolve it away." Starter's literal code + 6+ leaderboard participants at 1.000 without (as far as known) inventing packaging-aware conversion | **1.0000** (2026-09-08, **perfect score — gap fully closed**) |
 
 **Attempts #2 and #3 submitted identical CSV content to #1** — neither
 change alters any row's classification, confirmed before each submission.
@@ -764,9 +764,29 @@ any Reconciliation change this project has made: not just "didn't break
 anything" or "moved the numbers I expected," but literal agreement with
 the one piece of organizer-authored reference code that exists.
 
-This is the last of today's 5 daily Reconciliation attempts. Not
-submitted as of this entry — see the top-level state for the real
-result once it lands.
+**Submitted and confirmed for real: 1.0000 — perfect score.**
+Reconciliation is solved. This is the single most consequential
+correction in this project's history: the entire ~0.13 gap, present
+since the very first submission, was exactly this one class. Every
+structural theory from day one (§5's original "one class scoring
+near-zero costs `1/8 = 0.125`" analysis) is now confirmed correct in
+substance — it was `UOM_MISMATCH`, and the root cause was this project's
+own over-generalization of "look past superficial coding to the real
+transaction" from a place where it was genuinely evidenced (nowhere,
+in retrospect — the same reasoning pattern that also produced the
+vendor-GSTIN regression a few hours earlier) to a check where the
+organizer's own literal reference code was the correct answer all
+along. 3 of 5 daily attempts used today; Reconciliation needs no further
+work barring a future regression. Reconciliation now matches Migration
+(also 1.0000) as a fully solved family.
+
+**The generalizable lesson, worth carrying into Workflow/Knowledge**:
+"the value/intent reconciles once you look past the label" is not a
+free-standing design principle in this dataset — it happened to be
+right for UOM (on the practice set, wrongly, as it turns out) and wrong
+for vendor codes. Every check's exact tolerance has to be verified
+against its own evidence, never inferred by analogy from a sibling
+check, no matter how similar the surface pattern looks.
 
 ---
 
