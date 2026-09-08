@@ -1385,7 +1385,32 @@ leaving K-10/K-11/K-12 and the (already-resolved) first half + sources
 real, deferring the actual corrective submission to tomorrow in
 exchange for narrowing the biggest remaining unknown (the second half's
 4-wrong-of-6, still fully unlocalized) before spending anything there.
-4 of 5 daily Knowledge attempts used so far today.
+
+**Attempt 5 result: 0.7500 — exactly the original baseline.** Re-derived
+every experiment's implied counts with exact fractions (not
+floating-point) to be certain of a load-bearing conclusion: **`correct
+_in_{K-07,K-08,K-09} = 0` — all three are wrong**, and `correct_in_
+{K-10,K-11,K-12} = 2` — exactly 1 wrong there. Combined with the
+already-resolved first half (1 wrong in `{K-01,K-02,K-03}`, 1 wrong in
+`{K-04,K-05,K-06}`), the full picture for today: **3 + 1 + 1 + 1 = 6
+wrong answers, fully localized to which group of 3 each lives in, with
+K-07/K-08/K-09 pinned down with total certainty** (not "1 of 3" like
+every other group — all three, no ambiguity left there at all). 5 of 5
+daily Knowledge attempts used — none remain until tomorrow's reset.
+
+**A real, concrete hypothesis for tomorrow, not yet tested**: K-08 and
+K-09 both being wrong despite passing every content audit (K-09 is a
+literal PDF quote) points at answer-text *format*, not policy
+substance. K-01 answers as a bare `"10%"`, but K-08 answers `"Nil"`
+instead of a parallel `"0%"`, and K-09 answers `"10% of invoice value"`
+instead of a bare `"10%"` — if the grader expects uniform bare
+-percentage answers wherever the fact is a percentage, both would fail
+for the same structural reason. This doesn't explain K-07 (`"CFO"` — a
+role name, not a percentage), which still needs its own explanation.
+Genuinely different from the earlier disproven "verbosity" experiment
+(2026-09-07): that one only tested K-03/K-04/K-07's phrasing and never
+touched K-08/K-09's specific percentage-vs-word format at all, so this
+is real, previously-untested ground, not a repeat of a dead end.
 
 ### Free investigation sweep against real sandbox data (2026-09-07) — governing_source format settled, no new Reconciliation lever found
 
