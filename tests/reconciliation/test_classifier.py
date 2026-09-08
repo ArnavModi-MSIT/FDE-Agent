@@ -65,31 +65,41 @@ def test_incompatible_uom_never_masked_by_qty_rate_gst_even_when_all_also_fail()
     assert "rate" not in checked_names
 
 
-def test_box_packaging_reconciles_not_uom_mismatch():
-    # The real trap: a naive string/raw-number comparison would call this
-    # BOTH UOM_MISMATCH and RATE_MISMATCH. Once canonicalized it's CLEAN.
+def test_box_packaging_is_uom_mismatch_matching_starter_reference():
+    # EXPERIMENT (2026-09-08): reverted from the prior "canonicalize and
+    # treat as CLEAN" behavior back to the starter kit's literal raw uom
+    # string comparison -- see checks/uom.py's docstring for the full
+    # rationale (a real, symmetric counter-example from the vendor-GSTIN
+    # experiment). Box(10) vs Nos now genuinely differs as a string, so
+    # it's UOM_MISMATCH even though qty/rate would reconcile once
+    # converted -- quantity/rate are never even evaluated (uom fails
+    # first), matching the starter's own elif-chain structure.
     po = _po(qty=200.0, rate=5781.65)
     inv = _inv(
         uom="Box(10)", qty=20.0, rate=57816.5,
         taxable_value=20 * 57816.5,
         gst_amount=round(20 * 57816.5 * 0.18, 2),
     )
-    assert _classify(inv, [po]).status == "CLEAN"
+    assert _classify(inv, [po]).status == "UOM_MISMATCH"
 
 
-def test_box_packaging_on_po_side_also_reconciles():
-    # Every real practice-data Box(10) case has the PACKAGING on the
-    # invoice side, PO always plain Nos. canonicalize() is called
-    # identically on both sides (checks/uom.py), so this should already
-    # work symmetrically -- proving it rather than assuming it, since an
-    # external review specifically flagged this direction as untested.
+def test_box_packaging_on_po_side_also_uom_mismatch():
+    # Same experiment, packaging on the PO side instead of the invoice
+    # side -- symmetric, since the check is a plain string comparison now.
     po = _po(uom="Box(10)", qty=20.0, rate=57816.5)
     inv = _inv(
         uom="Nos", qty=200.0, rate=5781.65,
         taxable_value=200 * 5781.65,
         gst_amount=round(200 * 5781.65 * 0.18, 2),
     )
-    assert _classify(inv, [po]).status == "CLEAN"
+    assert _classify(inv, [po]).status == "UOM_MISMATCH"
+
+
+def test_matching_uom_still_compares_raw_qty_and_rate_directly():
+    # When uom strings match exactly, quantity/rate must compare RAW
+    # invoice/PO values (no conversion) -- the starter's actual behavior,
+    # not just "uom passes, then canonicalize anyway."
+    assert _classify(_inv(uom="Nos", qty=10.0, rate=100.0), [_po(uom="Nos", qty=10.0, rate=100.0)]).status == "CLEAN"
 
 
 def test_qty_mismatch():

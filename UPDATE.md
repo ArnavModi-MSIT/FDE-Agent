@@ -4,68 +4,68 @@
 quick "what just happened and why" for a human checking in — the full
 project record with all context/rationale lives in `CLAUDE.md`.
 
-## What happened: a new code review, four hypotheses, all closed for free
+## The big one: reverted UOM canonicalization, using the last daily attempt
 
-A follow-up external code review (working from the pipeline/models/
-matching/UOM files, without the classifier/check modules) raised several
-"investigate before submitting" hypotheses. Checked every one of them
-directly against real practice data rather than guessing — all came back
-negative, so **nothing was submitted**.
+A third external review made the case that the starter kit's own
+literal code treats `Box(10)` vs `Nos` as `UOM_MISMATCH` (not `CLEAN`),
+that `UOM_MISMATCH` never fires locally under our canonicalization logic
+(a macro-F1 class scoring near-zero costs up to `1/8 = 0.125` — almost
+exactly the observed 0.13 gap), and that 6+ leaderboard participants hit
+a perfect score without inventing packaging-aware conversion. This
+question has been open since the project's very first leaderboard
+result but was never directly tested.
 
-## The four checks
+## What actually tipped it: today's own vendor-GSTIN result
 
-1. **Malformed/blank numeric fields** (`safe_float()`'s `None`/`""`/bad
-   value → `0.0` default) — checked every numeric field on all 250
-   invoices + 260 POs: **zero malformed/blank/NaN/inf cells found**.
-   Rejected by the review's own stated bar.
-2. **Float strict-equality risk** — already settled by existing code the
-   reviewer didn't have: `quantity.py`/`rate.py`/`gst.py` all use
-   `abs(diff) <= tolerance`, never bare `==`; UOM's only `==` compares
-   unit-label strings, not computed floats.
-3. **SKU present on both Invoice/PO but never compared — what should a
-   real mismatch resolve to?** A genuinely new, sharp question. Checked
-   every matched invoice/PO pair: **zero SKU mismatches** across all 250.
-   Currently moot — nothing to design a rule against.
-4. **Vendor master loaded but unused (GSTIN/MSME/name)** — already
-   tested the GSTIN angle earlier today (real regression, reverted, see
-   below). The review's own top-priority ask (build the 8-status
-   semantic matrix before touching code) was already done the day
-   before (`submissions/reconciliation_status_matrix.md`).
+This project's justification for canonicalization rested on ticket
+FIX-3418 ("value tallies, count does not"). Re-reading it: it's an
+**"Open"** ticket whose first sentence is *"Stores GRN shows quantity
+mismatch."* Same ticket-status pattern as FIX-3402 — which the
+vendor-GSTIN experiment (earlier today, real regression, 0.8700→0.8579)
+just proved means "flag the defect," not "resolve it away." That's a
+real, symmetric counter-example from this project's own evidence, not
+just an external opinion.
 
-## Verified, not narrated
+## What changed
 
-Added two new permanent checks to `scripts/audit_practice_data.py`
-(`audit_no_malformed_numeric_fields`, `audit_no_invoice_po_sku_mismatch`)
-— both re-run and pass. All 9 audit checks now green.
+`src/reconciliation/checks/uom.py` reverted to the starter's literal raw
+string comparison. When uom strings match, `quantity`/`rate` now compare
+RAW values (no conversion) — matching the starter's actual behavior.
+`uom/registry.py`/`uom/converter.py` kept, unused, in case this
+hypothesis is wrong. 2 tests updated, 1 new test added. **95/95 tests
+pass.**
 
-## No attempt spent
+## Verified as strongly as this project verifies anything
 
-Every checkable claim in this review came back negative by the review's
-own explicit "don't submit without evidence" standard. Holding the last
-daily Reconciliation attempt.
+Local output: `CLEAN 155, QTY_MISMATCH 21, RATE_MISMATCH 16, GST_ERROR
+16, UOM_MISMATCH 13, MISSING_PO 12, VENDOR_MISMATCH 12, DUPLICATE_INVOICE
+5` — **byte-for-byte identical to `starter_reconciliation.py`'s own
+output on all 250 rows, 0 differing predictions.** Stronger confirmation
+than any prior Reconciliation change.
 
-## Also still fresh from earlier today: vendor-GSTIN experiment, reverted
+## Not yet submitted
 
-Tried resolving duplicate vendor codes via GSTIN equivalence (ticket
-FIX-3402 + a real GSTIN-duplicate pattern in `vendors.csv`) — scored
-**0.8579, down from 0.8700**, a real regression. Reverted immediately
-(`git revert`), confirmed 94/94 tests pass and output is back to the
-exact baseline (168/21/16/16/12/12/5/0). Settles that duplicate-vendor
--code invoices are meant to be flagged as genuine `VENDOR_MISMATCH`, not
-resolved away.
+`submissions/submission.csv` is regenerated and ready. This is the last
+of today's 5 daily Reconciliation attempts — recommending it actually be
+spent this time, unlike prior "hold" recommendations, because this is
+the first hypothesis with genuine structural support (matches the
+macro-F1 math, matches the one organizer reference implementation
+byte-for-byte, and has a real internal counter-example backing the
+reasoning).
 
 ## Recorded in CLAUDE.md
 
-Full writeup of both the vendor-GSTIN regression and this review's
-closed-out findings, in place after §5's experiment log.
+Full writeup in §4 (UOM section, marked REVERTED with both the original
+and new reasoning) and a new dated subsection after §5's experiment log,
+plus experiment-log row #6 (pending).
 
 ## Still open
 
-- Reconciliation: holding at 0.8700, **1/5 attempts remain today**, no
-  new hypothesis — every checkable lever from two independent external
-  reviews is now closed (neutral, disproven, or already confirmed)
+- Reconciliation: **last daily attempt queued** for this UOM revert —
+  once scored, revert-if-regressed or keep-if-improved per the standard
+  decision rule
 - Knowledge (0.75): attempt count from before today's reset — check
   current count before spending
 - W3 (5/6), W2 (0.75 of weight): no new investigation this round
-- Repo: local commits through this round's documentation; not yet
-  pushed — push only on explicit request
+- Repo: local commits through this round; not yet pushed — push only on
+  explicit request

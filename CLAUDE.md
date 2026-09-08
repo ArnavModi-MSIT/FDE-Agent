@@ -175,41 +175,52 @@ pattern for `configs/` off the repo root.
 **8 classes**: `CLEAN, QTY_MISMATCH, RATE_MISMATCH, DUPLICATE_INVOICE,
 MISSING_PO, VENDOR_MISMATCH, GST_ERROR, UOM_MISMATCH`.
 
-**The one decision that actually matters: UOM-aware canonicalization,
-not string comparison.** The organizers' own starter script does
-`str(invoice.uom) != str(po.uom)` — a bare string mismatch. Checked the
-real practice data before trusting either approach: `purchase_orders.csv`
-is uom=`Nos` on all 260 rows; `vendor_invoices.csv` has 237 `Nos` and
-**13 rows billed as `Box(10)`**. For every one of those 13, `invoice_qty ×
-10 == po_qty` exactly, **and** `invoice_rate / 10 == po_rate` exactly
-(confirmed by direct computation, not assumed) — meaning a box of 10 is
-billed at 10x the per-unit rate, exactly as real packaging pricing would
-work. The naive starter script therefore misclassifies all 13 as
-`UOM_MISMATCH` (and would additionally hit `RATE_MISMATCH` on raw
-comparison if it got that far, which it doesn't since `UOM_MISMATCH` fires
-first in its elif chain) when they are genuinely `CLEAN`.
+**REVERTED 2026-09-08 — see the dated experiment writeup after §5's
+experiment log for the full story.** For most of this project's life,
+`checks/uom.py` canonicalized `Label(N)` packaging notation (e.g.
+`Box(10)`) to a common base unit instead of the starter kit's raw
+`str(invoice.uom) != str(po.uom)` string comparison, on the reasoning
+below. That reasoning is now **superseded by a real, symmetric
+counter-example** (the vendor-GSTIN experiment, same day) and the
+implementation has been reverted to the starter's literal raw string
+comparison. `uom/registry.py` and `uom/converter.py` still exist and are
+still correct as generic utilities — they're simply no longer called by
+`checks/uom.py` — kept rather than deleted per this project's own
+"don't delete working code you might need again" discipline. The
+original reasoning, kept for the record:
 
-Fixed with `uom/registry.py` (regex-parses any `Label(N)` packaging
-notation into a base-unit multiplier — not hardcoded to `Box`, so
-`Carton(20)`/`Pack(5)` would parse identically if they appear in the
-hidden set) and `uom/converter.py` (canonicalizes both qty and rate to the
-base unit before any comparison). `checks/quantity.py` and
-`checks/rate.py` both consume the canonicalized values, never raw
-`invoice.qty`/`invoice.rate`. `checks/uom.py` itself only fires
-`UOM_MISMATCH` when the unit **can't be resolved at all** (e.g. `Kg`
-against a `Nos` PO) — an unrecognized unit is treated as a genuine error,
-never guessed at.
+Checked the real practice data before trusting either approach:
+`purchase_orders.csv` is uom=`Nos` on all 260 rows; `vendor_invoices.csv`
+has 237 `Nos` and **13 rows billed as `Box(10)`**. For every one of those
+13, `invoice_qty × 10 == po_qty` exactly, **and** `invoice_rate / 10 ==
+po_rate` exactly (confirmed by direct computation, not assumed) —
+meaning a box of 10 is billed at 10x the per-unit rate, exactly as real
+packaging pricing would work. The reasoning was that the naive starter
+script therefore misclassifies all 13 as `UOM_MISMATCH` when they are
+genuinely `CLEAN` — canonicalization "fixed" this. Backed at the time by
+two organizer sources: the copy-ready brief's own `Box(10)` example, and
+ticket **FIX-3418** ("Spares billed in boxes" — *"Value tallies, count
+does not"*). **The flaw in that reasoning, found only after the
+vendor-GSTIN experiment gave a real, directly parallel counter-example**:
+FIX-3418 is itself an **"Open"** ticket, literally opening with *"Stores
+GRN shows quantity mismatch"* — the same ticket-status pattern as
+FIX-3402 (also "Open"), which real leaderboard evidence just confirmed
+means "the organizers want this flagged as a genuine defect," not
+"resolved away by looking past the surface difference." The brief's own
+`Box(10)` mention is equally readable as an example of what
+`UOM_MISMATCH` looks like, not evidence it should be excused.
 
-**Verified empirically, not just unit-tested**: ran the full engine
-against all 250 practice invoices and diffed against the starter script's
-own output. Identical on every class except: **CLEAN 155 -> 168,
-UOM_MISMATCH 13 -> 0** — precisely the 13 Box(10) rows, nothing else
-moved. `QTY_MISMATCH` (21), `RATE_MISMATCH` (16), `GST_ERROR` (16),
-`MISSING_PO` (12), `VENDOR_MISMATCH` (12), `DUPLICATE_INVOICE` (5) are
-byte-identical between the two. Re-run both (`scripts/run_reconciliation.py`
-and `starter_reconciliation.py`) after any future change to confirm this
-still holds unless the change is deliberately meant to move one of those
-numbers.
+**Verified empirically, not just unit-tested, both before and after the
+revert**: ran the full engine against all 250 practice invoices and
+diffed against the starter script's own output. **Before** the revert,
+identical on every class except `CLEAN 155→168` / `UOM_MISMATCH 13→0`
+(the 13 Box(10) rows). **After** the revert (current state): **byte
+-for-byte identical to the starter's own output on all 250 rows, 0
+differences** — `CLEAN 155, QTY_MISMATCH 21, RATE_MISMATCH 16,
+GST_ERROR 16, UOM_MISMATCH 13, MISSING_PO 12, VENDOR_MISMATCH 12,
+DUPLICATE_INVOICE 5`. Re-run both (`scripts/run_reconciliation.py` and
+`starter_reconciliation.py`) after any future UOM-related change to
+confirm this still holds.
 
 **Matching (`matching/`)**: exact `po_number` lookup first, then a
 whitespace/case-normalized fallback. Deliberately **no similarity/fuzzy
@@ -459,6 +470,7 @@ reviews converged on.
 | 3 | Precedence: `GST_ERROR` promoted above `QTY_MISMATCH`/`RATE_MISMATCH` | Byte-identical (0 rows changed — 0/250 invoices ever fail 2+ checks, so no reorder can move local output) | An internal arithmetic check (gst) should outrank an externally-compared value check (qty/rate) when both fail on the same invoice | **0.8700** (2026-09-07, unchanged) |
 | 4 | Both #2's key and #3's reorder reverted back to `starter_reconciliation.py`'s literal logic, per the status-definition matrix audit | Byte-identical (168/21/16/16/12/12/5/0, confirmed pre- and post-submission) | Matrix audit found no organizer evidence supporting either deviation; both directions already proven neutral by #2/#3 themselves | **0.8700** (2026-09-07, unchanged — real confirmation, not just local prediction) |
 | 5 | Vendor check: GSTIN-equivalence fallback for duplicate vendor codes (ticket FIX-3402 + real GSTIN duplicates in `vendors.csv`) | **Real change**: CLEAN 168→170, VENDOR_MISMATCH 12→10 | Same-real-vendor-under-a-different-code should resolve as CLEAN, not a genuine mismatch, mirroring UOM's "look past superficial coding" logic | **0.8579** (2026-09-08, **regressed** — reverted immediately) |
+| 6 | UOM check reverted to the starter's literal raw string comparison (`checks/uom.py`) — `Box(10)` vs `Nos` now `UOM_MISMATCH`, not `CLEAN` | **Real change, largest yet**: CLEAN 168→155, UOM_MISMATCH 0→13 — output now byte-identical to `starter_reconciliation.py` on all 250 rows | FIX-3418 (the ticket justifying canonicalization) is itself "Open," same as FIX-3402 — which #5 just proved means "flag the defect," not "resolve it away." Starter's literal code + 6+ leaderboard participants at 1.000 without (as far as known) inventing packaging-aware conversion | *(pending — last daily attempt, 2026-09-08)* |
 
 **Attempts #2 and #3 submitted identical CSV content to #1** — neither
 change alters any row's classification, confirmed before each submission.
@@ -704,6 +716,57 @@ stated bar for action, added as permanent proofs in
 rather than left as one-off narration. **No submission spent** — this
 was entirely free verification, consistent with holding the last daily
 attempt until a real, evidence-backed hypothesis exists.
+
+### 2026-09-08: reverting UOM canonicalization — the strongest hypothesis yet, using the last daily attempt
+
+A third external review made the case directly: the starter kit's own
+literal code treats `Box(10)` vs `Nos` as `UOM_MISMATCH`, this project's
+canonicalization logic doesn't, `UOM_MISMATCH` never fires locally under
+canonicalization (a macro-F1 class scoring near-zero costs up to `1/8 =
+0.125` — almost exactly the observed 0.13 gap), and 6+ leaderboard
+participants hit a perfect Reconciliation score without, as far as
+anyone knows, building anything as sophisticated as packaging-aware
+conversion. This exact question had been sitting unresolved since the
+project's very first leaderboard result (§5's original gap analysis
+named `UOM_MISMATCH` as a leading suspect) but was never directly tested
+— every submission from day one kept canonicalization on.
+
+**What changed the calculus wasn't the review alone — it was the
+vendor-GSTIN result from earlier the same day.** This project's
+standing justification for canonicalization rested on ticket FIX-3418
+("value tallies, count does not"). Re-reading that ticket after the
+review's prompt: it's an **"Open"** ticket, and its first sentence is
+*"Stores GRN shows quantity mismatch."* That's the same ticket-status
+pattern as FIX-3402 — which real leaderboard evidence, obtained hours
+earlier in this same session, just proved means "the organizers want
+this flagged as a genuine defect," not "resolved away by looking past
+the surface difference." That's a real, symmetric counter-example to
+this project's own prior reasoning, not a hypothetical one.
+
+Reverted `checks/uom.py` to the starter's literal `invoice.uom.strip() ==
+po.uom.strip()` string comparison; when it passes, `quantity`/`rate` now
+compare raw values directly (no conversion), matching the starter's
+actual behavior, not just its uom check in isolation. `uom/registry.py`
+and `uom/converter.py` are kept, unused, rather than deleted — correct
+generic utilities that this project might still need if this hypothesis
+is wrong. 2 tests updated to assert the new expected behavior
+(`Box(10)` → `UOM_MISMATCH`, on both the invoice and PO side), 1 new
+test proving raw (non-canonical) comparison when uom already matches.
+95/95 tests pass.
+
+**Verified against the real practice data as strongly as this project
+verifies anything**: local output is now `CLEAN 155, QTY_MISMATCH 21,
+RATE_MISMATCH 16, GST_ERROR 16, UOM_MISMATCH 13, MISSING_PO 12,
+VENDOR_MISMATCH 12, DUPLICATE_INVOICE 5` — **byte-for-byte identical to
+`starter_reconciliation.py`'s own output on all 250 rows, 0 differing
+predictions**. This is the strongest local confirmation available for
+any Reconciliation change this project has made: not just "didn't break
+anything" or "moved the numbers I expected," but literal agreement with
+the one piece of organizer-authored reference code that exists.
+
+This is the last of today's 5 daily Reconciliation attempts. Not
+submitted as of this entry — see the top-level state for the real
+result once it lands.
 
 ---
 
