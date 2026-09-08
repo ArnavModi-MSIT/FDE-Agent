@@ -458,6 +458,7 @@ reviews converged on.
 | 2 | Duplicate key `po_number` -> `(po_number, sku)` + deterministic tiebreak | Byte-identical (0 rows changed) | Hidden set may have multi-line POs the practice set's 1:1 structure can't exercise | **0.8700** (2026-09-07, unchanged) |
 | 3 | Precedence: `GST_ERROR` promoted above `QTY_MISMATCH`/`RATE_MISMATCH` | Byte-identical (0 rows changed — 0/250 invoices ever fail 2+ checks, so no reorder can move local output) | An internal arithmetic check (gst) should outrank an externally-compared value check (qty/rate) when both fail on the same invoice | **0.8700** (2026-09-07, unchanged) |
 | 4 | Both #2's key and #3's reorder reverted back to `starter_reconciliation.py`'s literal logic, per the status-definition matrix audit | Byte-identical (168/21/16/16/12/12/5/0, confirmed pre- and post-submission) | Matrix audit found no organizer evidence supporting either deviation; both directions already proven neutral by #2/#3 themselves | **0.8700** (2026-09-07, unchanged — real confirmation, not just local prediction) |
+| 5 | Vendor check: GSTIN-equivalence fallback for duplicate vendor codes (ticket FIX-3402 + real GSTIN duplicates in `vendors.csv`) | **Real change**: CLEAN 168→170, VENDOR_MISMATCH 12→10 | Same-real-vendor-under-a-different-code should resolve as CLEAN, not a genuine mismatch, mirroring UOM's "look past superficial coding" logic | **0.8579** (2026-09-08, **regressed** — reverted immediately) |
 
 **Attempts #2 and #3 submitted identical CSV content to #1** — neither
 change alters any row's classification, confirmed before each submission.
@@ -606,6 +607,46 @@ No further Reconciliation experimentation possible today regardless of
 any new hypothesis; the codebase itself is left in its most
 organizer-aligned state so far (matches the starter's literal logic on
 every dimension except the one evidenced UOM deviation).
+
+### Experiment: vendor-code GSTIN equivalence — tested, disproven, reverted (2026-09-08)
+
+With the daily quota reset and 7/15 leaderboard participants at a
+perfect Reconciliation score, tried a genuinely different, evidenced
+hypothesis instead of another neutral tweak: `vendors.csv` has 4 GSTINs
+each shared by two different `vendor_id`s, ticket FIX-3402 ("Vendor code
+confusion") describes exactly this as "the same supplier under two
+codes... POs and invoices landing on different codes," and 2 of the 12
+local `VENDOR_MISMATCH` invoices (`ATP/2026/251`, `INV-JCP-0155`) are
+exactly this pattern — otherwise fully clean once vendor resolves.
+Implemented `checks/vendor.py` accepting a `vendor_gstin_index`, passing
+on exact match OR shared `gstin`. This was the first Reconciliation
+change since the original UOM canonicalization to actually move local
+output: `CLEAN 168→170`, `VENDOR_MISMATCH 12→10`.
+
+**Result: 0.8579, down from 0.8700 — a real, confirmed regression
+(Δ ≈ −0.0121).** Since this was the only variable changed, the loss pins
+precisely on this fallback. **This settles the open question the
+hypothesis itself flagged**: FIX-3402 being "Open" turned out to mean
+the organizers *do* want duplicate-vendor-code invoices flagged as a
+genuine `VENDOR_MISMATCH` defect worth surfacing, not silently resolved
+via GSTIN — the more conservative reading, not the "look past
+superficial coding" one that worked for UOM. **Reverted immediately**
+(`git revert` of the whole experiment commit — `checks/vendor.py`,
+`matching/vendor_gstin.py`, `classifier.py`, `pipeline.py`,
+`w2_exceptions_report.py`, and the 4 new tests all cleanly undone).
+Verified via a real re-run: 94/94 tests pass, pipeline output back to
+the exact prior baseline (168/21/16/16/12/12/5/0).
+
+**This is genuinely valuable negative information, not a wasted
+attempt**: the vendor-code-confusion pattern is now a *settled*
+question, removed from the list of candidate explanations for the
+~0.13 gap — and it sharpens the operating principle for future
+hypotheses: UOM's "look past the label to the real transaction" logic
+does NOT generalize automatically to every superficial-looking
+discrepancy in this dataset; each check's intended tolerance has to be
+evidenced on its own, not inferred by analogy from a different check.
+4 of 5 daily Reconciliation attempts used today, 1 remains — no new
+hypothesis to test it with as of this entry.
 
 ---
 

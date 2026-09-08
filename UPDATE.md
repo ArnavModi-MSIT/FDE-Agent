@@ -1,83 +1,62 @@
-# Latest update — 2026-09-07
+# Latest update — 2026-09-08
 
 **This file is rewritten fresh on every change, not appended to.** It's a
 quick "what just happened and why" for a human checking in — the full
 project record with all context/rationale lives in `CLAUDE.md`.
 
-## Real confirmation: the corrected submission scored 0.8700, unchanged
+## Tried a genuinely new Reconciliation lever — real, confirmed regression, reverted
 
-The reverted/corrected `submission.csv` (both deviations below removed)
-was submitted for real — result matches the local byte-identical
-prediction exactly: **0.8700**, no movement. **5/5 Reconciliation
-attempts are now used for today (2026-09-07, IST)** — none remain until
-the daily quota resets. The codebase is left in its most
-organizer-aligned state so far: matches `starter_reconciliation.py`'s
-literal logic on every dimension except the one evidenced `UOM_MISMATCH`
-canonicalization deviation.
+With the daily quota reset and 7/15 leaderboard participants at a
+perfect Reconciliation score, tried something genuinely different
+instead of another neutral tweak: `vendors.csv` has 4 GSTINs each shared
+by two different `vendor_id`s (a real duplicate-vendor-code pattern,
+matching ticket FIX-3402's "Vendor code confusion" — *"the same supplier
+under two codes... POs and invoices landing on different codes"*). 2 of
+the 12 local `VENDOR_MISMATCH` invoices are exactly this pattern and are
+otherwise fully clean. Implemented a GSTIN-equivalence fallback in
+`checks/vendor.py` so these resolve to CLEAN instead — the first change
+since the original UOM canonicalization to actually move local output
+(`CLEAN 168→170`, `VENDOR_MISMATCH 12→10`).
 
-## What changed
+## Real result: regressed, not improved
 
-Followed the explicit instruction to build a status-definition matrix
-(7 columns: organizer definition / example-ticket / required conditions
-/ excluding conditions / coexistence / our implementation / unverified)
-for all 8 Reconciliation classes, sourced from every organizer artifact —
-the copy-ready brief, all 18 tickets, all 14 emails, and, decisively,
-`starter_reconciliation.py`'s actual code (not just its comments) as
-real specification. Written up in full in
-`submissions/reconciliation_status_matrix.md`.
+**Scored 0.8579, down from 0.8700** — a real, confirmed drop of about
+0.0121. Since this was the only variable changed, the loss pins
+precisely on this fallback: **the hidden ground truth wants duplicate
+-vendor-code invoices flagged as a genuine `VENDOR_MISMATCH`**, not
+silently resolved via GSTIN. This is the opposite conclusion from UOM's
+"look past superficial coding to the real transaction" logic — a useful,
+concrete lesson: that principle doesn't generalize automatically across
+different checks in this dataset.
 
-## The result: no new hidden-set hypothesis, but two real corrections
+## Reverted immediately
 
-The matrix surfaced two places our implementation deviates from the
-starter's literal reference code with **zero organizer evidence
-supporting the deviation** — both already tested via real past
-submissions and confirmed byte-identical/score-unchanged either
-direction:
+`git revert` of the whole experiment commit (`checks/vendor.py`,
+`matching/vendor_gstin.py`, `classifier.py`, `pipeline.py`,
+`w2_exceptions_report.py`, the 4 new tests) — cleanly undone. Verified
+via a real re-run: **94/94 tests pass**, pipeline output back to the
+exact prior baseline (168/21/16/16/12/12/5/0).
 
-1. **Precedence order**: `GST_ERROR` had been promoted above
-   `QTY_MISMATCH`/`RATE_MISMATCH`. Reverted to the starter's literal
-   `if/elif` order (quantity and rate checked before GST).
-2. **Duplicate-detection key**: grouped by `(po_number, sku)` instead of
-   the starter's literal `po_number` alone. Reverted — and confirmed
-   structurally moot on any data we can see: `po_number` is globally
-   unique in both the practice set and the live sandbox (260/260 both
-   places), so there's no multi-line PO anywhere for the extra key to
-   protect against.
+## This is real information, not a wasted attempt
 
-Every other class (`MISSING_PO`, `VENDOR_MISMATCH`, `QTY_MISMATCH`,
-`RATE_MISMATCH`, `CLEAN`) already matched the starter exactly.
-`UOM_MISMATCH` — the one deliberate, kept deviation — stays as-is: it's
-backed by two independent organizer sources (the brief's own `Box(10)`
-example and ticket FIX-3418), unlike the two reverted changes.
-
-## Verified, not assumed
-
-- `src/reconciliation/duplicates/detector.py` and
-  `src/reconciliation/classify/precedence.py` both reverted, with
-  updated in-code comments explaining why.
-- `tests/reconciliation/test_classifier.py` and
-  `tests/reconciliation/test_duplicates.py` updated to assert the
-  *reverted* (starter-matching) behavior instead of the deviation.
-- **94/94 tests pass.**
-- `scripts/run_reconciliation.py` re-run: output byte-identical —
-  168 CLEAN / 21 QTY_MISMATCH / 16 GST_ERROR / 16 RATE_MISMATCH /
-  12 MISSING_PO / 12 VENDOR_MISMATCH / 5 DUPLICATE_INVOICE /
-  0 UOM_MISMATCH — exactly as predicted (both reversions are the
-  symmetric opposite of already-tested, already-neutral changes).
+The vendor-code-confusion hypothesis is now a *settled* question,
+removed from the list of candidate explanations for the ~0.13
+Reconciliation gap. 4 of 5 daily attempts used today, 1 remains — no new
+hypothesis to test it with as of this entry.
 
 ## Recorded in CLAUDE.md
 
-Full matrix findings, reasoning, and both corrections documented in
-place (Reconciliation section — duplicate pass, precedence, and a new
-"Status-definition matrix audit" writeup with an updated experiment log).
+Full writeup (hypothesis, real score, revert, and the generalization
+lesson) in place after §5's experiment log, plus the log's new row #5.
 
 ## Still open
 
-- Reconciliation: holding at 0.87, **0/5 attempts remain today** — quota
-  resets tomorrow (IST); no further Reconciliation experimentation
-  possible today regardless of any new hypothesis
-- Knowledge (0.75): 1 attempt left, no new hypothesis
-- W3 (5/6): genuinely unexplained, no further action without new evidence
-- Repo: local commit `90c8ee9` has the matrix + both reversions on top of
-  `e8e029c` (last pushed); not yet re-pushed — push only on explicit
+- Reconciliation: holding at 0.8700 (current code state), 1/5 attempts
+  remain today, no new hypothesis
+- Knowledge (0.75): attempt count as of before today's reset — check
+  current count before spending
+- W3 (5/6), W2 (0.75 of weight): no new investigation this round
+- Repo: local commit history now includes the experiment
+  (`954f293`) and its clean revert (`627709c`) plus this documentation
+  round, on top of `bd8c130`; not yet pushed — push only on explicit
   request
