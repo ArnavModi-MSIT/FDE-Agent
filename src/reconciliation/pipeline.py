@@ -9,29 +9,24 @@ from .duplicates.detector import flag_duplicates
 from .evaluation.evaluator import sanity_check
 from .matching.exact import build_po_index
 from .matching.fuzzy import build_normalized_po_index
-from .matching.vendor_gstin import build_vendor_gstin_index
 from .normalization.invoice import normalize_invoice
 from .normalization.po import normalize_po
-from .normalization.vendor import normalize_vendor
 from .submission.writer import write_submission
 
 
 def run(data_dir: str, output_path: str) -> Dict:
     invoice_rows = read_csv_rows(os.path.join(data_dir, "vendor_invoices.csv"))
     po_rows = read_csv_rows(os.path.join(data_dir, "purchase_orders.csv"))
-    vendor_rows = read_csv_rows(os.path.join(data_dir, "vendors.csv"))
 
     invoices = [normalize_invoice(r) for r in invoice_rows]
     purchase_orders = [normalize_po(r) for r in po_rows]
-    vendors = [normalize_vendor(r) for r in vendor_rows]
 
     po_index = build_po_index(purchase_orders)
     normalized_po_index = build_normalized_po_index(purchase_orders)
-    vendor_gstin_index = build_vendor_gstin_index(vendors)
 
     classified = []
     for invoice in invoices:
-        detail = classify_invoice(invoice, po_index, normalized_po_index, vendor_gstin_index)
+        detail = classify_invoice(invoice, po_index, normalized_po_index)
         classified.append({"invoice": invoice, "status": detail.status, "detail": detail})
 
     classified = flag_duplicates(classified)

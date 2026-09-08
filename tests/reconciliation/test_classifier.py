@@ -26,10 +26,10 @@ def _inv(**overrides):
     return Invoice(**base)
 
 
-def _classify(invoice, purchase_orders, vendor_gstin_index=None):
+def _classify(invoice, purchase_orders):
     po_index = build_po_index(purchase_orders)
     norm_index = build_normalized_po_index(purchase_orders)
-    return classify_invoice(invoice, po_index, norm_index, vendor_gstin_index)
+    return classify_invoice(invoice, po_index, norm_index)
 
 
 def test_clean_invoice():
@@ -42,33 +42,6 @@ def test_missing_po():
 
 def test_vendor_mismatch():
     assert _classify(_inv(vendor_id="V-2"), [_po()]).status == "VENDOR_MISMATCH"
-
-
-def test_vendor_mismatch_still_fires_with_no_gstin_index():
-    # Default (no index passed) must behave exactly like plain equality --
-    # backward compatible for every caller that doesn't wire in vendors.csv.
-    assert _classify(_inv(vendor_id="V-2"), [_po()], vendor_gstin_index=None).status == "VENDOR_MISMATCH"
-
-
-def test_gstin_equivalent_vendor_codes_are_not_a_mismatch():
-    # Real, evidenced pattern: vendors.csv has GSTINs shared by two
-    # vendor_ids (e.g. V-1011 and V-1055), and ticket FIX-3402 ("Vendor
-    # code confusion") describes exactly this -- "the same supplier under
-    # two codes... POs and invoices are landing on different codes."
-    # Confirmed against the real practice data: 2 of the 12 raw
-    # vendor_id mismatches (ATP/2026/251, INV-JCP-0155) are exactly this,
-    # and both are otherwise fully clean once vendor resolves.
-    gstin_index = {"V-1": "29AAAAA0000A1Z5", "V-2": "29AAAAA0000A1Z5"}
-    detail = _classify(_inv(vendor_id="V-2"), [_po()], vendor_gstin_index=gstin_index)
-    assert detail.status == "CLEAN"
-
-
-def test_genuinely_different_vendor_still_mismatches_even_with_gstin_index_present():
-    # The index resolving OTHER vendor pairs must never paper over a real
-    # cross-vendor mismatch -- only an actual shared gstin excuses it.
-    gstin_index = {"V-1": "29AAAAA0000A1Z5", "V-2": "27BBBBB1111B2Z6"}
-    detail = _classify(_inv(vendor_id="V-2"), [_po()], vendor_gstin_index=gstin_index)
-    assert detail.status == "VENDOR_MISMATCH"
 
 
 def test_uom_mismatch_when_unit_unresolvable():

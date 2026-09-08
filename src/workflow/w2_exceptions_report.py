@@ -17,10 +17,8 @@ from reconciliation.duplicates.detector import flag_duplicates
 from reconciliation.evaluation.metrics import CLASSES
 from reconciliation.matching.exact import build_po_index
 from reconciliation.matching.fuzzy import build_normalized_po_index
-from reconciliation.matching.vendor_gstin import build_vendor_gstin_index
 from reconciliation.normalization.invoice import normalize_invoice
 from reconciliation.normalization.po import normalize_po
-from reconciliation.normalization.vendor import normalize_vendor
 
 _EXCEPTION_TYPES = [c for c in CLASSES if c != "CLEAN"]
 
@@ -57,19 +55,16 @@ def aggregate_exceptions(classified: List[Dict]) -> Dict:
 def compute_exceptions_report(client: DriClient) -> Dict:
     invoice_rows = client.get("/erp/invoices")["invoices"]
     po_rows = client.get("/erp/purchase_orders")["purchase_orders"]
-    vendor_rows = client.get("/erp/vendors")["vendors"]
 
     invoices = [normalize_invoice(r) for r in invoice_rows]
     purchase_orders = [normalize_po(r) for r in po_rows]
-    vendors = [normalize_vendor(r) for r in vendor_rows]
 
     po_index = build_po_index(purchase_orders)
     normalized_po_index = build_normalized_po_index(purchase_orders)
-    vendor_gstin_index = build_vendor_gstin_index(vendors)
 
     classified = []
     for invoice in invoices:
-        detail = classify_invoice(invoice, po_index, normalized_po_index, vendor_gstin_index)
+        detail = classify_invoice(invoice, po_index, normalized_po_index)
         classified.append({"invoice": invoice, "status": detail.status})
 
     classified = flag_duplicates(classified)

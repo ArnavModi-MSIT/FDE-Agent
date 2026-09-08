@@ -74,35 +74,6 @@ def audit_po_match_recoverability():
     return len(exact_miss) == 12 and len(recovered) == 0
 
 
-def audit_gstin_duplicate_vendor_codes():
-    """Basis for checks/vendor.py's GSTIN-equivalence fallback -- confirms
-    vendors.csv really does have vendor_ids that share a gstin (a real
-    duplicate-vendor-code pattern, matching ticket FIX-3402's "vendor code
-    confusion"), and that some of the 12 raw vendor_id mismatches in the
-    practice set are exactly this, not a genuine wrong-supplier defect."""
-    vendors = _rows("vendors.csv")
-    gstin_to_ids = {}
-    for v in vendors:
-        gstin_to_ids.setdefault(v["gstin"], []).append(v["vendor_id"])
-    dup_groups = {g: ids for g, ids in gstin_to_ids.items() if len(ids) > 1}
-    print(f"[vendor-gstin] GSTINs shared by >1 vendor_id: {dup_groups}")
-
-    vendor_to_gstin = {v["vendor_id"]: v["gstin"] for v in vendors}
-    po_index = {r["po_number"]: r for r in _rows("purchase_orders.csv")}
-    gstin_equivalent = []
-    for r in _rows("vendor_invoices.csv"):
-        po = po_index.get(r["po_number"])
-        if po is None or r["vendor_id"].strip() == po["vendor_id"].strip():
-            continue
-        g1 = vendor_to_gstin.get(r["vendor_id"].strip())
-        g2 = vendor_to_gstin.get(po["vendor_id"].strip())
-        if g1 and g1 == g2:
-            gstin_equivalent.append(r["invoice_number"])
-    print(f"[vendor-gstin] raw vendor_id mismatches resolved by gstin equivalence: {gstin_equivalent}")
-
-    return len(dup_groups) == 4 and gstin_equivalent == ["ATP/2026/251", "INV-JCP-0155"]
-
-
 def audit_duplicate_po_billing():
     """Basis for duplicates/detector.py -- confirms the real duplicate
     group count and size the earliest-stays-CLEAN rule is designed for."""
@@ -123,7 +94,6 @@ if __name__ == "__main__":
         ("UOM + rate conversion", audit_uom_and_rate_conversion),
         ("GST rate distribution", audit_gst_rate_distribution),
         ("Vendor namespace overlap", audit_vendor_namespace_overlap),
-        ("GSTIN duplicate vendor codes", audit_gstin_duplicate_vendor_codes),
         ("PO match recoverability", audit_po_match_recoverability),
         ("Duplicate PO billing", audit_duplicate_po_billing),
     ]
