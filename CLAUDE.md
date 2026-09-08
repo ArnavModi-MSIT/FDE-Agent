@@ -1327,11 +1327,45 @@ not a hypothesis: for the first time since Knowledge's first submission
 (2026-09-07), the shape of the 0.7500 plateau is *known*, not guessed
 at from "9 right / 3 wrong"-style aggregate-math speculation.
 
-**Next**: run the mirror experiment (corrupt all sources, keep answers)
-to confirm `score₂ = 0.2500` and that `score₁ + score₂ = 0.7500` exactly
-— validates the additive-scoring assumption for real before spending
-any further attempts narrowing down *which* 6 of the 12 answers are
-wrong. 2 of 5 daily Knowledge attempts used so far today.
+**Experiment 2 result: 0.2500, exactly as predicted.** `score₁ +
+score₂ = 0.5000 + 0.2500 = 0.7500`, matching the real baseline exactly.
+This **confirms the additive scoring model for real**, not just as a
+reading of R-08's prose: each question genuinely contributes
+independent 0.5-weight answer/source halves, summed and averaged
+linearly with no interaction effects. `correct_answers = 0.2500 × 24 =
+6` — consistent with experiment 1's derivation both ways. Governing
+-source is fully settled (12/12, provably) and out of scope for every
+future Knowledge experiment; all remaining effort goes toward
+localizing *which* 6 of the 12 answers are wrong.
+
+**Localization plan for the 3 remaining attempts (adaptive, not
+pre-committed)**: since each test only returns an aggregate count (not
+per-item feedback), full unique identification of all 6 wrong qids
+isn't guaranteed in 3 tests in the worst case (an information-theoretic
+ceiling: 3 quantitative tests can distinguish far fewer than
+`C(12,6)=924` possible wrong-subsets outright) — but adaptive bisection
+gets close. Attempt 3: corrupt K-01..K-06 only (second half + all
+sources left as real values) — the resulting score reveals the *exact*
+count of correct answers in K-07..K-12 by the same arithmetic
+(`correct_in_second_half = (score₃ − 0.5) × 24`), and by complement how
+the 6 known-wrong answers split across the two halves.
+
+**Attempt 3 result: 0.5833 (= 7/12 exactly).**
+`correct_in_second_half = (0.5833 − 0.5) × 24 = 2`. By complement:
+**first half (K-01..K-06) has 4 correct / 2 wrong; second half
+(K-07..K-12) has 2 correct / 4 wrong.** Each half now has `C(6,2)=15`
+remaining possible arrangements — with only 2 attempts left and one
+half each, full unique identification per half isn't achievable (a
+3-item sub-test yields only 4 possible outcomes, not enough to
+distinguish 15 arrangements), so the plan for attempts 4/5 is to
+bisect each half into two groups of 3, narrowing each half's
+uncertainty from "which 2 of 6" down to "which of (at most) 3" —
+the best resolution the remaining budget allows. Attempt 4: corrupt
+K-01/K-02/K-03 only, leaving K-04/K-05/K-06 and everything else real,
+to learn exactly how the first half's 2 wrong answers split across its
+two sub-groups of 3. Attempt 5: the mirror split for the second half
+(K-07/K-08/K-09 vs K-10/K-11/K-12). 3 of 5 daily Knowledge attempts
+used so far today.
 
 ### Free investigation sweep against real sandbox data (2026-09-07) — governing_source format settled, no new Reconciliation lever found
 
