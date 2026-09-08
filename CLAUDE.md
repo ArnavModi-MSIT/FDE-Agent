@@ -1363,9 +1363,29 @@ uncertainty from "which 2 of 6" down to "which of (at most) 3" —
 the best resolution the remaining budget allows. Attempt 4: corrupt
 K-01/K-02/K-03 only, leaving K-04/K-05/K-06 and everything else real,
 to learn exactly how the first half's 2 wrong answers split across its
-two sub-groups of 3. Attempt 5: the mirror split for the second half
-(K-07/K-08/K-09 vs K-10/K-11/K-12). 3 of 5 daily Knowledge attempts
-used so far today.
+two sub-groups of 3.
+
+**Attempt 4 result: 0.6667 (= 8/12 exactly).** `correct_count_outside_S`
+(the 9 untouched items, K-04..K-12) `= (0.6667 − 0.5) × 24 = 4`.
+Subtracting the already-known 2 correct in K-07..K-12 leaves **2
+correct in {K-04,K-05,K-06}** (1 wrong there), and since the first half
+totals 4 correct, **2 correct in {K-01,K-02,K-03}** (1 wrong there
+too). Resolved: **exactly 1 wrong answer in {K-01,K-02,K-03}, exactly 1
+wrong in {K-04,K-05,K-06}** — narrowed from 15 combinations to 9 (3×3),
+though not down to a single identity per trio.
+
+**Decision point at 4/5 attempts used**: with the last attempt of the
+day remaining, presented the user three real options (diagnose the
+still-fully-unlocalized second half further; make an informed
+best-guess correction now on the narrowed first half, leaving K-07..K-12
+untouched since guessing among 4-of-6 unknowns risks making it worse;
+or hold entirely for tomorrow's fresh quota). **User chose to spend it
+diagnosing the second half** — Attempt 5: corrupt K-07/K-08/K-09 only,
+leaving K-10/K-11/K-12 and the (already-resolved) first half + sources
+real, deferring the actual corrective submission to tomorrow in
+exchange for narrowing the biggest remaining unknown (the second half's
+4-wrong-of-6, still fully unlocalized) before spending anything there.
+4 of 5 daily Knowledge attempts used so far today.
 
 ### Free investigation sweep against real sandbox data (2026-09-07) — governing_source format settled, no new Reconciliation lever found
 
