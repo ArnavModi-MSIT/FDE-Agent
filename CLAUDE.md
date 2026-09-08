@@ -1148,6 +1148,36 @@ thorough, real, zero-risk audit that closes candidate hypotheses rather
 than opening a new lever. Holding the remaining Knowledge attempt(s)
 rather than spending on a guess with no evidence behind it.
 
+**Follow-up (same day): four more concrete, mechanical checks, none of
+which survived either.**
+- **Live Starter Kit / Data / Overview pages, re-fetched directly**:
+  confirmed no Knowledge-specific starter code or format guidance
+  exists anywhere on the site beyond R-05/R-08 — the Starter Kit page's
+  copy-ready brief is Reconciliation-only.
+- **Question-set staleness/rotation**: the FAQ's "scored sets... rotate
+  weekly" line is the only rotation language found, and it's paired
+  with "run to thousands of rows" — reads as describing Reconciliation
+  -scale files, not Knowledge's 12 questions. R-04 itself says every
+  participant works from "the same public extract," not a per-account
+  personalized one (the Data tab's "links are re-issued each time this
+  page loads" is about download-URL tokens, not content). No evidence
+  our local `knowledge_questions.csv` is stale relative to what's
+  scored.
+- **Raw submission CSV bytes**: inspected `submissions/knowledge_submission.csv`
+  directly — no BOM, standard CRLF line endings, exactly 12 rows in
+  `K-01`..`K-12` order, correct 3-column header, `csv.writer` handles
+  the two comma-containing answers (K-05, K-06) with proper quoting.
+  Nothing structurally wrong.
+- **Pipeline genericity**: `knowledge/pipeline.py` reads `qid`/`question`
+  dynamically from whatever `knowledge_questions.csv` contains — no
+  hardcoded `K-01..K-12` list anywhere, so a rotated question set (if
+  it existed) would already be handled correctly by the existing
+  parsing/answering logic, not silently mishandled.
+
+No sample-submission reference file exists for Knowledge (only
+Reconciliation has one locally). **Every checkable angle from this
+review is now closed with a real answer, not a guess.** Holding.
+
 ### Free investigation sweep against real sandbox data (2026-09-07) — governing_source format settled, no new Reconciliation lever found
 
 An external score-improvement plan (fed this file) proposed testing
