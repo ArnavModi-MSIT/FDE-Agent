@@ -648,6 +648,63 @@ evidenced on its own, not inferred by analogy from a different check.
 4 of 5 daily Reconciliation attempts used today, 1 remains — no new
 hypothesis to test it with as of this entry.
 
+### External code review (2026-09-08) — four "investigate first" hypotheses, all closed for free, zero submissions needed
+
+A follow-up external review, working only from the supplied
+pipeline/models/matching/UOM/normalization files (not the classifier or
+check modules, which it correctly flagged as the bigger gap and which
+this project already has), raised several findings. Its own explicit
+instruction for each speculative one was "do not submit without
+evidence" — so every checkable claim was verified directly against the
+real practice data before deciding anything, per this project's
+standing discipline:
+
+- **Finding A — `safe_float()` silently turns malformed/blank numeric
+  values into `0.0`.** Real risk in the abstract, but the review itself
+  said only to act "if the scored/rotated data contains malformed or
+  missing numeric values." Checked every numeric field (`qty`, `rate`,
+  `taxable_value`, `gst_rate_pct`, `gst_amount`, `invoice_total` on
+  invoices; `qty`, `rate`, `po_value` on POs) across all 250 invoices and
+  260 POs for blank/`None`/unparseable/`NaN`/`inf` values: **zero found**.
+  Hypothesis rejected by the review's own stated criterion. Not fixed —
+  fixing a parser default with no evidence it ever fires would be
+  speculative hardening, not a grounded change.
+- **Finding B — float arithmetic without visible tolerance logic.**
+  Already settled by code already in this repo (not visible to the
+  reviewer, which didn't have `checks/*.py`): `quantity.py`, `rate.py`,
+  and `gst.py` all compare via `abs(diff) <= TOLERANCE`, never bare `==`;
+  `uom.py`'s only `==` is a string comparison of `base_unit` labels
+  (`"Nos" == "Nos"`), not a computed float. No strict-equality risk
+  exists in the classifier as built.
+- **Finding I — SKU present on both Invoice and PurchaseOrder but never
+  compared; no `SKU_MISMATCH` class exists, so what should a real SKU
+  disagreement resolve to?** A genuinely sharp question, not previously
+  asked this directly. Checked every invoice with a matched PO for
+  `invoice.sku != po.sku`: **zero mismatches** across all 250. The
+  question is currently moot on data we can see — there's nothing to
+  design a rule against, matching this project's own "don't build
+  speculative logic with no example to tune it against" principle
+  (already applied to vendor-name fuzzy matching in §5).
+- **Finding J — vendor master loaded but unused (GSTIN, MSME, name).**
+  The review flagged this as an open direction; this project had already
+  tested the GSTIN angle specifically the same day (see the vendor-GSTIN
+  experiment just above) — real, confirmed regression, reverted. Closed
+  with stronger evidence than the review had (a real leaderboard score,
+  not just a code-structure observation).
+- **The review's own highest-priority action ("Experiment 4": build the
+  eight-status semantic matrix from every organizer source before
+  touching code)** is exactly `submissions/reconciliation_status_matrix.md`,
+  already built and acted on the day before (§5's "Status-definition
+  matrix audit").
+
+All four checkable claims came back negative by the review's own
+stated bar for action, added as permanent proofs in
+`scripts/audit_practice_data.py`
+(`audit_no_malformed_numeric_fields`, `audit_no_invoice_po_sku_mismatch`)
+rather than left as one-off narration. **No submission spent** — this
+was entirely free verification, consistent with holding the last daily
+attempt until a real, evidence-backed hypothesis exists.
+
 ---
 
 ## 6. External architecture review, verified before acting

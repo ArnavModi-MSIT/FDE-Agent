@@ -4,59 +4,68 @@
 quick "what just happened and why" for a human checking in — the full
 project record with all context/rationale lives in `CLAUDE.md`.
 
-## Tried a genuinely new Reconciliation lever — real, confirmed regression, reverted
+## What happened: a new code review, four hypotheses, all closed for free
 
-With the daily quota reset and 7/15 leaderboard participants at a
-perfect Reconciliation score, tried something genuinely different
-instead of another neutral tweak: `vendors.csv` has 4 GSTINs each shared
-by two different `vendor_id`s (a real duplicate-vendor-code pattern,
-matching ticket FIX-3402's "Vendor code confusion" — *"the same supplier
-under two codes... POs and invoices landing on different codes"*). 2 of
-the 12 local `VENDOR_MISMATCH` invoices are exactly this pattern and are
-otherwise fully clean. Implemented a GSTIN-equivalence fallback in
-`checks/vendor.py` so these resolve to CLEAN instead — the first change
-since the original UOM canonicalization to actually move local output
-(`CLEAN 168→170`, `VENDOR_MISMATCH 12→10`).
+A follow-up external code review (working from the pipeline/models/
+matching/UOM files, without the classifier/check modules) raised several
+"investigate before submitting" hypotheses. Checked every one of them
+directly against real practice data rather than guessing — all came back
+negative, so **nothing was submitted**.
 
-## Real result: regressed, not improved
+## The four checks
 
-**Scored 0.8579, down from 0.8700** — a real, confirmed drop of about
-0.0121. Since this was the only variable changed, the loss pins
-precisely on this fallback: **the hidden ground truth wants duplicate
--vendor-code invoices flagged as a genuine `VENDOR_MISMATCH`**, not
-silently resolved via GSTIN. This is the opposite conclusion from UOM's
-"look past superficial coding to the real transaction" logic — a useful,
-concrete lesson: that principle doesn't generalize automatically across
-different checks in this dataset.
+1. **Malformed/blank numeric fields** (`safe_float()`'s `None`/`""`/bad
+   value → `0.0` default) — checked every numeric field on all 250
+   invoices + 260 POs: **zero malformed/blank/NaN/inf cells found**.
+   Rejected by the review's own stated bar.
+2. **Float strict-equality risk** — already settled by existing code the
+   reviewer didn't have: `quantity.py`/`rate.py`/`gst.py` all use
+   `abs(diff) <= tolerance`, never bare `==`; UOM's only `==` compares
+   unit-label strings, not computed floats.
+3. **SKU present on both Invoice/PO but never compared — what should a
+   real mismatch resolve to?** A genuinely new, sharp question. Checked
+   every matched invoice/PO pair: **zero SKU mismatches** across all 250.
+   Currently moot — nothing to design a rule against.
+4. **Vendor master loaded but unused (GSTIN/MSME/name)** — already
+   tested the GSTIN angle earlier today (real regression, reverted, see
+   below). The review's own top-priority ask (build the 8-status
+   semantic matrix before touching code) was already done the day
+   before (`submissions/reconciliation_status_matrix.md`).
 
-## Reverted immediately
+## Verified, not narrated
 
-`git revert` of the whole experiment commit (`checks/vendor.py`,
-`matching/vendor_gstin.py`, `classifier.py`, `pipeline.py`,
-`w2_exceptions_report.py`, the 4 new tests) — cleanly undone. Verified
-via a real re-run: **94/94 tests pass**, pipeline output back to the
-exact prior baseline (168/21/16/16/12/12/5/0).
+Added two new permanent checks to `scripts/audit_practice_data.py`
+(`audit_no_malformed_numeric_fields`, `audit_no_invoice_po_sku_mismatch`)
+— both re-run and pass. All 9 audit checks now green.
 
-## This is real information, not a wasted attempt
+## No attempt spent
 
-The vendor-code-confusion hypothesis is now a *settled* question,
-removed from the list of candidate explanations for the ~0.13
-Reconciliation gap. 4 of 5 daily attempts used today, 1 remains — no new
-hypothesis to test it with as of this entry.
+Every checkable claim in this review came back negative by the review's
+own explicit "don't submit without evidence" standard. Holding the last
+daily Reconciliation attempt.
+
+## Also still fresh from earlier today: vendor-GSTIN experiment, reverted
+
+Tried resolving duplicate vendor codes via GSTIN equivalence (ticket
+FIX-3402 + a real GSTIN-duplicate pattern in `vendors.csv`) — scored
+**0.8579, down from 0.8700**, a real regression. Reverted immediately
+(`git revert`), confirmed 94/94 tests pass and output is back to the
+exact baseline (168/21/16/16/12/12/5/0). Settles that duplicate-vendor
+-code invoices are meant to be flagged as genuine `VENDOR_MISMATCH`, not
+resolved away.
 
 ## Recorded in CLAUDE.md
 
-Full writeup (hypothesis, real score, revert, and the generalization
-lesson) in place after §5's experiment log, plus the log's new row #5.
+Full writeup of both the vendor-GSTIN regression and this review's
+closed-out findings, in place after §5's experiment log.
 
 ## Still open
 
-- Reconciliation: holding at 0.8700 (current code state), 1/5 attempts
-  remain today, no new hypothesis
-- Knowledge (0.75): attempt count as of before today's reset — check
+- Reconciliation: holding at 0.8700, **1/5 attempts remain today**, no
+  new hypothesis — every checkable lever from two independent external
+  reviews is now closed (neutral, disproven, or already confirmed)
+- Knowledge (0.75): attempt count from before today's reset — check
   current count before spending
 - W3 (5/6), W2 (0.75 of weight): no new investigation this round
-- Repo: local commit history now includes the experiment
-  (`954f293`) and its clean revert (`627709c`) plus this documentation
-  round, on top of `bd8c130`; not yet pushed — push only on explicit
-  request
+- Repo: local commits through this round's documentation; not yet
+  pushed — push only on explicit request

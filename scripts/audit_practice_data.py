@@ -5,6 +5,7 @@ file should trace back to a check that runs here -- narration alone isn't
 verification. Run: .venv/Scripts/python.exe scripts/audit_practice_data.py
 """
 import csv
+import math
 import os
 from collections import Counter
 
@@ -74,6 +75,58 @@ def audit_po_match_recoverability():
     return len(exact_miss) == 12 and len(recovered) == 0
 
 
+def audit_no_malformed_numeric_fields():
+    """Basis for keeping normalization/common.py's safe_float() as-is --
+    an external code review flagged its None/""/unparseable -> 0.0
+    default as a real robustness risk, but explicitly said not to act on
+    it without evidence the practice/rotated data actually contains such
+    values. Checks every numeric field on every invoice and PO row."""
+    numeric_fields_inv = ["qty", "rate", "taxable_value", "gst_rate_pct", "gst_amount", "invoice_total"]
+    numeric_fields_po = ["qty", "rate", "po_value"]
+    bad = []
+
+    def _check(rows, key_field, fields):
+        for r in rows:
+            for f in fields:
+                v = r[f]
+                if v is None or v.strip() == "":
+                    bad.append((r[key_field], f, repr(v)))
+                    continue
+                try:
+                    fv = float(v)
+                    if math.isnan(fv) or math.isinf(fv):
+                        bad.append((r[key_field], f, repr(v)))
+                except ValueError:
+                    bad.append((r[key_field], f, repr(v)))
+
+    _check(_rows("vendor_invoices.csv"), "invoice_number", numeric_fields_inv)
+    _check(_rows("purchase_orders.csv"), "po_number", numeric_fields_po)
+    print(f"[numeric] malformed/blank/NaN/inf numeric cells found: {len(bad)}")
+    for b in bad[:10]:
+        print(f"    {b}")
+    return not bad
+
+
+def audit_no_invoice_po_sku_mismatch():
+    """Basis for the matcher staying po_number-only (no SKU check) --
+    same external review asked whether any matched invoice/PO pair
+    disagrees on sku, since there's no SKU_MISMATCH class to represent
+    one if it existed. Zero locally means the question is currently
+    moot, not that a hidden-set SKU rule is ruled out."""
+    po_index = {r["po_number"]: r for r in _rows("purchase_orders.csv")}
+    mismatches = []
+    for r in _rows("vendor_invoices.csv"):
+        po = po_index.get(r["po_number"])
+        if po is None:
+            continue
+        if r["sku"].strip() != po["sku"].strip():
+            mismatches.append((r["invoice_number"], r["sku"], po["sku"]))
+    print(f"[sku] matched invoice/PO pairs with differing sku: {len(mismatches)}")
+    for m in mismatches[:10]:
+        print(f"    {m}")
+    return not mismatches
+
+
 def audit_duplicate_po_billing():
     """Basis for duplicates/detector.py -- confirms the real duplicate
     group count and size the earliest-stays-CLEAN rule is designed for."""
@@ -95,6 +148,8 @@ if __name__ == "__main__":
         ("GST rate distribution", audit_gst_rate_distribution),
         ("Vendor namespace overlap", audit_vendor_namespace_overlap),
         ("PO match recoverability", audit_po_match_recoverability),
+        ("No malformed numeric fields", audit_no_malformed_numeric_fields),
+        ("No invoice/PO sku mismatch", audit_no_invoice_po_sku_mismatch),
         ("Duplicate PO billing", audit_duplicate_po_billing),
     ]
     all_ok = True
