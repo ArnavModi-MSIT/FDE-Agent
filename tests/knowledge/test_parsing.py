@@ -50,6 +50,24 @@ def test_amount_extraction_handles_indian_grouping():
     assert parsed.amount_rupees == 720_000
 
 
+def test_amount_extraction_handles_rs_with_period():
+    parsed = parse_question("A distributor places a single order of Rs. 7,20,000 in March 2024. What discount applies?")
+    assert parsed.amount_rupees == 720_000
+
+
+def test_amount_extraction_handles_inr_prefix():
+    # Real gap found by a code-review audit: only "Rs" was recognized.
+    # "INR" is an equally unambiguous rupee marker -- zero-risk to add,
+    # unlike a wording synonym (no ambiguity in what INR means).
+    parsed = parse_question("A distributor places a single order of INR 720000 in March 2024. What discount applies?")
+    assert parsed.amount_rupees == 720_000
+
+
+def test_amount_extraction_handles_rupee_symbol():
+    parsed = parse_question("A distributor places a single order of ₹7,20,000 in March 2024. What discount applies?")
+    assert parsed.amount_rupees == 720_000
+
+
 def test_warranty_calc_extracts_both_dates_in_order():
     parsed = parse_question("A DRI pump is despatched in January 2025 and commissioned in June 2025. When does warranty end?")
     assert (parsed.month, parsed.year) == (1, 2025)

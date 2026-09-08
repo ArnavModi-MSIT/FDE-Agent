@@ -4,56 +4,60 @@
 quick "what just happened and why" for a human checking in — the full
 project record with all context/rationale lives in `CLAUDE.md`.
 
-## A real, concrete parsing finding — the same shape as the K-02 bug, fixed
+## Two real, zero-risk Knowledge hardening fixes; two proposals declined
 
-A follow-up review asked a genuinely different question: not "is the
-policy content wrong" but "does the code correctly parse every
-question's parameters before applying the policy." Ran the full audit
-directly — `parse_question()`/`answer_question()` against all 12 real
-questions, printing topic/amount/dates/tier alongside the final answer.
+A fourth review (delivered via a git worktree) proposed hardening the
+Knowledge parser against rotated-question formats and strengthening
+submission-invariant checks. Tested every claim directly instead of
+building speculatively.
 
-## What was found
+## Fixed: currency-marker recognition
 
-**K-11** ("A DRI pump is despatched in January 2025 and commissioned in
-June 2025") has two dates. The parser assigned despatch/commissioning
-purely by **mention order** (first date = despatch), never by checking
-which keyword each date actually sits next to. On this specific
-question the orderings coincide, so the answer was already correct —
-but that's coincidence, exactly the same shape as the earlier K-02
-tier-extraction bug (a correct answer that didn't prove correct
-reasoning). A rotated question phrased with commissioning first would
-have silently swapped the dates.
+The amount regex only recognized `Rs`/`Rs.`. Tested `INR 720000` and
+`₹7,20,000` directly — both failed to extract an amount. Widened to
+recognize `Rs`/`Rs.`/`INR`/`₹` — all unambiguous rupee markers, zero
+guessing risk. Confirmed `Rs.` (with period) and `"1 March 2024"`-style
+dates already worked, no fix needed there. 4 new tests.
 
-## Fixed
+## Fixed: submission-invariant checks
 
-`parsing.py` now assigns each date to whichever role-keyword
-(`despatch`/`dispatch` vs `commission`) it's closest to in the text,
-falling back to positional order only when ambiguous. Proven with a
-real reversed-order test and an end-to-end proof both phrasings produce
-the same final answer. **98/98 tests pass (2 new).**
+`sanity_check()` only caught `UNPARSEABLE`/blank source. Extended to
+also check exact qid-set match against the input, duplicate input qids,
+and blank (non-UNPARSEABLE) answers — the same class of check
+Reconciliation's `test_submission_invariants.py` already does. 7 new
+tests.
 
-## Verified neutral on the real question set
+## Declined: wording synonyms and numeric dates
 
-Re-ran the pipeline — `knowledge_submission.csv` is byte-identical to
-before the fix (K-11 still "June 2026"). **Not submitted** — a
-byte-identical resubmission teaches nothing new, matching this
-project's own established discipline. Kept as permanent, evidenced
-hardening against a real hidden-set risk class, invisible to today's
-score but correct regardless.
+Both real gaps when tested directly (`"payment terms"` → `topic=None`,
+`"01/03/2024"` → no date extracted) — but neither has organizer evidence
+behind it. Wording synonyms would mean guessing which specific phrases
+might appear, and R-04's "same public extract" language argues against
+wholesale wording rotation. Numeric dates carry a genuine DD/MM vs MM/DD
+ambiguity with nothing resolving it. Not implemented, matching this
+project's "never guess" discipline.
+
+## Verified
+
+101 → 108 tests pass. Both real fixes confirmed byte-identical on the
+real 12-question submission (neither condition occurs there) — no
+submission spent, since there's nothing for a resubmission to confirm.
 
 ## Recorded in CLAUDE.md
 
-Full writeup appended to the Knowledge section, following the review's
-own requested format (question / parser assignment / risk).
+Full writeup appended to the Knowledge section.
 
 ## Still open
 
 - Reconciliation: **1.0000, solved.**
 - Workflow: **0.9444** — W3 (5/6) unexplained after three investigations
-- Knowledge: **0.7500** — content, governing_source format, mechanics,
-  and now full parser/handler execution all audited against real
-  evidence, one real defensive fix made (locally neutral). No
-  surviving hypothesis for the score gap itself. Holding.
+- Knowledge: **0.7500** — content, citation format, parser/handler
+  execution, and now format-robustness/invariants all audited and
+  hardened where evidence supported it. No surviving hypothesis for the
+  score gap itself. Holding.
 - Migration: 1.0000, already solved
 - Repo: local commits through this round; not yet pushed — push only on
-  explicit request
+  explicit request. Note: a separate git worktree exists at
+  `.worktrees/knowledge-score-improvement-strategies` (branch
+  `agents/knowledge-score-improvement-strategies`) — not touched, all
+  work this round happened in the main worktree.

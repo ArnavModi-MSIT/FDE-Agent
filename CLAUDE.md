@@ -1241,6 +1241,52 @@ anywhere in the 12-question execution path. Combined with the two
 earlier audits today, every checkable angle across all three follow-up
 reviews is now closed. Holding the remaining Knowledge attempt(s).
 
+### 2026-09-08: a fourth review (delivered via a git worktree, `agents/knowledge-score-improvement-strategies`) — two real zero-risk fixes, two proposals explicitly declined
+
+A follow-up strategy document proposed hardening the parser against
+rotated-question wording/format variants the 12 practice questions
+don't exercise, plus strengthening the submission-invariant checks.
+Tested every claim directly rather than building speculatively:
+
+- **Currency-marker robustness — real gap, fixed.** `_AMOUNT_PATTERN`
+  only recognized `Rs`/`Rs.`; tested `INR 720000` and `₹7,20,000`
+  directly against the parser — both failed (`amount_rupees=None`).
+  Widened to `Rs`/`Rs.`/`INR`/`₹`, all unambiguous rupee markers with
+  zero guessing risk (unlike a wording synonym, there's no ambiguity in
+  what `INR` or `₹` means). Verified `Rs.` (with period) and `DD Month
+  YYYY` dates (e.g. `"1 March 2024"`) already worked — no fix needed
+  there. 4 new tests, and the real 12-question submission is confirmed
+  byte-identical (none of the practice questions use `INR`/`₹`).
+- **Submission-invariant hardening — real, matches Reconciliation's own
+  precedent.** `evaluation.sanity_check()` only checked for
+  `UNPARSEABLE`/blank `governing_source`; extended to also accept the
+  raw input rows and check exact qid-set match, duplicate input qids,
+  and a blank (non-`UNPARSEABLE`) answer string — the same class of
+  check `test_submission_invariants.py` already does for Reconciliation.
+  7 new tests for the function in isolation. Pipeline output unaffected
+  since none of these conditions occur on the real question set.
+- **Wording synonyms ("payment terms", "PO value", "return fee") —
+  explicitly declined.** Tested directly: all three produce
+  `topic=None` today, confirming the review's concern is real *if* the
+  hidden set uses this wording — but there's no organizer evidence any
+  specific synonym is actually used, and R-04 (fetched live earlier
+  today) says every participant works from "the same public extract,"
+  arguing against a wholesale wording rotation. Building alias sets
+  without evidence would be guessing at exactly which synonyms to add —
+  the same category of risk this project has avoided all day (vendor
+  -name fuzzy matching, UOM's `Label(N)` generalization only after real
+  data confirmed the pattern). Not implemented.
+- **Numeric date parsing (`01/03/2024`) — explicitly declined.** Real
+  gap confirmed (`date=(None,None)`), but DD/MM vs MM/DD is a genuine
+  ambiguity with no organizer text resolving it, unlike the currency
+  markers above (zero ambiguity). Not implemented.
+
+101 → 108 tests pass through this round. No submission spent — both
+real fixes are provably neutral on the current question set (confirmed
+via byte-identical pipeline output), so there's nothing for a
+resubmission to teach, matching the same discipline applied to the K-11
+date-parsing fix earlier today.
+
 ### Free investigation sweep against real sandbox data (2026-09-07) — governing_source format settled, no new Reconciliation lever found
 
 An external score-improvement plan (fed this file) proposed testing

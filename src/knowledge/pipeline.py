@@ -20,7 +20,7 @@ def run(data_dir: str, output_path: str) -> Dict:
             "reasoning": result.reasoning,
         }
 
-    problems = sanity_check(answers)
+    problems = sanity_check(answers, rows)
     if problems:
         raise RuntimeError(f"Knowledge sanity check failed: {problems}")
 

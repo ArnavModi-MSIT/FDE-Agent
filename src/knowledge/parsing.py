@@ -17,7 +17,14 @@ _MONTHS = {
 _MONTH_PATTERN = re.compile(
     r"\b(" + "|".join(_MONTHS.keys()) + r")\s+(\d{4})\b", re.IGNORECASE
 )
-_AMOUNT_PATTERN = re.compile(r"Rs\.?\s*([\d,]+)")
+# "Rs"/"Rs." (with or without period), "INR", and the "₹" symbol are all
+# unambiguous rupee markers -- widening this is zero-risk (no ambiguity to
+# guess at, unlike a wording synonym), unlike e.g. numeric dates (DD/MM vs
+# MM/DD is a real ambiguity) or topic-keyword synonyms (no organizer
+# evidence any specific synonym is actually used), neither of which is
+# added here for that reason. Every practice question already parses
+# identically before and after this change (Rs is unaffected).
+_AMOUNT_PATTERN = re.compile(r"(?:\bRs\.?|\bINR\b|₹)\s*([\d,]+)", re.IGNORECASE)
 
 # warranty_calc questions state two dates (despatch, commissioning) --
 # extracting them by "first date mentioned = despatch, second = commissioning"
