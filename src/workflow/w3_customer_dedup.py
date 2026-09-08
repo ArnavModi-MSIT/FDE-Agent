@@ -13,12 +13,21 @@ from typing import Dict, List
 from api.client import DriClient
 
 _SUFFIX_PATTERN = re.compile(r"\s*\([^)]*\)\s*$")
+_AND_WORD_PATTERN = re.compile(r"\band\b", re.IGNORECASE)
 
 
 def normalize_name(name: str) -> str:
-    """Strips a trailing parenthetical suffix and case-folds. Two names
-    that normalize the same are treated as the same real distributor."""
-    return _SUFFIX_PATTERN.sub("", name or "").strip().lower()
+    """Strips a trailing parenthetical suffix, case-folds, and treats
+    "AND" the same as "&" -- real organizer evidence, not a guess: email
+    EM-106 (Priya Nair -> Suresh Iyer, "Duplicate distributor records")
+    names this exact variant explicitly: "names in caps or with AND
+    changed to ampersand." Confirmed on the live sandbox as of 2026-09-08
+    that no standalone "AND" name currently exists in /crm/customers (0
+    of 85), so this makes no difference on the data we can see today --
+    pure defensive hardening against a named, evidenced risk, not a
+    guess, and provably can't hurt (see w3 tests)."""
+    name = _SUFFIX_PATTERN.sub("", name or "").strip().lower()
+    return _AND_WORD_PATTERN.sub("&", name)
 
 
 def _is_canonical_form(name: str) -> bool:

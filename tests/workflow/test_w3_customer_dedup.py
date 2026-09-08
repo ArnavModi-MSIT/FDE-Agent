@@ -51,3 +51,16 @@ def test_ambiguous_group_raises_instead_of_guessing():
 def test_unrelated_names_never_grouped_together():
     customers = [_c("C-1", "Alpha Traders"), _c("C-2", "Beta Traders")]
     assert find_merge_plan(customers) == []
+
+
+def test_and_and_ampersand_normalize_the_same():
+    # Real, evidenced pattern (email EM-106): "names in caps or with AND
+    # changed to ampersand." Not currently exercised by any live
+    # /crm/customers row (checked directly), but defensive hardening
+    # against a named organizer-described risk.
+    assert normalize_name("Agarwal Pumps and Motors") == normalize_name("Agarwal Pumps & Motors")
+    plan = find_merge_plan([
+        _c("C-1", "Agarwal Pumps & Motors"),
+        _c("C-2", "Agarwal Pumps and Motors (South)"),
+    ])
+    assert plan == [{"legacy_id": "C-2", "merge_into_legacy_id": "C-1"}]

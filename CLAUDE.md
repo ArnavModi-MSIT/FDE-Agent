@@ -1649,6 +1649,44 @@ brand-new fetch and cross-checked against 85 real live rows:
 W3 stays at 5/6, not spent further today — matches the explicit
 guidance not to spend the remaining Workflow attempt without one.
 
+**2026-09-08: fresh pass, specifically applying the day's "Open ticket
+means flag it, don't resolve it" lesson.** With W2 now confirmed fixed
+(via the shared classifier) and Reconciliation's UOM lesson fresh, went
+looking for a W3-specific parallel — an "Open" ticket describing a
+look-past-the-surface pattern that might actually want the literal
+(unmerged) reading. **Result: doesn't apply here.** W3's own task brief
+is unambiguous that merging IS the assigned action ("Merge each
+duplicate into its original... Leave every other customer alone") —
+unlike UOM/vendor-GSTIN, there's no "should this be flagged instead of
+resolved" ambiguity to re-litigate; the open question is only *which*
+rows are duplicates, not whether duplicates should be merged.
+
+Found one genuinely new piece of evidence while re-reading every
+ticket/email for a W3 angle: **email EM-106** (Priya Nair → Suresh Iyer,
+"Duplicate distributor records") — *"several distributors exist as
+legacy C- codes and again in SalesTrack, names in caps or with AND
+changed to ampersand."* This names a duplicate-name variant
+(`AND` ↔ `&`) that `normalize_name()` didn't handle (only a trailing
+parenthetical suffix and case-folding). **Checked directly against the
+live sandbox before acting**: 0 of the current 85 `/crm/customers` rows
+contain a standalone "AND," so this makes no difference on today's data
+— not today's missing check. Hardened anyway (`_AND_WORD_PATTERN`,
+`normalize_name()`) since it's real, specific organizer evidence, not a
+guess, and confirmed via a real dry run that the merge plan is
+byte-identical (still exactly 45 merges, same pairs) — provably neutral,
+not a guess dressed as a fix. 1 new test
+(`test_and_and_ampersand_normalize_the_same`), 8/8 W3 tests pass, 96/96
+overall.
+
+Re-verified every other angle fresh too: all 45 live merges still
+correct (re-fetched, re-diffed against an independently re-derived
+plan), 0 ambiguous groups, all 40 duplicate-name suffixes are
+region-coded (`(South)`/`(North)`/`(II)`) with no semantically-distinct
+suffix that would suggest a real (non-duplicate) branch office, and the
+live `FIX-3415` ticket record carries no fields beyond what the local
+CSV already has. **Still no concrete, cheaply-testable hypothesis for
+the missing 6th check.** W3 holds at 5/6 — no Workflow attempt spent.
+
 ### Experiment: K-07 cross-referenced with W1 (2026-09-07, submitted)
 
 A genuinely new hypothesis, not a repeat of the exhausted content
