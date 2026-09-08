@@ -1178,6 +1178,69 @@ No sample-submission reference file exists for Knowledge (only
 Reconciliation has one locally). **Every checkable angle from this
 review is now closed with a real answer, not a guess.** Holding.
 
+### 2026-09-08: question-by-question execution audit — one real, concrete finding, fixed defensively
+
+A follow-up review asked a genuinely different question from the prior
+two: not "is the policy content or citation format wrong" but "does the
+code correctly parse each question's parameters before applying the
+right policy function." Ran the full audit table it specified —
+`parse_question()` and `answer_question()` executed directly against
+all 12 real questions, printing topic/amount/dates/tier alongside the
+final answer (not just the final answer, matching this project's own
+"read the trace, not just the output" discipline from the K-02 bug).
+
+**11 of 12 questions**: topic, amount, date, and tier extraction all
+match the question's plain-English semantics exactly — single
+unambiguous `Rs` value where one exists, single unambiguous date where
+one exists, tier correctly resolved via the existing suffix-first rule.
+No topic misrouting (no question matches two topics' keyword sets
+simultaneously).
+
+**K-11 is a real, concrete finding matching the review's own template
+exactly**: *"A DRI pump is despatched in January 2025 and commissioned
+in June 2025."* — two dates present. `parse_question()` assigned
+`month/year` (despatch) and `second_month/second_year` (commissioning)
+purely by **mention order** (first date = despatch, second =
+commissioning), never by checking which keyword each date is actually
+next to. On *this* question the two orderings coincide (despatch really
+is mentioned first), so the answer was already correct — but that's
+coincidence, not correctness, the exact same shape as the K-02 tier
+-extraction bug found earlier in this project (§8: *"a correct final
+answer is not proof the reasoning that produced it was correct"*). A
+rotated question phrased the other way round (commissioning clause
+first) would have silently swapped the two dates.
+
+**Fixed properly, not just patched around this one case**:
+`parsing.py`'s `_extract_despatch_and_commissioning_dates()` now
+assigns each date to whichever role-keyword (`despatch`/`dispatch` vs
+`commission`) sits closest to it in the text, falling back to
+positional order only when both keywords are absent or ambiguously tied
+to the same date (preserving old behavior in that edge case rather than
+guessing further). Proven with a real reversed-order test
+(`test_warranty_calc_assigns_dates_by_keyword_not_mention_order`) and an
+end-to-end proof that both orderings produce the identical final answer
+(`test_warranty_calc_reversed_order_produces_same_final_answer`).
+98/98 tests pass (2 new).
+
+**Confirmed predictably neutral on the real question set, not
+assumed**: re-ran `scripts/run_knowledge.py` — `knowledge_submission.csv`
+is byte-identical to before the fix, K-11 still resolves to `"June
+2026"`. Per this project's own discipline (a byte-identical resubmission
+teaches nothing new — see Reconciliation experiments #2/#3), **not
+submitted as a leaderboard attempt**: there is nothing for a submission
+to confirm here since the local output can't move on the current
+question set. Kept as permanent, evidenced hardening against a real
+class of hidden-set risk (a rotated question stating commissioning
+before despatch), the same category of fix as the K-02 tier bug —
+real, provably correct, but invisible to the current score.
+
+**State**: this closes the one remaining audit layer the review asked
+for (parser/handler correctness, as distinct from policy content and
+citation format, both already audited). No answer-changing error found
+anywhere in the 12-question execution path. Combined with the two
+earlier audits today, every checkable angle across all three follow-up
+reviews is now closed. Holding the remaining Knowledge attempt(s).
+
 ### Free investigation sweep against real sandbox data (2026-09-07) — governing_source format settled, no new Reconciliation lever found
 
 An external score-improvement plan (fed this file) proposed testing

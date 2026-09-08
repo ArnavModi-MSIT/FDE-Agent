@@ -19,6 +19,18 @@ _MONTH_PATTERN = re.compile(
 )
 _AMOUNT_PATTERN = re.compile(r"Rs\.?\s*([\d,]+)")
 
+# warranty_calc questions state two dates (despatch, commissioning) --
+# extracting them by "first date mentioned = despatch, second = commissioning"
+# is a real, evidenced risk (a code-review audit flagged it, mirroring the
+# K-02 tier-extraction bug: the practice question's word order happens to
+# coincide with date order -- "despatched in <date1> and commissioned in
+# <date2>" -- so positional extraction gives the right answer today, but a
+# differently-worded/rotated question stating commissioning first would
+# silently swap the two roles). Resolved by proximity to the actual
+# despatch/commission keyword instead of by mention order.
+_DESPATCH_KEYWORD_PATTERN = re.compile(r"despatch|dispatch", re.IGNORECASE)
+_COMMISSION_KEYWORD_PATTERN = re.compile(r"commission", re.IGNORECASE)
+
 # "Standard" is a genuine tier name in this business's data (customers.csv
 # has real Standard-tier accounts alongside Gold/Platinum), but the word
 # also appears as a plain adjective ("the standard credit terms") unrelated
@@ -66,6 +78,36 @@ def _extract_month_years(text: str) -> List[Tuple[int, int]]:
     return [(_MONTHS[m.lower()], int(y)) for m, y in _MONTH_PATTERN.findall(text)]
 
 
+def _extract_despatch_and_commissioning_dates(
+    text: str,
+) -> Tuple[Optional[int], Optional[int], Optional[int], Optional[int]]:
+    """Returns (despatch_month, despatch_year, commissioning_month,
+    commissioning_year), assigning each of the two dates to whichever
+    role-keyword (despatch/dispatch vs commission) it sits closest to in
+    the text -- not by which date is mentioned first. Falls back to
+    positional order (first date=despatch, second=commissioning) only
+    when the keyword-proximity pairing is unavailable or ambiguous (both
+    keywords nearest the same date), preserving today's behavior in that
+    case rather than guessing further."""
+    date_matches = list(_MONTH_PATTERN.finditer(text))
+    if len(date_matches) < 2:
+        return None, None, None, None
+
+    despatch_kw = _DESPATCH_KEYWORD_PATTERN.search(text)
+    commission_kw = _COMMISSION_KEYWORD_PATTERN.search(text)
+    if despatch_kw and commission_kw:
+        despatch_match = min(date_matches, key=lambda m: abs(m.start() - despatch_kw.start()))
+        commission_match = min(date_matches, key=lambda m: abs(m.start() - commission_kw.start()))
+        if despatch_match is not commission_match:
+            dm, dy = _MONTHS[despatch_match.group(1).lower()], int(despatch_match.group(2))
+            cm, cy = _MONTHS[commission_match.group(1).lower()], int(commission_match.group(2))
+            return dm, dy, cm, cy
+
+    dm, dy = _MONTHS[date_matches[0].group(1).lower()], int(date_matches[0].group(2))
+    cm, cy = _MONTHS[date_matches[1].group(1).lower()], int(date_matches[1].group(2))
+    return dm, dy, cm, cy
+
+
 def _extract_tier(text: str) -> Optional[str]:
     match = _TIER_SUFFIXED_PATTERN.search(text)
     if match:
@@ -80,9 +122,12 @@ def parse_question(text: str) -> ParsedQuestion:
     if topic is None:
         return ParsedQuestion(topic=None)
 
-    dates = _extract_month_years(text)
-    month, year = (dates[0] if dates else (None, None))
-    second_month, second_year = (dates[1] if len(dates) > 1 else (None, None))
+    if topic == "warranty_calc":
+        month, year, second_month, second_year = _extract_despatch_and_commissioning_dates(text)
+    else:
+        dates = _extract_month_years(text)
+        month, year = (dates[0] if dates else (None, None))
+        second_month, second_year = (dates[1] if len(dates) > 1 else (None, None))
 
     return ParsedQuestion(
         topic=topic,

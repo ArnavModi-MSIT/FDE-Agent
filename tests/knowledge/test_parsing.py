@@ -54,3 +54,28 @@ def test_warranty_calc_extracts_both_dates_in_order():
     parsed = parse_question("A DRI pump is despatched in January 2025 and commissioned in June 2025. When does warranty end?")
     assert (parsed.month, parsed.year) == (1, 2025)
     assert (parsed.second_month, parsed.second_year) == (6, 2025)
+
+
+def test_warranty_calc_assigns_dates_by_keyword_not_mention_order():
+    # A code-review audit flagged a real risk: the practice question's
+    # word order happens to match date order (despatch mentioned first),
+    # so a naive "first date = despatch" extraction gets it right by
+    # coincidence, not by actually parsing which date is which. Prove it
+    # with the dates reversed in the sentence -- despatch must still win
+    # month=1/year=2025 (despatch), even though it's mentioned SECOND.
+    parsed = parse_question(
+        "A DRI pump is commissioned in June 2025 after being despatched in January 2025. When does warranty end?"
+    )
+    assert (parsed.month, parsed.year) == (1, 2025)  # despatch, mentioned second
+    assert (parsed.second_month, parsed.second_year) == (6, 2025)  # commissioning, mentioned first
+
+
+def test_warranty_calc_reversed_order_produces_same_final_answer():
+    # End-to-end proof: swapping sentence order must not change the
+    # computed warranty end date -- despatch+18mo vs commissioning+12mo,
+    # whichever is earlier, regardless of which clause comes first.
+    from knowledge.answering import answer_question
+
+    forward = answer_question("K-TEST-A", "A DRI pump is despatched in January 2025 and commissioned in June 2025. When does warranty end?")
+    reversed_ = answer_question("K-TEST-B", "A DRI pump is commissioned in June 2025 after being despatched in January 2025. When does warranty end?")
+    assert forward.answer == reversed_.answer == "June 2026"

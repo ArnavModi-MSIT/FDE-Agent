@@ -12,7 +12,11 @@ class ParsedQuestion:
     amount_rupees: Optional[float] = None
     month: Optional[int] = None
     year: Optional[int] = None
-    second_month: Optional[int] = None  # for warranty questions with two dates
+    # For warranty_calc specifically: month/year is the DESPATCH date and
+    # second_month/second_year is the COMMISSIONING date, resolved by
+    # keyword proximity in parsing.py, not by which date is mentioned
+    # first in the sentence.
+    second_month: Optional[int] = None
     second_year: Optional[int] = None
     tier: Optional[str] = None
     is_flowtech_pre_acquisition: bool = False
