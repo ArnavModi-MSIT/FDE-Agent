@@ -4,58 +4,41 @@
 quick "what just happened and why" for a human checking in — the full
 project record with all context/rationale lives in `CLAUDE.md`.
 
-## Reconciliation is solved: 1.0000
+## Re-posted W2's exceptions report with the fixed classifier
 
-The UOM revert scored **1.0000 — a perfect score**, confirmed for real
-on the leaderboard. Reconciliation now matches Migration as a fully
-solved family. This closes the entire ~0.13 gap that had persisted since
-the very first submission on 2026-09-07.
+Now that Reconciliation's UOM fix is confirmed (real leaderboard score:
+1.0000), the natural next step was checking whether that same fix
+propagates to Workflow's W2 — it deliberately reuses `classify_invoice`
+directly, so any classification improvement there should carry straight
+into W2's `counts`/`value_at_risk`.
 
-## What it turned out to be
+## What was checked before posting
 
-`checks/uom.py`'s packaging-aware canonicalization (`Box(10)` → treated
-as `Nos × 10`, reconciling as `CLEAN`) was wrong. The organizer's own
-literal starter code — raw string comparison, `Box(10) != Nos` →
-`UOM_MISMATCH` — was the correct rule all along. This project's original
-justification rested on ticket FIX-3418 ("value tallies, count does
-not"), which is itself an "Open" ticket opening with "Stores GRN shows
-quantity mismatch" — the same status pattern as FIX-3402, which the
-vendor-GSTIN experiment (same day, real regression) had just proven
-means "flag the defect," not "resolve it away." That internal
-counter-example is what actually tipped the decision to test this,
-alongside the external review's structural argument (a near-zero-F1
-class costs up to 1/8 = 0.125 of macro-F1 — almost exactly the observed
-gap) and the fact that 6+ leaderboard participants hit 1.000 without
-apparent packaging-aware logic.
+Dry-run (`scripts/run_w2.py`, no `--execute`) against the live sandbox
+confirmed the effect for real, not just assumed: `UOM_MISMATCH 0 → 13`
+(exactly matching the local shift), `value_at_risk` moved from
+₹8,30,99,028.06 to ₹8,84,04,135.42. This is the same, well-understood
+fix — no new hypothesis, no new risk.
 
-## The generalizable lesson
+## Posted
 
-"Look past the surface label to the real transaction" isn't a
-free-standing principle in this dataset — it was wrong for UOM and wrong
-for vendor codes, both times because it was applied by analogy from
-somewhere it wasn't actually evidenced, rather than checked against real
-outcomes. Every check's exact tolerance needs its own evidence.
-
-## Verified
-
-Local output before submitting was byte-for-byte identical to
-`starter_reconciliation.py`'s own output on all 250 practice rows — the
-strongest local confirmation this project has ever had for a change,
-and it held on the hidden set too.
+`scripts/run_w2.py --execute` — confirmed accepted by the sandbox
+(echoed back exactly what was sent). **Posting doesn't consume a scoring
+attempt** — only clicking "Run the checks and score" on the site does.
+That's the next step, at your call, to see whether W2's 6/8 improves.
 
 ## Recorded in CLAUDE.md
 
-Full writeup in §4 (UOM section) and the dated experiment subsection
-after §5's log, including the generalizable lesson, plus the log's
-row #6 updated with the real 1.0000 result.
+Dated note added directly after the original W2 writeup in §9.
 
 ## Still open
 
-- Reconciliation: **1.0000, solved.** 3/5 daily attempts used today, no
-  further work needed barring a future regression.
+- Reconciliation: **1.0000, solved.**
+- Workflow: W1 was last known at 8/8 (perfect, untouched by this
+  change). W2's corrected report is posted but not yet scored — check
+  the sandbox for the real result. W3 (5/6) still genuinely unexplained.
 - Knowledge (0.75): attempt count from before today's reset — check
   current count before spending
-- W3 (5/6), W2 (0.75 of weight): no new investigation this round
 - Migration: 1.0000, already solved
 - Repo: local commits through this round; not yet pushed — push only on
   explicit request

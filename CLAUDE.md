@@ -1523,6 +1523,19 @@ on the Reconciliation side, now observed through a second, independent
 channel (per-check feedback) that corroborates rather than contradicts
 the earlier finding.
 
+**2026-09-08: re-posted after the Reconciliation UOM fix.** Since the
+UOM check reverted to the starter's literal comparison and Reconciliation
+scored a real, confirmed **1.0000**, and W2 deliberately reuses
+`classify_invoice` directly, the classifier feeding this report changed
+too. Dry-run against the live sandbox confirmed the effect before
+posting: `UOM_MISMATCH 0 → 13` (matching the local shift exactly),
+`value_at_risk ₹8,30,99,028.06 → ₹8,84,04,135.42`. **Re-posted for real**
+via `POST /erp/reports/exceptions` — confirmed accepted (echoed back
+exactly what was sent). Posting doesn't consume a scoring attempt; only
+clicking "Run the checks and score" does — that's the next step, at the
+user's call, to see whether W2's 6/8 improves now that the same root
+cause behind Reconciliation's 0.13 gap is fixed.
+
 ### W1 — Onboard the casting vendor: DONE, created and verified on the live sandbox
 
 `src/workflow/w1_vendor_onboarding.py` reuses `knowledge/policy_kb.py`'s
