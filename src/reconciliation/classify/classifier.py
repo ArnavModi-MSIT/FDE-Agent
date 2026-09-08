@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from ..checks import gst as gst_check
 from ..checks import po as po_check
@@ -25,6 +25,7 @@ def classify_invoice(
     invoice: Invoice,
     po_index: Dict[str, PurchaseOrder],
     normalized_po_index: Dict[str, PurchaseOrder],
+    vendor_gstin_index: Optional[Dict[str, str]] = None,
 ) -> ClassificationDetail:
     match_result = resolve(invoice, po_index, normalized_po_index)
     po_result = po_check.check_po_exists(match_result)
@@ -33,7 +34,7 @@ def classify_invoice(
         return ClassificationDetail("MISSING_PO", [po_result], match_result)
 
     po = match_result.purchase_order
-    results: List[CheckResult] = [po_result, vendor_check.check_vendor(invoice, po)]
+    results: List[CheckResult] = [po_result, vendor_check.check_vendor(invoice, po, vendor_gstin_index)]
 
     uom_outcome = uom_check.check_uom(invoice, po)
     results.append(uom_outcome.result)

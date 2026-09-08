@@ -221,14 +221,52 @@ A fuzzy match here would risk fabricating a match to an unrelated real PO
 assumption if the hidden/sandbox PO set behaves differently (real
 formatting variants, not synthetic gaps).
 
-**Vendor check (`checks/vendor.py`)**: plain `vendor_id` equality.
-Checked whether the two vendor-code namespaces in the data (`V-` for
-native DRI vendors, `FTV-` for legacy FlowTech vendors, both present in
-invoices and POs) cause any orphans against `vendors.csv` — they don't
-(0 orphans out of 250 invoices). No cross-namespace resolution needed for
-*this* check; that kind of entity-resolution problem belongs to the
-future Workflow family's W3 (CRM dedup), which has a genuinely different,
-richer signal set (see §7).
+**Vendor check (`checks/vendor.py`)**: `vendor_id` equality, with a real,
+evidenced fallback added 2026-09-08. Checked whether the two vendor-code
+namespaces in the data (`V-` for native DRI vendors, `FTV-` for legacy
+FlowTech vendors, both present in invoices and POs) cause any orphans
+against `vendors.csv` — they don't (0 orphans out of 250 invoices).
+
+**A genuinely new, evidenced lever, found by cross-applying a W1 finding
+back to Reconciliation**: `vendors.csv` itself (60 rows, the same file
+used locally) has **4 GSTINs each shared by two different `vendor_id`s**
+(e.g. `V-1011` and `V-1055` both file `29XBJJU05331ZB`) — the same
+near-duplicate-vendor pattern §9 found unprompted in the live sandbox
+during W1 (`V-1055`–`V-1060` as ALL-CAPS near-duplicates of existing
+vendors), now confirmed present in the Reconciliation family's own vendor
+master too. Ticket **FIX-3402** ("Vendor code confusion") describes
+exactly this: *"the same supplier under two codes... POs and invoices are
+landing on different codes."* Checked directly against the real practice
+data: **2 of the 12 raw `vendor_id` mismatches are exactly this pattern**
+(`ATP/2026/251`: PO on `V-1042`, invoice on `V-1056`, same gstin
+`24LEBED64501ZJ`; `INV-JCP-0155`: PO on `V-1005`, invoice on `V-1057`,
+same gstin `27NSTLD88171ZJ`), and both are otherwise **fully clean** —
+`qty`, `rate`, `uom`, `sku`, and GST all match exactly once vendor
+resolves. This is real evidence these are a vendor-master data-hygiene
+artifact, not a genuine wrong-supplier defect — the same "look past
+superficial coding to the real transaction" principle already applied to
+UOM (FIX-3418's "value tallies, count does not").
+
+Implemented via `checks/vendor.py` accepting an optional
+`vendor_gstin_index` (built by the new `matching/vendor_gstin.py`,
+wired in through `pipeline.py` and W2's `w2_exceptions_report.py` so the
+CSV and Workflow families never disagree): pass if `vendor_id` matches
+exactly, **or** if it differs but both resolve to the same `gstin`.
+Deliberately narrow — an index resolving *other* vendor pairs never
+excuses a genuinely different vendor; only an actual shared `gstin`
+does (tested directly:
+`test_genuinely_different_vendor_still_mismatches_even_with_gstin_index_present`).
+`models/vendor.py`/`normalization/vendor.py` (previously built but unused,
+per §4's "not yet wired in") are now consumed for exactly this.
+
+**This is a real, local-output-changing change, unlike every prior
+Reconciliation experiment** (#2/#3 in §5's log were both byte-identical,
+0 rows moved either direction) — confirmed via a real pipeline run:
+`CLEAN 168 → 170`, `VENDOR_MISMATCH 12 → 10`, everything else unchanged.
+That kind of entity-resolution problem generally belongs to the future
+Workflow family's W3 (CRM dedup, a richer signal set, see §7) — this
+fix is narrower and evidence-bounded (GSTIN equality only), not a general
+fuzzy vendor-matching system.
 
 **GST check (`checks/gst.py`)**: `gst_rate_pct` is 18.0 on all 250
 practice invoices — treated as a fixed business rule (a declared rate
@@ -319,37 +357,41 @@ it's a real artifact the brief explicitly requests.
 
 ## 5. Verification status
 
-**25/25 tests pass** (`tests/reconciliation/`): UOM converter (base unit
+**37/37 tests pass** (`tests/reconciliation/`): UOM converter (base unit
 passthrough, the real Box(10) case, Carton(20)/Pack(5) — never observed in
 the practice data, proving the registry parser is genuinely generic and
 not secretly hardcoded to "Box" — unresolvable units, malformed patterns),
-classifier (all 8 classes including the box-packaging-is-CLEAN case and
-both GST failure modes), duplicate detector (earliest-stays, genuine
--defect-not-overridden), metrics (macro-F1 formula, including the explicit
-"absent class scores 0, isn't silently excluded" edge case),
-**determinism** (`test_determinism.py` — runs the real pipeline against
-the real data twice, requires byte-identical output; a submission system
-with a 5-attempts/day budget can't afford a nondeterministic classifier),
-**submission structural invariants** (`test_submission_invariants.py` —
-required header, no duplicate output rows, every status a legal class, no
-missing/extra invoices vs the source file).
+classifier (all 8 classes including the box-packaging-is-CLEAN case, both
+GST failure modes, and the GSTIN-equivalent-vendor-code case below),
+duplicate detector (earliest-stays, genuine-defect-not-overridden),
+metrics (macro-F1 formula, including the explicit "absent class scores 0,
+isn't silently excluded" edge case), **determinism** (`test_determinism.py`
+— runs the real pipeline against the real data twice, requires
+byte-identical output; a submission system with a 5-attempts/day budget
+can't afford a nondeterministic classifier), **submission structural
+invariants** (`test_submission_invariants.py` — required header, no
+duplicate output rows, every status a legal class, no missing/extra
+invoices vs the source file).
 
 **`scripts/audit_practice_data.py`** is the re-runnable proof behind every
 "confirmed real in the data" claim below — an external review correctly
 pointed out that narration alone ("verified empirically") isn't
 verification if nobody can re-run it. Covers: the Box(10) x10-qty /
 ÷10-rate reconciliation (13 rows, 0 mismatches), GST rate distribution
-(18% on all 250), vendor namespace overlap (0 orphans), PO match
-recoverability (12 exact misses, 0 recovered by normalization), duplicate
-PO billing (exactly the 5 documented pairs). Run it after any change to
-`dataset/` or the practice-data assumptions in §4 — it exits nonzero if
-any of them stop holding.
+(18% on all 250), vendor namespace overlap (0 orphans), **GSTIN-shared
+duplicate vendor codes** (4 groups, exactly 2 real invoice/PO mismatches
+resolved by them), PO match recoverability (12 exact misses, 0 recovered
+by normalization), duplicate PO billing (exactly the 5 documented pairs).
+Run it after any change to `dataset/` or the practice-data assumptions in
+§4 — it exits nonzero if any of them stop holding.
 
 **Real end-to-end run** (`python scripts/run_reconciliation.py`, from the
 project venv): 250/250 invoices classified, written to
 `submissions/submission.csv` in the exact `invoice_number,status` format.
-Counts: CLEAN 168, QTY_MISMATCH 21, GST_ERROR 16, RATE_MISMATCH 16,
-MISSING_PO 12, VENDOR_MISMATCH 12, DUPLICATE_INVOICE 5, UOM_MISMATCH 0.
+Counts as of the 2026-09-08 vendor-GSTIN fix: CLEAN 170, QTY_MISMATCH 21,
+GST_ERROR 16, RATE_MISMATCH 16, MISSING_PO 12, VENDOR_MISMATCH 10,
+DUPLICATE_INVOICE 5, UOM_MISMATCH 0 (was CLEAN 168 / VENDOR_MISMATCH 12
+before the fix — the only two counts that moved).
 
 **No local ground truth exists for this dataset** — `evaluation/metrics.py`'s
 macro-F1 function is tested against synthetic labels only.
@@ -458,6 +500,7 @@ reviews converged on.
 | 2 | Duplicate key `po_number` -> `(po_number, sku)` + deterministic tiebreak | Byte-identical (0 rows changed) | Hidden set may have multi-line POs the practice set's 1:1 structure can't exercise | **0.8700** (2026-09-07, unchanged) |
 | 3 | Precedence: `GST_ERROR` promoted above `QTY_MISMATCH`/`RATE_MISMATCH` | Byte-identical (0 rows changed — 0/250 invoices ever fail 2+ checks, so no reorder can move local output) | An internal arithmetic check (gst) should outrank an externally-compared value check (qty/rate) when both fail on the same invoice | **0.8700** (2026-09-07, unchanged) |
 | 4 | Both #2's key and #3's reorder reverted back to `starter_reconciliation.py`'s literal logic, per the status-definition matrix audit | Byte-identical (168/21/16/16/12/12/5/0, confirmed pre- and post-submission) | Matrix audit found no organizer evidence supporting either deviation; both directions already proven neutral by #2/#3 themselves | **0.8700** (2026-09-07, unchanged — real confirmation, not just local prediction) |
+| 5 | Vendor check: GSTIN-equivalence fallback for duplicate vendor codes (`checks/vendor.py`, see §4) | **Real change**: CLEAN 168→170, VENDOR_MISMATCH 12→10 (2 invoices: `ATP/2026/251`, `INV-JCP-0155`) | Ticket FIX-3402 + a real GSTIN-duplicate pattern in `vendors.csv` (4 groups) mean 2 of our 12 VENDOR_MISMATCH rows are a data-hygiene artifact (same real vendor, different code), not a genuine mismatch — the first genuinely new, evidence-backed, output-moving hypothesis since the baseline | *(pending — fresh daily quota as of 2026-09-08)* |
 
 **Attempts #2 and #3 submitted identical CSV content to #1** — neither
 change alters any row's classification, confirmed before each submission.
@@ -606,6 +649,50 @@ No further Reconciliation experimentation possible today regardless of
 any new hypothesis; the codebase itself is left in its most
 organizer-aligned state so far (matches the starter's literal logic on
 every dimension except the one evidenced UOM deviation).
+
+### 2026-09-08: a genuinely new, output-moving lever — vendor-code GSTIN equivalence
+
+With 7 of 15 ranked participants now at a perfect Reconciliation 1.000
+and the daily quota reset, went looking for a *fully different* class of
+hypothesis rather than another neutral precedence/key tweak — those had
+already twice proven they can't teach anything further since they never
+move local output at all. Found one by cross-applying a finding from a
+different family: §9's W1 research (2026-09-07) had unpromptedly
+discovered 6 near-duplicate vendor codes in the live sandbox sharing a
+GSTIN with an existing vendor. Checked whether that same pattern exists
+in `vendors.csv` itself (the file Reconciliation's own vendor check could
+read) — it does, independently: **4 GSTINs each shared by two different
+`vendor_id`s** (e.g. `V-1011`/`V-1055` both file `29XBJJU05331ZB`).
+Cross-referenced against ticket **FIX-3402** ("Vendor code confusion" —
+*"the same supplier under two codes... POs and invoices are landing on
+different codes"*) and directly against the 12 real `VENDOR_MISMATCH`
+invoices: **2 of them** (`ATP/2026/251`, `INV-JCP-0155`) are exactly this
+pattern, and both are otherwise fully clean (qty/rate/uom/gst all match).
+
+Implemented as a narrow, evidence-bounded fallback in `checks/vendor.py`
+(see §4 for full detail) — pass on exact `vendor_id` match **or** shared
+`gstin`, nothing broader. **This is the first Reconciliation change
+since the original UOM canonicalization to actually move local output**:
+`CLEAN 168 → 170`, `VENDOR_MISMATCH 12 → 10`. 37/37 reconciliation tests
+pass (4 new), `scripts/audit_practice_data.py` has a new re-runnable
+proof (`audit_gstin_duplicate_vendor_codes`), and the fix was also wired
+into W2's `w2_exceptions_report.py` (which reuses `classify_invoice`
+directly) so the CSV and Workflow families can't disagree about these 2
+invoices either — though W2's live sandbox report hasn't been re-posted/
+re-scored as part of this change.
+
+Genuinely uncertain, unlike the neutral tweaks: FIX-3402's ticket status
+is "Open," meaning the organizers describe this as a known real-world
+problem, not a settled resolution rule — it's plausible the intended
+ground truth actually wants a duplicate-code invoice flagged as
+`VENDOR_MISMATCH` precisely *because* it's a data-hygiene defect worth
+surfacing, not resolved away. Weighed against that: the check's own
+stated purpose (brief: "the vendor code on the invoice vs the PO") reads
+as catching a wrong-supplier error, and a GSTIN-verified same-real-vendor
+case isn't one — plus the direct parallel to UOM's already-confirmed
+"look past superficial coding to the real transaction" principle. Real
+enough evidence to be worth a submission, not certain enough to already
+call it settled. Not yet submitted to the leaderboard as of this entry.
 
 ---
 
