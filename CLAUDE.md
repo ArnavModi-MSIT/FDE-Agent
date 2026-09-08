@@ -1687,6 +1687,50 @@ live `FIX-3415` ticket record carries no fields beyond what the local
 CSV already has. **Still no concrete, cheaply-testable hypothesis for
 the missing 6th check.** W3 holds at 5/6 — no Workflow attempt spent.
 
+**2026-09-08, second follow-up: a fourth review's Phase A/B zero-risk
+inspection, run in full, both come back empty.**
+
+- **Phase A — every field on every live customer, not just the 8
+  already tracked**: confirmed all 85 `/crm/customers` rows share
+  exactly one key-set — `legacy_id, crm_id, customer_name, tier,
+  region, credit_terms_days, migrated_to_salestrack, merged_into`. No
+  hidden timestamp, status, parent, or source-system field exists
+  anywhere. This closes the review's hypotheses #2 ("existing
+  `merged_into` state matters") and the "hidden workflow-state
+  requirement" angle definitively — there is structurally nothing else
+  in the schema to use.
+- **Phase B — searched all 18 tickets + 14 emails for explicit
+  destination language** (`"keep X"`, `"is the master"`, `"legacy
+  record"`, `"SalesTrack record"`, `"do not merge"`, `"canonical"`,
+  `"parent"`, etc., plus a second pass for other name-transformation
+  hints: `PVT`/`LTD`/`COMPANY`/hyphens/apostrophes/legal suffixes
+  beyond `AND`↔`&`): **zero matches anywhere.** No organizer text
+  identifies which record should survive a merge, and no second
+  name-transformation rule exists beyond the one already found and
+  hardened (EM-106's `AND`↔`&`).
+
+**One real, unrelated bonus finding while re-reading every email for
+this**: **EM-111** ("Boxes vs numbers on spares," Mehul Shah) — *"seal
+kits ordered in Nos, billed in Box of 10. Totals match so finance
+clears it, but stores count never ties out. Either fix the UOM on POs
+or tell vendors to bill in Nos."* This is a **third**, fully independent
+organizer source (after the brief's `Box(10)` example and FIX-3418)
+describing the exact same UOM scenario — and its framing ("totals match
+so finance clears it, **but** stores count never ties out... **fix**
+it") reads as a complaint about a defect being silently waved through
+on value alone, not a description of legitimately reconciled billing.
+This is a third, independent piece of real evidence corroborating the
+UOM revert decided earlier today (already confirmed correct via the
+real 1.0000 score) — not actionable now, just further confirmation the
+decision was right.
+
+**Both zero-risk phases exhausted with no new evidence, matching this
+review's own explicit decision rule** ("if that produces no evidence,
+stop investigating W3 and move to Knowledge"). No attempt spent. W3
+remains genuinely unexplained after three separate deep investigation
+rounds — pivoting effort to Knowledge, per this review's own strategic
+recommendation and the same discipline applied throughout this project.
+
 ### Experiment: K-07 cross-referenced with W1 (2026-09-07, submitted)
 
 A genuinely new hypothesis, not a repeat of the exhausted content

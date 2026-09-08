@@ -4,52 +4,53 @@
 quick "what just happened and why" for a human checking in — the full
 project record with all context/rationale lives in `CLAUDE.md`.
 
-## Fresh W3 investigation — one real finding, hardened, no lever for today
+## Ran the recommended zero-risk W3 investigation (Phase A + B) — both empty
 
-Went back into W3 (5/6, Workflow's only remaining gap) applying the
-day's big lesson: does an "Open" ticket here actually want the literal
-defect flagged rather than resolved, the way FIX-3402 and FIX-3418 both
-did? **Doesn't apply** — W3's own task brief is unambiguous that merging
-IS the job; the open question is only which rows are duplicates.
+A follow-up review recommended two specific, zero-risk checks before
+touching any code: inspect every field on every live customer, and
+search every ticket/email for explicit "which record survives a merge"
+language. Ran both for real.
 
-## What was found
+## Phase A: full field inspection
 
-Re-reading every ticket/email for a W3 angle turned up **email EM-106**
-(never previously connected to W3): *"several distributors exist as
-legacy C- codes and again in SalesTrack, names in caps or with AND
-changed to ampersand."* Our `normalize_name()` never handled `AND` ↔
-`&`. Checked directly against the live sandbox before touching anything:
-**0 of the current 85 `/crm/customers` rows contain a standalone "AND"**
-— so this isn't today's missing check. Hardened anyway since it's real,
-specific evidence, not a guess.
+All 85 `/crm/customers` rows share exactly one key-set — `legacy_id,
+crm_id, customer_name, tier, region, credit_terms_days,
+migrated_to_salestrack, merged_into`. No hidden timestamp, status,
+parent, or source-system field exists anywhere. This closes the "hidden
+state" and "existing `merged_into` matters" hypotheses definitively —
+there's structurally nothing else in the schema to use.
 
-## Verified neutral, not assumed
+## Phase B: destination-language and name-transformation search
 
-Real dry run against the live sandbox: merge plan is byte-identical (45
-merges, same pairs) before and after the change. 1 new test, 8/8 W3
-tests pass, 96/96 overall. No Workflow attempt spent.
+Searched all 18 tickets + 14 emails for explicit survivor language
+("keep X", "is the master", "legacy record", "canonical", "do not
+merge", etc.) and for other name-transformation hints (PVT/LTD/COMPANY/
+punctuation, beyond the already-found `AND`↔`&`). **Zero matches
+anywhere.** No organizer text says which record should survive, and no
+second transformation rule exists.
 
-## Also re-verified everything else fresh
+## A real bonus find, unrelated to W3
 
-All 45 live merges re-checked correct, 0 ambiguous groups, every
-duplicate-name suffix is region-coded (no semantically-distinct branch
-suffix suggesting a real non-duplicate entity), the live `FIX-3415`
-ticket carries nothing beyond the local CSV. Still no concrete
-hypothesis for the missing 6th check.
+**Email EM-111** ("Boxes vs numbers on spares") describes the exact same
+UOM scenario as FIX-3418, independently: *"Totals match so finance
+clears it, but stores count never ties out... fix the UOM."* A third
+independent source confirming today's UOM revert was the right call
+(already proven for real via the 1.0000 score) — not actionable, just
+further corroboration.
 
 ## Recorded in CLAUDE.md
 
-Full writeup appended directly after the existing W3 investigation
-section.
+Full writeup appended to the W3 investigation section.
 
 ## Still open
 
 - Reconciliation: **1.0000, solved.**
-- Workflow: **0.9444** (W1 8/8, W2 8/8, W3 5/6) — W3 remains genuinely
-  unexplained after two separate deep investigations
-- Knowledge (0.75): attempt count from before today's reset — check
-  current count before spending; likely the better place to spend
-  remaining effort today given W3 has no surviving lead
+- Workflow: **0.9444** (W1 8/8, W2 8/8, W3 5/6) — three separate deep
+  investigations now, zero surviving hypotheses; both zero-risk phases
+  this review specified are exhausted. Per that review's own decision
+  rule, pivoting to Knowledge.
+- Knowledge (0.75): next up — check current attempt count before
+  spending
 - Migration: 1.0000, already solved
 - Repo: local commits through this round; not yet pushed — push only on
   explicit request
