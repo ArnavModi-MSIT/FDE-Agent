@@ -1097,6 +1097,57 @@ disproven and reverted) → back to 0.7500 (K-04's original answer now
 confirmed correct, not just assumed). 3 of 5 daily attempts used, 2
 remain.
 
+### 2026-09-08: full byte-for-byte audit against the live vault + real rules text — no error found, one hypothesis actively ruled out
+
+Applied the same methodology that found the UOM bug: fetch the actual
+organizer-authored reference (not our own transcription of it) and
+diff against it directly. Fetched all 4 policy documents' full `body`
+text from `GET /vault/documents` and compared every one of the 12
+answers against the literal source, word for word:
+
+- **K-09** (`"10% of invoice value"`) is a **direct quote** from WRP-2020
+  s3.1 (`"a restocking charge of 10% of invoice value"`).
+- **K-05**'s document list matches VOS-7's procedure table (step 2)
+  word for word.
+- **K-06** (`"Rs 2,00,000"`) matches VOS-7's trial-PO line exactly.
+- All 4 PP-2023-governed figures used by K-01/02/03/08/10/12 (discount
+  bands, 30/60-day credit, buyer-always-bears-freight, 15-day notice)
+  match sections 2–5 exactly, and neither tested order value (K-01's
+  ₹7.2L, K-08's ₹4.2L) sits anywhere near a band boundary.
+
+**No content error survived this pass** — unlike UOM, there is no
+organizer reference *implementation* to disagree with; the PDFs
+themselves are already what `policy_kb.py` was transcribed from, and
+this re-check confirms the transcription is still accurate.
+
+**Then fetched the actual competition rules page live** (not from
+memory or an old screenshot) specifically to settle `governing_source`
+granularity — the one genuinely untested dimension flagged since the
+first Knowledge submission. **R-08's exact text**: *"Each question is
+worth 0.5 for the correct answer and 0.5 for citing the governing source
+document. Where the 2019 and 2023 policies conflict, the governing
+source is the one that actually applies on the transaction date."*
+
+**This is decisive, not neutral**: the rules' own canonical example of
+"governing source" is choosing between **two whole documents** (PP-2019
+vs PP-2023), not a section or addendum within one document. That's real
+evidence `governing_source` is meant at document-code granularity
+exactly as already implemented (`"WRP-2020"`, `"PP-2023"`, etc.) — and
+it specifically **argues against** the one candidate hypothesis being
+considered (citing K-04 as `"WRP-2020 Addendum A"` instead of
+`"WRP-2020"`). That hypothesis is now ruled out by real text, not just
+left untested — the attempt would very likely have regressed, similar
+to K-07's guess.
+
+**State after this audit: no surviving hypothesis for Knowledge's
+~0.25 gap.** Content re-verified against literal source text, source
+-citation granularity re-verified against literal rules text — both
+come back confirming the current implementation, not revealing an
+error. Matches the exact shape of W3's outcome the same day: a
+thorough, real, zero-risk audit that closes candidate hypotheses rather
+than opening a new lever. Holding the remaining Knowledge attempt(s)
+rather than spending on a guess with no evidence behind it.
+
 ### Free investigation sweep against real sandbox data (2026-09-07) — governing_source format settled, no new Reconciliation lever found
 
 An external score-improvement plan (fed this file) proposed testing

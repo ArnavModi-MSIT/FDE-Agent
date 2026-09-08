@@ -4,53 +4,49 @@
 quick "what just happened and why" for a human checking in — the full
 project record with all context/rationale lives in `CLAUDE.md`.
 
-## Ran the recommended zero-risk W3 investigation (Phase A + B) — both empty
+## Applied the UOM methodology to Knowledge — no error found, one hypothesis ruled out
 
-A follow-up review recommended two specific, zero-risk checks before
-touching any code: inspect every field on every live customer, and
-search every ticket/email for explicit "which record survives a merge"
-language. Ran both for real.
+Fetched the actual policy PDF text live from `GET /vault/documents` and
+diffed all 12 Knowledge answers against it word for word, instead of
+trusting our own earlier transcription.
 
-## Phase A: full field inspection
+## Content: verified clean
 
-All 85 `/crm/customers` rows share exactly one key-set — `legacy_id,
-crm_id, customer_name, tier, region, credit_terms_days,
-migrated_to_salestrack, merged_into`. No hidden timestamp, status,
-parent, or source-system field exists anywhere. This closes the "hidden
-state" and "existing `merged_into` matters" hypotheses definitively —
-there's structurally nothing else in the schema to use.
+- K-09's `"10% of invoice value"` is a direct quote from WRP-2020.
+- K-05's document list matches VOS-7's procedure table exactly.
+- K-06's `"Rs 2,00,000"` matches the trial-PO line exactly.
+- All PP-2023 figures (discount bands, credit terms, freight, notice
+  days) match sections 2–5 exactly; neither tested order value sits near
+  a band boundary.
 
-## Phase B: destination-language and name-transformation search
+No content error survived this pass.
 
-Searched all 18 tickets + 14 emails for explicit survivor language
-("keep X", "is the master", "legacy record", "canonical", "do not
-merge", etc.) and for other name-transformation hints (PVT/LTD/COMPANY/
-punctuation, beyond the already-found `AND`↔`&`). **Zero matches
-anywhere.** No organizer text says which record should survive, and no
-second transformation rule exists.
+## governing_source: settled by the actual rules text, not a guess
 
-## A real bonus find, unrelated to W3
-
-**Email EM-111** ("Boxes vs numbers on spares") describes the exact same
-UOM scenario as FIX-3418, independently: *"Totals match so finance
-clears it, but stores count never ties out... fix the UOM."* A third
-independent source confirming today's UOM revert was the right call
-(already proven for real via the 1.0000 score) — not actionable, just
-further corroboration.
+Fetched the live rules page directly. **R-08's exact wording**: *"0.5
+for citing the governing source document. Where the 2019 and 2023
+policies conflict, the governing source is the one that actually
+applies on the transaction date."* The organizers' own example is
+choosing between **two whole documents**, not a section/addendum within
+one. That's real evidence document-level citation (already what's
+implemented) is correct — and it **specifically rules out** the one
+candidate hypothesis under consideration (K-04 as `"WRP-2020 Addendum
+A"` instead of `"WRP-2020"`). Good that this wasn't submitted as a
+guess — the rules text argues against it.
 
 ## Recorded in CLAUDE.md
 
-Full writeup appended to the W3 investigation section.
+Full writeup added to the Knowledge section, right after the existing
+experiment log.
 
 ## Still open
 
 - Reconciliation: **1.0000, solved.**
-- Workflow: **0.9444** (W1 8/8, W2 8/8, W3 5/6) — three separate deep
-  investigations now, zero surviving hypotheses; both zero-risk phases
-  this review specified are exhausted. Per that review's own decision
-  rule, pivoting to Knowledge.
-- Knowledge (0.75): next up — check current attempt count before
-  spending
+- Workflow: **0.9444** — W3 (5/6) unexplained after three investigations
+- Knowledge: **0.7500** — content and source-citation format both
+  re-verified against literal organizer text with no error found; no
+  surviving hypothesis. Holding the remaining attempt(s) rather than
+  guessing.
 - Migration: 1.0000, already solved
 - Repo: local commits through this round; not yet pushed — push only on
   explicit request
