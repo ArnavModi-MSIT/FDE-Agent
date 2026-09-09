@@ -1599,6 +1599,53 @@ probed 23 across two sweeps). W3 stays closed at 5/6. Their W2
 `value_at_risk` of Rs 8,84,04,135.42 matches ours exactly — independent
 corroboration of that figure's definition.
 
+### 2026-09-09: exhaustive GitHub sweep, and what the public leaderboard's per-family data proves
+
+**The GitHub search is now as complete as an unauthenticated client can
+make it.** Roughly 40 repository-search queries across every naming
+convention worth trying — the competition name and its slug, the
+organisers (MachineHack, AIM Media House, Analytics India Magazine), the
+fictional company (DRI, Deshmukh & Rao Industries, Drishti Pumps), the
+task vocabulary (reconciliation/knowledge/workflow/migration, SalesTrack,
+FlowTech, VOS-7, the eight status labels), plus user-account searches for
+every named leaderboard participant. **Exactly one public repo for this
+competition exists**: `MJenius/Great-Indian-FDE-Project`, already mined
+above. It has no forks and no sibling repos.
+
+**A real and permanent limit on this search, stated plainly**: GitHub's
+*code* search API returns `401 Requires authentication`, and the public
+mirrors that would route around it (grep.app, searchcode) are behind bot
+protection. So this sweep covers repository names, descriptions, topics
+and READMEs only. A repo that never names the competition in its
+metadata would not be found this way. That is a genuine blind spot, not a
+proof of absence.
+
+**One placeholder worth re-checking**: `kundanc2/FDE-Hackathon`, created
+2026-09-09 and still empty (0 bytes). The leaderboard's rank 12 is
+"kundan choudhary". If that repo is populated later it becomes a second
+data source.
+
+**The public leaderboard's `per_family` breakdown is the more valuable
+find of the two.** All 16 entrants, with family scores:
+
+| Family | Entrants at a perfect score | What that proves |
+|---|---|---|
+| Reconciliation | 14 of 16 | 1.0000 is routine; ours is already there |
+| Migration | 6 | ours is already there |
+| **Workflow** | **6** | **W3 6/6 is reachable — see the correction in W3's own section** |
+| **Knowledge** | **1** (bhasker) | 24/24 is reachable, but by only one entrant |
+
+Knowledge is where the field actually separates, exactly as the earlier
+24ths analysis predicted: the answer counts run 24, 21, 20, 20, 19, 20,
+18, 19 (ours), 12, 19, 16, 19, 0, 0, 0, 18.
+
+**MJenius MJ sits at rank 6 with Knowledge 0.8333 and Workflow 0.9444.**
+Both numbers corroborate the repo analysis directly: the 0.8333 recorded
+in their `attempts_comparison.csv` is their *live current best*, not a
+stale artefact, which is what makes the v7 replication a sound prediction
+rather than a guess. And their 0.9444 is the identical W1 8/8, W2 8/8,
+W3 5/6 profile as ours — two independent teams stalled on the same check.
+
 ### Free investigation sweep against real sandbox data (2026-09-07) — governing_source format settled, no new Reconciliation lever found
 
 An external score-improvement plan (fed this file) proposed testing
@@ -2388,10 +2435,30 @@ approximately right** — and therefore the 6th check is *orthogonal to
 copied) and `migrated_to_salestrack` (set to `N`) all leaving W3 at 5/6,
 **every configuration of every writable field has now been tested.**
 
-**Conclusion: W3's 6th check is not reachable through anything the API
-exposes.** Six hypotheses, all measured against the free preview, **zero
-scoring runs spent on W3 across the entire project.** Closed for good
-unless the organizers expose something new.
+**Conclusion as recorded at the time: W3's 6th check is not reachable
+through anything the API exposes.** Six hypotheses, all measured against
+the free preview, **zero scoring runs spent on W3 across the entire
+project.**
+
+**CORRECTED 2026-09-09 by real leaderboard evidence — that conclusion is
+wrong.** The public leaderboard's `per_family` breakdown shows **6 of 16
+participants at Workflow = 1.0000** (bhasker, Sanjay Prasad, Sripathi
+Mohanasundaram, Sanskriti, Akash Kapoor, Nikit Singh Kanyal). Workflow is
+the mean of W1/W2/W3, so a 1.0000 requires **W3 at a full 6/6**. The 6th
+check is therefore demonstrably reachable, exactly as the same kind of
+evidence once proved Reconciliation's 1.0000 was reachable while this
+file was theorising about an inherent ceiling. What is genuinely
+established is narrower than what was written: every configuration of the
+three writable `/crm/customers` fields *that we thought of* leaves W3 at
+5/6, and any deviation from the exact 45-merge map collapses it to 0/6.
+The unexamined space is what action *outside* those three fields the 6th
+check observes. **W3 is reopened, not closed** — and since the check-count
+preview is free, further hypotheses still cost no scoring run.
+
+**One independent corroboration of the difficulty**: MJenius MJ (rank 6),
+the entrant whose public repo is analysed above, also sits at Workflow
+0.9444 — the identical W1 8/8, W2 8/8, W3 5/6 profile. Two independent
+teams stalled on the same check, while six others cleared it.
 
 ### W3: closing the investigation — state of knowledge
 
@@ -2419,7 +2486,11 @@ which EM-106 argues directly against (*"names in caps"* is named as a
 duplicate pattern) and which the newly-proven check strictness predicts
 would fail the "all duplicates merged" property outright.
 
-**Decision: stop W3 at 5/6.** The opportunity cost settles it —
+**Decision as recorded at the time: stop W3 at 5/6** (superseded — see
+the 2026-09-09 leaderboard correction above, which proves 6/6 is
+reachable; the opportunity-cost reasoning below still stands for
+*sequencing*, since Knowledge remains the larger and better-informed
+prize, but W3 is no longer written off). The opportunity cost settles it —
 W3's last check is worth `(1/6 ÷ 3) × 0.30 ≈ +1.67` composite points
 with no evidenced lead left, while Knowledge's 6 wrong answers are
 worth `0.25 × 0.20 = +5.0` points **and** are now precisely localized
