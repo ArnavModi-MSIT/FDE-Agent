@@ -1,0 +1,13 @@
+qid,answer,governing_source
+K-01,10%,PP-2023
+K-02,30 days,PP-2023
+K-03,Buyer,PP-2023
+K-04,24 months from despatch,WRP-2020
+K-05,"At onboarding a new vendor must submit the GST registration certificate, a cancelled cheque, and an MSME declaration where applicable. Under VOS-7 these are collected by Procurement at step 2 of the onboarding procedure, and all onboarding documents must be filed in The Vault under /Vendors/<vendor code>/ within 7 days of vendor code creation.",VOS-7
+K-06,"Rs 2,00,000. Under VOS-7 the trial purchase order, raised by Procurement at step 6 of the onboarding procedure, is capped at Rs 2,00,000; the vendor is then confirmed or retired at the 90-day performance review.",VOS-7
+K-07,CFO,VOS-7
+K-08,Nil,PP-2023
+K-09,A restocking charge of 10% of invoice value applies to unused goods in original packing returned within 30 days of despatch; made-to-order items are not returnable.,WRP-2020
+K-10,15 days,PP-2023
+K-11,June 2026,WRP-2020
+K-12,60 days,PP-2023
