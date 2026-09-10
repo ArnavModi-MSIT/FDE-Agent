@@ -2778,3 +2778,54 @@ three writable fields tested in every configuration, and both survivor
 orientations tested — and effort belongs back on Knowledge, where four
 identified answers are worth `4/24 × 0.20 = +3.33` composite points against
 W3's remaining `+1.67`.
+
+### Hypothesis 8 — reversed survivor: DISPROVEN, and it overturns this file's model of the grader
+
+Flipping the surviving record in all 10 SalesTrack-identity groups (e.g.
+`C-5001` -> `C-5041`, repointing the 3-way third members) left **W3 at
+5/6, unchanged**. Restored from snapshot. Zero scoring runs spent.
+
+**The important part is not the disproof — it is what 5/6 implies.** This
+file previously concluded: *"the grader evidently derives the expected merge
+map and gates the merge-related checks on matching it exactly."* **That is
+now false.** Reversing the direction of 10 of the 45 merges — a materially
+different map, with 10 different records surviving — cost **nothing**. So
+the merge checks are **direction-agnostic and structural**, not an
+exact-map comparison.
+
+That retro-explains the two 0/6 collapses without any exact-map theory:
+
+| State | Structural property broken | W3 |
+|---|---|---|
+| merge chains | targets must not themselves be merged | 0/6 |
+| 5 ALL-CAPS unmerged | every duplicate must be merged | 0/6 |
+| reversed survivor, 10 groups | none — every group still collapses to exactly one unmerged survivor | **5/6** |
+
+So W3's checks test *properties of the collapsed graph*, and our state
+satisfies five of them in every arrangement we can produce.
+
+### W3: exhausted from the API side, and why we stop here
+
+Everything reachable has now been measured, not argued:
+
+- **Writable surface proven** by a 29-field probe — only `crm_id`,
+  `migrated_to_salestrack`, `merged_into` are accepted; 26 plausible dedup
+  and lifecycle field names return `Unknown field(s)`.
+- **`merged_into`**: correct map, chains, omitted duplicates, and reversed
+  survivor — all tested.
+- **`crm_id`**: cleared (bundled and alone), swapped, copied from survivor
+  — all tested.
+- **`migrated_to_salestrack`**: de-migrated — tested.
+- **Tickets**: closure tested directly, not graded.
+- **Reports**: no W3 endpoint exists (9 routes probed, all 404).
+
+Eight hypotheses, **zero scoring runs spent on W3 across the entire
+project**, and every state restored and re-verified CLEAN.
+
+**Decision: stop W3 at 5/6 and put the effort on Knowledge.** This is
+opportunity cost, not defeat — W3's last check is worth
+`(1/6 ÷ 3) × 0.30 ≈ +1.67` composite points with no lead left, while
+Knowledge's four wrong answers are worth `4/24 × 0.20 = +3.33` **and** are
+one measurement away from being individually named. Six entrants hold W3 at
+6/6, so it remains solvable; it reopens the moment genuinely new evidence
+appears, not on another permutation of the same three fields.
