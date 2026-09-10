@@ -287,3 +287,36 @@ other seven and all 12 sources real. Splits the 10 unknowns 5/5.
 | 0.7917 | 5 | 1 |
 
 0.8333 is banked, so this costs nothing but an attempt.
+
+### Diagnostic result: 0.7083, so c = 3 — the four wrong answers split 2 and 2
+
+| Group | Correct | Wrong |
+|---|---|---|
+| K-01, K-02, K-03, K-05, K-06 | 3 | **2** |
+| K-07, K-08, K-10, K-11, K-12 | 3 | **2** |
+| K-04, K-09 | 2 (proven) | 0 |
+
+**The first group is unchanged from the old baseline** — it held 3 correct
+then (1 wrong in {K-01,K-02,K-03}, 1 wrong in {K-05,K-06}) and holds 3
+now. So the 001 verbose forms of **K-03 and K-06 fixed nothing**; those
+two trios still each carry their original wrong answer.
+
+**Therefore the flip from 7 to 8 correct happened in the second group**,
+and only three readings survive:
+1. K-07's `CFO (projected annual spend above Rs 10,00,000)` is correct;
+2. K-08's `Nil (0%)` is correct;
+3. both are still wrong and 001's K-10 or K-11 form fixed that trio.
+
+Reading 3 would mean all three of K-10/K-11/K-12 are now correct, which
+forces both remaining second-group wrongs onto K-07 and K-08.
+
+### Next diagnostic: `knowledge_diag_k07_k08.csv`
+
+Corrupts only K-07 and K-08. `score = (20 − x)/24` where `x` = how many of
+the two are currently correct.
+
+| Score | x | What it means |
+|---|---|---|
+| 0.8333 | 0 | both still wrong; the fix was K-10 or K-11, and K-07/K-08 are the last two wrongs in this group |
+| 0.7917 | 1 | one is finally solved after 11 burned variants — a live template for the other |
+| 0.7500 | 2 | both solved; the group's two wrongs sit in K-10/K-11/K-12 instead |
