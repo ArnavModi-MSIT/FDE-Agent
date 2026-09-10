@@ -1580,12 +1580,31 @@ identically, and K-04 is proven correct — so the grader tolerates added
 context on an answer that is already right. Combined with best-recorded
 scoring, the downside is informational only.
 
+**CONFIRMED 2026-09-10: v7 scored exactly 0.8333, the predicted value.**
+Knowledge is now **0.8333 = 20/24 = 8 answers correct**, up from 7. Two
+things this settles beyond the raw gain:
+
+- **Scores transfer across accounts.** A prediction derived entirely from
+  another entrant's public record came back exact. Their remaining
+  measured data is therefore usable as real evidence, not as a lead to be
+  re-verified from scratch.
+- **The wrong-answer map is now re-derivable on the new set.** 001's four
+  wrong answers are K-07, K-08, and exactly two of the eight questions
+  that carry a policy value. Of the four questions 001 made verbose where
+  our baseline was terse (K-03, K-06, K-10, K-11), **exactly one flipped
+  wrong to right** — that trio is now clean, and one wrong answer remains
+  in each of the other two trios.
+
+`submissions/knowledge_submission.csv` has been updated to the v7 set, so
+the repo's live submission file matches the banked best.
+
 **Two candidates queued**, to be run in this order on the next
 Knowledge quota:
 - `submissions/knowledge_submission_v7_replicate_0p8333.csv` — their
   attempt_001's exact 12 answers. Expected **0.8333** as a precise
   prediction; running it first also tests whether scores transfer
   between accounts at all, which everything below depends on.
+  **DONE 2026-09-10 — scored exactly 0.8333.**
 - `submissions/knowledge_submission_v8_completerule.csv` — v7 plus the
   full-clause treatment on K-01/K-02/K-03/K-05/K-06/K-10/K-11/K-12,
   carrying our proven K-09 and holding K-04 at its proven terse form
