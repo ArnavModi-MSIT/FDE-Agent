@@ -364,3 +364,37 @@ count separates them and tests the K-01/K-08 correlation at the same time.
 | 0.8333 | both wrong → **all four wrongs identified**: K-01, K-05, K-07, K-08, and the discount-question correlation is confirmed |
 | 0.7917 | exactly one wrong → ambiguous, narrows six combinations to three |
 | 0.7500 | both correct → **K-06 is the wrong one**, and the trio's wrong is K-02 or K-03 |
+
+### K-01/K-05 diagnostic: 0.7917 — exactly one of the two is correct
+
+That eliminates three of the six combinations and leaves precisely three:
+
+| # | Wrong in K-01/K-02/K-03 | Wrong in K-05/K-06 |
+|---|---|---|
+| A | **K-01** | **K-06** |
+| B | **K-02** | **K-05** |
+| C | **K-03** | **K-05** |
+
+Two structural facts fall out: K-01 is wrong **only** in the combination
+where K-06 is also wrong, and K-05 is wrong **only** where the trio's
+wrong answer is K-02 or K-03.
+
+### One test resolves all three: `knowledge_diag_k02_k05.csv`
+
+Corrupting K-02 and K-05 gives a different count under every surviving
+combination, so a single attempt identifies all four wrong answers.
+
+| Score | Combination | The four wrong answers |
+|---|---|---|
+| 0.7500 | A | K-01, K-06, K-07, K-08 |
+| 0.8333 | B | K-02, K-05, K-07, K-08 |
+| 0.7917 | C | K-03, K-05, K-07, K-08 |
+
+Run this first tomorrow. It leaves four attempts to act on a fully
+identified target.
+
+### Today's net (2026-09-10)
+
+Knowledge **0.7917 → 0.8333** banked, and the wrong-answer set went from
+"four somewhere among ten" to three named combinations resolvable in one
+more measurement. Five attempts spent, none guessed.
