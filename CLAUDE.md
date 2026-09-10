@@ -1580,6 +1580,27 @@ identically, and K-04 is proven correct — so the grader tolerates added
 context on an answer that is already right. Combined with best-recorded
 scoring, the downside is informational only.
 
+**Correction (2026-09-10): the claim that complete-rule phrasing is
+"proven safe" on already-correct answers is overstated.** v8 changed eight
+answers against v7 — K-01, K-02, K-03, K-05, K-06 *and* the proven-correct
+K-10, K-11, K-12 — and both sets score 8. That is consistent with nothing
+changing status, but equally consistent with one fix offsetting one
+breakage. Recorded as unproven, not settled.
+
+**Organizer text corroborates the CONTENT of every unresolved candidate
+(2026-09-10).** All 18 tickets and 14 emails were searched: FIX-3407 /
+EM-101 / EM-102 confirm K-01's 10% on the exact Rs 7,20,000 order;
+FIX-3440 confirms K-02's 30 days over the old-timers' 45; FIX-3430 /
+EM-113 confirm K-03's ex-works reading on the exact Rs 3 lakh order;
+FIX-3455 confirms K-06's trial cap; FIX-3444 / EM-107 confirm K-07's
+CFO-plus-Plant-Head-plus-QA. **So the remaining wrong answers are not
+policy misreadings** — the substance matches the organizers' own words in
+every case, which means the failure is in expression. One never-tested
+expression lead follows from the same search: the PDFs write `Rs 2,00,000`
+while the organizers' own tickets and emails write amounts in **lakh**
+(*"Rs 14 lakh"*, *"Rs 3.5 lakh"*). K-06 is the only unresolved candidate
+with a monetary answer.
+
 **CONFIRMED 2026-09-10: v7 scored exactly 0.8333, the predicted value.**
 Knowledge is now **0.8333 = 20/24 = 8 answers correct**, up from 7. Two
 things this settles beyond the raw gain:

@@ -433,3 +433,60 @@ clause, K-10/K-11's governing rules, and whatever resolves the last four)
 back into `policy_kb.py`/`answering.py` so the engine regenerates the best
 set on its own. Not done yet — the last four answers are still unlocated,
 so there is nothing final to encode.
+
+---
+
+## 2026-09-10, later: organizer text checked for every candidate, and a correction
+
+### Correction: "complete-rule is safe on correct answers" was overstated
+
+Recovering v8's exact submitted content from git shows it changed **eight**
+answers against v7 — K-01, K-02, K-03, K-05, K-06, **and K-10, K-11,
+K-12** — holding only K-04, K-07, K-08 and K-09. (An earlier note in this
+project said v8 kept K-03 at the 001 form. It did not.)
+
+Both sets score 8 correct. The simplest reading is that no answer changed
+status. But an equally consistent reading is that complete-rule **fixed**
+one of K-01/K-02/K-03/K-05/K-06 and **broke** one of the proven-correct
+K-10/K-11/K-12, netting zero. So complete-rule phrasing is **not proven
+safe** on correct answers — it is only *consistent* with being safe. Treat
+the earlier claim as unproven.
+
+This does not affect the queued diagnostic, which is built on the v7 set
+and localizes the v7 wrong answers.
+
+### Organizer text independently corroborates the CONTENT of five candidates
+
+All 18 tickets and 14 emails were searched for statements bearing on each
+unresolved question. The content of our answers is confirmed by the
+organizers' own words in every case:
+
+| Q | Organizer source | What it confirms |
+|---|---|---|
+| K-01 | FIX-3407, EM-101, EM-102 | *"10 percent for the 5 to 15 lakh slab"*, and *"10 percent stands"* on the exact Rs 7,20,000 order |
+| K-02 | FIX-3440 | *"whether Gold distributors get 45 or 30 days. Old timers say 45. Policy PDF says otherwise"* — so 30 |
+| K-03 | FIX-3430, EM-113 | *"Post-Oct 2023 everything is ex-works"* on the exact Rs 3 lakh order |
+| K-06 | FIX-3455 | the Rs 3.5 lakh first order is refused because the trial cap applies |
+| K-07 | FIX-3444, EM-107 | *"CFO sign-off plus plant head and QA clearance as direct material"* at Rs 14 lakh |
+
+**This contradicts the leading hypothesis in the external plan** — the
+remaining wrong answers are not us misreading the policy. Every candidate
+answer's substance is what the organizers themselves state. Whatever is
+failing is in how the answer is *expressed*, not what it says.
+
+### One untested expression lead, grounded in organizer usage
+
+The policy PDFs write amounts as `Rs 2,00,000`. The organizers' own
+tickets and emails consistently write them as **lakh**: *"Rs 7.2 lakh"*,
+*"Rs 3 lakh"*, *"Rs 14 lakh"*, *"Rs 3.5 lakh"*. Among the unresolved
+candidates only **K-06** has a monetary answer, so `Rs 2 lakh` is a real,
+never-tested variant with actual organizer usage behind it.
+
+Weak counter-signal for the percentage questions: the same emails write
+*"10 percent"* rather than `10%`, but K-09's winning answer uses `10%` and
+is proven correct, so the symbol form is fine at least there.
+
+### Plan unchanged
+
+Run `knowledge_diag_k02_k05.csv` first tomorrow. Localize, then spend the
+remaining four attempts only on identified qids.
