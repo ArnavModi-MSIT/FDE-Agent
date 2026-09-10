@@ -2729,3 +2729,52 @@ isolation (`--mode clear-id-keep-migrated`, `--mode unmigrate-keep-id`),
 touching only the 45 duplicates and only one field, with `--restore`
 rewriting both fields for all 85 rows from the snapshot. **Measured against
 the free check-count preview — no scoring run.**
+
+### Hypothesis 7 — unbundled duplicate identity: DISPROVEN (2026-09-10)
+
+`clear-id-keep-migrated` (45 duplicates get `crm_id = null`, migration left
+at `"Y"`) — **W3 unchanged.** Restored from snapshot, all 85 rows verified
+CLEAN. Zero scoring runs spent.
+
+That closes `crm_id` and `migrated_to_salestrack` completely: each has now
+been tested **alone and bundled**, across cleared, swapped, copied and
+de-migrated states. The mirror mode (`unmigrate-keep-id`) is not worth
+running — the bundled pair and the clear-id half both returned 5/6, so the
+remaining half is all but certain to as well, and it breaks M3's explicit
+"flip every customer to Y" instruction for no measurable gain.
+
+### The one structurally distinct idea left: WHO survives the merge
+
+**A real flaw in this file's own earlier reasoning.** The conclusion "any
+deviation from our exact merge map collapses to 0/6, therefore our map is
+exactly right" rests on two deviations that were both *structurally
+catastrophic*: merge chains break the decoded "targets must not themselves
+be merged" check, and leaving 5 duplicates unmerged breaks "all duplicates
+merged". Neither tells us anything about a map that stays internally valid
+but picks a **different survivor**. Every W3 experiment so far permuted the
+three writable fields while holding the survivor choice fixed and
+unquestioned — the clean mixed-case name always wins.
+
+**The evidenced version**: EM-106 says several distributors *"exist as
+legacy C- codes **and again in SalesTrack**"*. Reconstructing the pre-M3
+state shows **10 groups** where the clean-named original had no SalesTrack
+id while a duplicate carried a genuine pre-existing one. Under the reading
+that the SalesTrack record is the surviving master and the legacy C- record
+is the stale duplicate, the merge direction for exactly those 10 groups is
+backwards.
+
+`scripts/w3_experiment_reverse_survivor.py` flips them (e.g. `C-5001` ->
+`C-5041` holding `ST-24255`), repointing third members of the 3-way groups
+so every group keeps exactly one unmerged survivor and no target is itself
+merged — the map stays **internally valid**, which is what makes this a
+genuine test rather than a repeat of the two catastrophic deviations.
+
+Honest counter-evidence, recorded rather than argued away: W3's brief says
+*"Merge each duplicate into its original"*, which reads for the clean name
+surviving. The preview is free, so this is settled by measurement.
+
+**If this also returns 5/6, W3 is genuinely exhausted from this side** —
+three writable fields tested in every configuration, and both survivor
+orientations tested — and effort belongs back on Knowledge, where four
+identified answers are worth `4/24 × 0.20 = +3.33` composite points against
+W3's remaining `+1.67`.
