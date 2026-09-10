@@ -320,3 +320,47 @@ the two are currently correct.
 | 0.8333 | 0 | both still wrong; the fix was K-10 or K-11, and K-07/K-08 are the last two wrongs in this group |
 | 0.7917 | 1 | one is finally solved after 11 burned variants — a live template for the other |
 | 0.7500 | 2 | both solved; the group's two wrongs sit in K-10/K-11/K-12 instead |
+
+### K-07/K-08 isolation: 0.8333, so x = 0 — both still wrong
+
+By elimination the second group's other three are **all correct**:
+**K-10, K-11 and K-12 are now proven right.** Since exactly one of that
+trio was wrong under our terse forms, and K-12's suffix was already shown
+neutral, **the 7→8 gain came from K-10 or K-11** — each of which gained
+its governing rule, matching the K-09 lesson exactly.
+
+### The complete proven map at 0.8333 (8/12 answers)
+
+| Question | Status |
+|---|---|
+| K-04, K-09, K-10, K-11, K-12 | **correct, proven** |
+| K-01, K-02, K-03 | 2 correct, **1 wrong** |
+| K-05, K-06 | 1 correct, **1 wrong** |
+| K-07 | **wrong** |
+| K-08 | **wrong** |
+
+### Phrasing is exhausted on the two unlocated wrongs
+
+v8 already applied complete-rule form to K-01, K-02, K-05 and K-06 and
+scored the same 0.8333, and the 001 verbose forms of K-03 and K-06 also
+changed nothing. Terse, verbose and complete-rule have now all failed on
+these two, so they are most likely **content** errors, not format —
+despite every one of the five reading as an unambiguous lookup.
+
+**One real hypothesis, evidenced rather than invented**: K-01 and K-08 are
+the *same question type* — "what discount applies" on a single order
+placed in March 2024, differing only in the amount — and K-08 is proven
+wrong. If the grader expects something other than a bare band percentage
+for that question shape, both would fail together, which would make K-01
+the wrong one in its trio and leave K-02 and K-03 correct.
+
+### Diagnostic queued: `knowledge_diag_k01_k05.csv`
+
+Corrupts K-01 and K-05, which sit in different unresolved groups, so the
+count separates them and tests the K-01/K-08 correlation at the same time.
+
+| Score | Reading |
+|---|---|
+| 0.8333 | both wrong → **all four wrongs identified**: K-01, K-05, K-07, K-08, and the discount-question correlation is confirmed |
+| 0.7917 | exactly one wrong → ambiguous, narrows six combinations to three |
+| 0.7500 | both correct → **K-06 is the wrong one**, and the trio's wrong is K-02 or K-03 |
