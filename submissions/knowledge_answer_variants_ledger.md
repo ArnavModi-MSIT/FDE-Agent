@@ -398,3 +398,38 @@ identified target.
 Knowledge **0.7917 → 0.8333** banked, and the wrong-answer set went from
 "four somewhere among ten" to three named combinations resolvable in one
 more measurement. Five attempts spent, none guessed.
+
+---
+
+## Housekeeping (2026-09-10): spent CSVs removed, and a real hazard named
+
+Every spent diagnostic and superseded candidate CSV was deleted. Each
+one's *outcome* is recorded above, which is the part that has value — the
+files themselves were single-use and are recoverable from git history if
+ever needed. Four CSVs remain outside `dataset/`:
+
+| File | Why it stays |
+|---|---|
+| `submission.csv` | the Reconciliation submission scoring 1.0000 |
+| `knowledge_submission.csv` | current best answer set (v7 content) |
+| `knowledge_submission_v7_replicate_0p8333.csv` | protected copy of the banked best — see the hazard below |
+| `knowledge_diag_k02_k05.csv` | queued as tomorrow's first submission |
+
+**Hazard worth knowing before running anything.**
+`scripts/run_knowledge.py` writes to `submissions/knowledge_submission.csv`,
+but the Knowledge *engine* still produces the original terse answers —
+the 0.8333 set is hand-authored and the engine has never been updated to
+emit it. **Running `run_knowledge.py` therefore silently overwrites the
+banked best with a 0.7500-scoring file.** That is why the v7 copy is kept
+under its own name: it is the one artefact the script cannot clobber.
+Restore with:
+
+```
+cp submissions/knowledge_submission_v7_replicate_0p8333.csv submissions/knowledge_submission.csv
+```
+
+The clean long-term fix is to fold the proven answers (K-09's complete
+clause, K-10/K-11's governing rules, and whatever resolves the last four)
+back into `policy_kb.py`/`answering.py` so the engine regenerates the best
+set on its own. Not done yet — the last four answers are still unlocated,
+so there is nothing final to encode.

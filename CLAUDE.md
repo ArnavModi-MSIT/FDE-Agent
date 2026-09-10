@@ -2579,6 +2579,28 @@ its 3 tasks; "wiping rows instead of correcting them scores zero":
 
 ---
 
+## 9b. A hazard to know before running the Knowledge engine
+
+`scripts/run_knowledge.py` writes to `submissions/knowledge_submission.csv`,
+but the Knowledge engine still emits the **original terse answers**. The
+current best set (0.8333) is hand-authored — the engine was never updated
+to produce it. **Running that script silently overwrites the banked best
+with a file that scores 0.7500.**
+
+`submissions/knowledge_submission_v7_replicate_0p8333.csv` is kept as the
+protected copy the script cannot touch. Restore with:
+
+```bash
+cp submissions/knowledge_submission_v7_replicate_0p8333.csv submissions/knowledge_submission.csv
+```
+
+The proper fix is to fold the proven answers back into `policy_kb.py` /
+`answering.py` so the engine regenerates the best set itself. Deferred
+deliberately: the last four wrong answers are still unlocated, so there is
+nothing final to encode yet.
+
+---
+
 ## 10. How to run
 
 ```bash
