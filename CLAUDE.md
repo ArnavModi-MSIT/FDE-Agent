@@ -2675,3 +2675,57 @@ neither `pandas` nor `pytest` installed.
 - **Rewrite `UPDATE.md` completely on every real change** — it is never
   appended to, only replaced. It exists purely as a fast "what just
   happened" check-in; this file stays the source of truth for *why*.
+
+---
+
+## 12. W3 reopened (2026-09-10) — the writable surface is now proven, not asserted
+
+Six of sixteen leaderboard entrants have Workflow at 1.0000, which requires
+W3 at 6/6, so the sixth check is reachable and this project's earlier
+"not reachable through anything the API exposes" conclusion was wrong.
+
+**The writable surface is now proven by direct measurement, not by reading
+the docs.** `scripts/w3_probe_writable_fields.py` sends 29 candidate field
+names to `PATCH /crm/customers/{id}`. Twenty-six plausible dedup and
+lifecycle names — `status`, `active`, `is_active`, `archived`, `deleted`,
+`merged`, `merged_from`, `duplicate_of`, `master_id`, `parent_id`,
+`canonical_id`, `survivor_id`, `golden_record`, `merge_status`,
+`source_system`, `salestrack_id`, `notes` and others — all return
+`400 {"error":"Unknown field(s): ..."}`. Only **`crm_id`,
+`migrated_to_salestrack` and `merged_into`** are accepted. The
+"hidden writable field" theory is now closed with evidence.
+
+**A real side-finding: the API validates field NAMES but not VALUES.** It
+accepted `merged_into: "__W3_PROBE__"` — pointing at a customer that does
+not exist — and equally accepted that string as a `migrated_to_salestrack`
+value. There is no referential integrity on writes, so every consistency
+rule lives in the grader, not the API. That is consistent with the
+decoded baseline check ("`merged_into` must point to a record that is not
+itself merged") being enforced only at scoring time. The probe left
+`C-5041` dirty; it was restored immediately and all 85 rows re-verified
+CLEAN against `submissions/state_snapshots/`.
+
+**What this leaves — one genuinely untested hypothesis.** Hypothesis 1
+changed *two* things at once on the 45 duplicates (`crm_id` → null **and**
+`migrated_to_salestrack` → `"N"`), scored W3 5/6 with M3 collapsing
+5/5 → 1/5, and both halves were abandoned together. A bundled null result
+does not rule out either half alone. Exactly one property is false at the
+seed baseline *and* false today — the signature of the never-passing
+check:
+
+> a merged duplicate must not hold its own SalesTrack identity
+
+At seed the duplicates carried their own `crm_id`s; today they still do.
+It matches the organizer symptom exactly (FIX-3415 *"Renewal mailers going
+out twice"*, EM-106 *"two of them got the scheme letter twice"* — a
+duplicate holding a live SalesTrack id is still mailable), and M3's own
+brief only demands that every customer be **migrated**, which
+`clear-id-keep-migrated` preserves. The M3 collapse in hypothesis 1 is
+most plausibly attributable to the `"N"` half, which that brief contradicts
+directly.
+
+`scripts/w3_experiment_unbundle_duplicate_identity.py` tests each half in
+isolation (`--mode clear-id-keep-migrated`, `--mode unmigrate-keep-id`),
+touching only the 45 duplicates and only one field, with `--restore`
+rewriting both fields for all 85 rows from the snapshot. **Measured against
+the free check-count preview — no scoring run.**
