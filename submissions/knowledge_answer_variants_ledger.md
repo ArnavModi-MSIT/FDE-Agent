@@ -588,3 +588,41 @@ evidenced hypothesis left, and a twenty-sixth variant would be exactly
 the guessing this project's discipline exists to prevent. Knowledge holds
 at **0.8333** with the wrong set fully named, which is where the next real
 piece of evidence should be applied.
+
+## External plan reviewed (2026-09-11) — mostly stale, three points worth keeping
+
+A strategy document proposed a full path to 1.0000. Checked against the
+live ledger rather than accepted:
+
+**Its Step 1 is already executed.** It asks for the K-02/K-05 corruption
+diagnostic — run earlier today. Useful corroboration: **its outcome table
+is identical to ours**, including `0.7917 → K-03, K-05, K-07, K-08`. An
+independent derivation reaching the same mapping is real confirmation of
+the localization.
+
+**Its two headline picks both failed today.** It names `CFO, Plant Head
+and QA` as the highest-value K-07 attempt and `No discount` as the
+strongest K-08 attempt. Those were exactly v9's choices, submitted hours
+before the document was read, and v9 scored 0.8333 — zero of four landed.
+Independent convergence on the same two candidates, both now disproven.
+
+**Five of its "untried" items are burned**, including our own current
+K-05 answer, which it recommends as the exact-PDF-wording fix.
+
+**One methodological correction.** It says "do not bundle changes — change
+one question per submission." That is right for answers of *unknown*
+status, but wrong for these four: all are **proven wrong**, so a bundled
+change cannot lose a point and the delta *counts* how many landed. Four
+separate submissions would spend four attempts to learn what one attempt
+learns. Bundling proven-wrong answers is exactly how K-09 was solved.
+
+### `knowledge_submission_v10_untried.csv` — what genuinely survives
+
+| Q | Candidate | Strength |
+|---|---|---|
+| K-03 | `Buyer bears freight, transit insurance and unloading` | **strongest** — PP-2023 s4.1 names three cost categories; every prior answer mentioned only freight, or only the party. A real content-completeness difference, not a wording tweak. |
+| K-07 | `CFO sign-off` | EM-107's literal phrase, a distinct token from the eight burned CFO forms. |
+| K-05 | `GST registration certificate, cancelled cheque, and MSME declaration` | weak — differs from a burned variant only by the conjunction. |
+| K-08 | `Nil discount` | weak — keeps the policy's own word while answering the question's noun. |
+
+Downside-free as before; 0.8333 is banked and all four are proven wrong.
