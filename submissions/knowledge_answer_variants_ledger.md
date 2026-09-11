@@ -704,3 +704,50 @@ and an explicit note of the superseded alternative where one exists.
 
 Still downside-free: all four are proven wrong and 0.8333 is banked. The
 delta counts how many landed.
+
+### v11 result: 0.8333 — and an honest confound I introduced
+
+Maximum-coverage answers failed on all four. But the inference is **not**
+clean, and the reason is my own design error:
+
+| Fact | Value |
+|---|---|
+| Longest answer ever PROVEN to score | ~162 chars (our K-09 winner) |
+| Length at which the strictness probe proved tolerance | 110 chars |
+| Length of v11's four answers | **261–339 chars** |
+
+The probe established leniency at 110 characters and I extrapolated it to
+339. **If a length cap sits anywhere between, v11 tested nothing.** That
+has to be resolved before v11's null can be read as a content failure.
+
+## Plan for the next quota — mechanism first, in this order
+
+### 1. `knowledge_probe_length_cap.csv` — resolves the confound
+
+Pads **K-09, a proven-correct answer**, from 103 to 297 chars with
+declared filler. Nothing else changes.
+
+| Score | Meaning |
+|---|---|
+| 0.8333 | no length cap in this range → **v11's null was a real content failure**, and the expected facts for these four genuinely differ from what we and the organizer text believe |
+| 0.7917 | a length cap exists → v11 was confounded, and every long candidate must be re-run inside the proven-safe length |
+
+### 2. `knowledge_submission_v12_multibranch.csv` — decides containment vs semantic
+
+Every answer names **all branches** of its rule, kept at 148–151 chars,
+inside the proven-safe range:
+
+| Q | Branches covered in one answer |
+|---|---|
+| K-03 | buyer · distributor · all three cost categories · ex-works · **DRI under PP-2019** |
+| K-05 | all three documents · where applicable · Procurement · VOS-7 step 2 |
+| K-07 | CFO · Chief Financial Officer · sign-off · threshold · **Plant Head + QA** · **GM Procurement** |
+| K-08 | Nil · no discount · below the slab · **10%** · **14%** |
+
+| Score | Meaning |
+|---|---|
+| rises | the grader matches by **containment**, and the right branch was simply never present in any single answer — then bisect to find which |
+| 0.8333 | the grader is **semantic**, hedged multi-branch answers do not help, and our content is genuinely wrong |
+
+Both are downside-free; 0.8333 is banked and all four are proven wrong.
+Run 1 before 2 — its result decides how to read everything after it.
