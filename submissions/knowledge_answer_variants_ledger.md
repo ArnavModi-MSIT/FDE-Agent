@@ -626,3 +626,39 @@ learns. Bundling proven-wrong answers is exactly how K-09 was solved.
 | K-08 | `Nil discount` | weak — keeps the policy's own word while answering the question's noun. |
 
 Downside-free as before; 0.8333 is banked and all four are proven wrong.
+
+### v10 result: 0.8333 — zero of four landed again
+
+`Buyer bears freight, transit insurance and unloading`, the conjunction
+variant of K-05's list, `CFO sign-off`, and `Nil discount` are all wrong.
+**Twenty-nine distinct wordings now burned across these four questions.**
+
+### Stop guessing wording — probe the grader instead
+
+Two questions have now produced the same contradiction:
+
+- **K-08.** Its source `PP-2023` is proven correct, which pins the policy
+  version, which makes Rs 4,20,000 unambiguously `Nil`. Seven expressions
+  of zero have failed — while K-01, *the same question template in the
+  same month*, is correct with the bare string `10%`.
+- **K-03.** Its source `PP-2023` is proven correct, which pins s4.1
+  ("all despatches are ex-works"), which makes the answer the buyer. Six
+  expressions of that have failed.
+
+In both cases the proven source forces the content, and every expression
+of that content fails. One of those two things must be false, and no
+amount of further rewording can tell us which.
+
+### `knowledge_probe_grader_strictness.csv` — a mechanism test, not a guess
+
+Takes the banked v7 set and appends obviously irrelevant filler to **K-10,
+a proven-correct answer**, changing nothing else. This is the "Family C"
+probe proposed in this ledger days ago and never run.
+
+| Score | What it proves |
+|---|---|
+| **0.8333** | K-10 still scores, so the grader **tolerates irrelevant extra text** and keys on the fact rather than the exact string. Then our four wrong answers fail on **content**, not expression — which means the content is genuinely not what we and the organizer text believe, and the whole search redirects. |
+| **0.7917** | K-10 broke, so the grader is **strict about extra text**. That explains why every verbose form fails, and since the terse forms are burned too, the key expects a narrower exact string than anything tried. |
+
+Either outcome is worth more than a thirtieth wording. Downside-free:
+0.8333 is banked.
