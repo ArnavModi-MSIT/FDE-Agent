@@ -538,3 +538,53 @@ untouched to keep the delta clean.
 
 Three attempts remain after this one — enough to isolate which landed and
 retry the rest.
+
+### v9 result: 0.8333 — zero of four landed
+
+`The distributor`, `GST registration certificate and cancelled cheque`,
+`CFO, Plant Head and QA`, and `No discount` are all wrong. Burned-variant
+totals now stand at **K-07: 8, K-08: 7, K-03: 5, K-05: 5 — 25 distinct
+wordings across the four**, spanning terse tokens, spelled-out forms,
+parenthetical qualifiers, fact-plus-reason sentences, full-matrix and
+all-band restatements, and complete-rule paragraphs.
+
+### The sharpest open fact: K-01 and K-08 are the same question
+
+Both read *"What discount applies to a single order of Rs X placed in
+March 2024?"*, differing only in the amount. **K-01 is correct with the
+bare string `10%`.** K-08 is wrong with `Nil`, `0%`, `Nil (0%)`,
+`No discount`, and two different full-sentence forms.
+
+Same template, same grader, same month. If the expected K-08 answer were
+zero, `0%` would match by exactly the mechanism that makes `10%` match for
+K-01. So the key for K-08 is **not** a plain zero.
+
+But the only non-zero reading is PP-2019's 6% band for Rs 1–5 lakh — and
+**K-08's `governing_source` of `PP-2023` is proven correct** by the
+2026-09-08 corruption experiment. An answer of 6% would be governed by
+PP-2019, not PP-2023. The source proves the answer comes from PP-2023's
+table, where Rs 4,20,000 is unambiguously Nil.
+
+**That is a genuine contradiction, recorded rather than explained away.**
+It is the single most concrete unexplained fact in the Knowledge family
+and the best starting point for any future attempt.
+
+### Free checks re-run, both empty
+
+- **21 further API routes probed** for a live question set, answer key or
+  scoring detail (`/knowledge/questions`, `/questions`, `/tasks`,
+  `/score`, `/scoring`, `/submissions`, `/me`, `/reports` and others):
+  **all 404**. Combined with the 8 probed on 2026-09-09, nothing beyond
+  the documented endpoints exists.
+- The **lakh-notation** lead from the ticket and email search does not
+  apply here: none of the four wrong answers is monetary, and K-06 — the
+  only monetary one — is proven correct.
+
+### Recommendation: hold the remaining attempts
+
+Twenty-five wordings have failed across four questions whose policy
+content is independently corroborated by organizer text. There is no
+evidenced hypothesis left, and a twenty-sixth variant would be exactly
+the guessing this project's discipline exists to prevent. Knowledge holds
+at **0.8333** with the wrong set fully named, which is where the next real
+piece of evidence should be applied.
