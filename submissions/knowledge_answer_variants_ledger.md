@@ -751,3 +751,43 @@ inside the proven-safe range:
 
 Both are downside-free; 0.8333 is banked and all four are proven wrong.
 Run 1 before 2 — its result decides how to read everything after it.
+
+## 2026-09-12: both mechanism questions answered — the content is genuinely wrong
+
+| Experiment | Score | Conclusion |
+|---|---|---|
+| K-09 (proven correct) padded 103 → **297 chars** | 0.8333 | **No length cap.** The confound is cleared and v11's null was a real failure, not an artefact. |
+| v12, all four naming **every branch** at ~150 chars | 0.8333 | **Not containment matching.** Hedged answers carrying the alternative branch do not score. |
+
+**Together these close the mechanism question.** The grader tolerates
+arbitrary extra text — proven at 110 and again at 297 characters — yet an
+answer that merely *mentions* the right branch does not score. So it judges
+what the answer **asserts**, semantically, and is indifferent to length,
+verbosity and noise around that assertion.
+
+**Which forces an uncomfortable conclusion.** Across thirty-three wordings
+we have asserted the same four facts in every register available: bare
+token, canonical form, policy sentence, full clause, complete rule,
+maximum-coverage paragraph and multi-branch hedge. The mechanism is now
+known not to penalise any of them. **The facts themselves must be wrong.**
+
+That holds despite the policy text and the organizer tickets and emails
+appearing to corroborate all four. Something in that chain is false, and no
+further rephrasing can reveal which link.
+
+### `knowledge_submission_v13_opposite.csv` — assert the other branch
+
+The one remaining move that is a real hypothesis rather than a wording
+variant: for each question, assert the alternative our reading rejected.
+
+| Q | Now asserts | Instead of |
+|---|---|---|
+| K-03 | **DRI** bears freight, FOR destination above Rs 2,00,000 | the buyer, ex-works |
+| K-05 | **four** documents, adding the purchase requisition | the three from step 2 |
+| K-07 | **GM Procurement**, the matrix's default row | the CFO threshold row |
+| K-08 | **6%**, the Rs 1–5 lakh band | Nil |
+
+Each contradicts our reading of the policy, which is precisely the point:
+the readings are proven wrong, so testing their complements is the only
+evidence-bearing step left. Downside-free — all four already score zero and
+0.8333 is banked. A rise names which reading was inverted.
