@@ -835,3 +835,41 @@ untouched. `score = correct_sources / 24`.
 | 0.4167 | 10 | two have moved |
 
 Downside-free as always. This is the last untested assumption in the chain.
+
+### Source re-check: 0.5000 — sources are still 12/12
+
+Reproduces the 2026-09-08 result exactly. **The question set has not moved**
+and the decode is confirmed: 12 sources + 8 answers = 20/24. The four-wrong
+map (K-03, K-05, K-07, K-08) stands, now corroborated six independent ways.
+
+**So the paradox is real, not an artefact.** For K-03 the source proves
+PP-2023 governs, PP-2023 puts freight on the buyer, and both the buyer and
+DRI have been asserted and rejected. There is no third party.
+
+### State of the four, as assertions rather than wordings
+
+| Q | Assertions made and rejected | Never asserted |
+|---|---|---|
+| K-03 | buyer · DRI | — *(no third party exists)* |
+| K-05 | three documents · two · four | — |
+| K-07 | CFO · CFO+Plant Head+QA · GM Procurement | **Plant Head + QA alone** |
+| K-08 | Nil · 6% | **10%** · 14% |
+
+Two real gaps survive, and both are in the same place: a *row* of a table
+that was never asserted on its own.
+
+### `knowledge_submission_v14_last_rows.csv`
+
+Changes only K-07 and K-08; K-03 and K-05 keep their v7 text so the delta
+stays attributable.
+
+- **K-07 → `Plant Head and QA`** — the only row of the VOS-7 approval matrix
+  never asserted alone. It is the answer if the graded vendor is
+  direct-material with spend at or below Rs 10,00,000.
+- **K-08 → `10%`** — K-01 is the same question template and is correct with
+  exactly this value. It is the answer if the graded order value sits in the
+  Rs 5–15 lakh band.
+
+Lower confidence than earlier hypotheses, and stated as such. But daily
+attempts expire unused, both are genuine *assertions* never made rather
+than rewordings of ones already rejected, and 0.8333 is banked.
