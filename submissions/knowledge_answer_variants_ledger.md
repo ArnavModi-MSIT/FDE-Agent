@@ -791,3 +791,47 @@ Each contradicts our reading of the policy, which is precisely the point:
 the readings are proven wrong, so testing their complements is the only
 evidence-bearing step left. Downside-free — all four already score zero and
 0.8333 is banked. A rise names which reading was inverted.
+
+### v13 result: 0.8333 — the opposite branch fails too
+
+| Q | Reading asserted | Opposite asserted | Both |
+|---|---|---|---|
+| K-03 | buyer / ex-works | DRI / FOR destination | **fail** |
+| K-05 | three documents | four documents | **fail** |
+| K-07 | CFO; CFO+Plant Head+QA | GM Procurement | **fail** |
+| K-08 | Nil | 6% | **fail** |
+
+**K-03 is the decisive one.** Only two parties exist in this transaction,
+and both have now been asserted and rejected. There is no third answer to
+"who bears freight". The same is nearly true of K-07, where all three rows
+of the VOS-7 approval matrix have been asserted — CFO alone, CFO with Plant
+Head and QA, and GM Procurement — and all three fail.
+
+When every possible answer to a question is wrong, the question being
+graded is not the question we are reading.
+
+### The assumption that has never been re-checked
+
+Everything above rests on **sources = 12/12**, proven on **2026-09-08** —
+four days and one answer-set replacement ago. The score of 0.8333 = 20/24
+has only ever been *decoded* as "12 sources + 8 answers". It decodes just
+as consistently as **11 sources + 9 answers**, or 10 + 10.
+
+If the scored question set shifted after 09-08, a topic change would move
+the governing document and silently cost source credit, while the
+compensating answer count would keep the total at 20. That single
+possibility explains what nothing else does: why a reading and its exact
+complement both fail.
+
+### `knowledge_recheck_sources.csv` — re-verify the foundation
+
+Corrupts all 12 answers to the placeholder, leaves every `governing_source`
+untouched. `score = correct_sources / 24`.
+
+| Score | Sources correct | Meaning |
+|---|---|---|
+| **0.5000** | 12 | reproduces 09-08; the four-wrong map is confirmed and the mystery deepens |
+| 0.4583 | 11 | **the set has moved**; one source is now wrong and the whole map must be rebuilt |
+| 0.4167 | 10 | two have moved |
+
+Downside-free as always. This is the last untested assumption in the chain.
