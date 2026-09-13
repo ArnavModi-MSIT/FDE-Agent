@@ -1177,3 +1177,16 @@ figure overstates its weight. Worth testing, not proven.
 
 All three changed rows are true statements we believe, not probes. The rows
 are proven wrong, so the file cannot lose a point.
+
+### v17 result: 0.8333 — none of the Opus review's genuine survivors landed
+
+The delivery-term K-03 (`Ex-works. …`), the step-3 references K-05, and the
+named-person K-07 (`Rohit Malhotra, the Chief Financial Officer, …`) all
+fail. Across both external reviews, no candidate that is a genuine,
+believed-true answer moved the score.
+
+What remains untested is only what the reviews themselves flagged as
+guesses not believed correct for the question as written — K-08 at 14% or
+12% (a hypothesised key typo) and K-07 as all four approvers. Those are
+held for the user's explicit decision because they sit close to R-11.
+Two attempts left today.
