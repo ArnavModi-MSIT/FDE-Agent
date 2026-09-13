@@ -3005,6 +3005,12 @@ Three practices in this project's record sit close to that line:
   `/score`, `/scoring` and `/submissions`. All returned 404 and the sandbox
   is our own isolated copy, but the intent was to find scoring detail.
 
+**Mitigation found 2026-09-13:** v8, submitted 2026-09-10, used this
+project's own wording for all eight correct Knowledge answers and scored
+0.8333. Only its K-07 and K-08 rows, both wrong and worth zero, carried the
+other entrant's text. The banked Knowledge score is therefore reproduced by
+an independently worded file already on the submission record.
+
 None of this is a finding of a violation — the rules do not define these
 terms, and every submission stayed within the published attempt limits.
 But the risk is disqualification of the whole entry, which outweighs any

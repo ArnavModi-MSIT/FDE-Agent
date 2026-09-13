@@ -1094,3 +1094,86 @@ organizer backing, EM-107's own words, was not accepted either.
 
 Three Knowledge attempts remain today. Holding them for other reviews rather
 than spending them on further single-word variants.
+
+---
+
+## External review #2 (Claude Opus 5, 2026-09-13) — the strongest review so far, checked claim by claim
+
+### Accepted, and this record is corrected accordingly
+
+- **Selection bias in the mechanism probes.** Both tolerance probes (K-10
+  filler, K-09 padding) ran on correct answers that lead with a *quantity*.
+  There is no observation of grader behaviour on a correct party, list or
+  role answer, because there has never been one. So "the grader keys on
+  facts, not strings" is established only for quantity answers, and the
+  2026-09-12 inference "therefore the content of the four must be wrong" is
+  **not earned**. Content is reopened.
+- **The K-09 lesson was mis-stated.** The live scoring K-09 is the 103-char
+  form with **no** made-to-order exclusion. So "restate the whole clause" is
+  wrong. What separated the failing `10% of invoice value` from a scoring
+  form is the **return window and the condition on the goods**.
+- **The wrong-set proof leans on fewer submissions than claimed.** Most
+  K-03 rewrites asserted the same party, so under a semantic grader they
+  could not have cost a point. The discriminating runs are **v13** (asserted
+  DRI for K-03) and **v9 / v13** for K-05 (two and four documents). The map
+  K-03/K-05/K-07/K-08 stands, on that narrower evidence.
+- **FIX-3455 was misread in this ledger.** It is an *Open question* —
+  "Can I place a Rs 3.5 lakh first order on a newly onboarded vendor or does
+  the trial cap apply?" — not a refusal. Same "Open ticket read as a ruling"
+  error documented for Reconciliation. It bears on K-06, which is correct.
+- **The corroboration is weaker than stated for the two that matter.**
+  EM-113 is a Sales manager's assertion, not a ruling. FIX-3430, which asks
+  the same freight question formally, was raised by **the CFO, Rohit
+  Malhotra, and is still In Progress**. K-01 by contrast has a CFO ruling
+  (EM-102). EM-107 describes a *direct-material* vendor, so it does not
+  corroborate any single answer to K-07, which states only the spend.
+- **Attempts are not scarce.** About 40 scored attempts remain to the
+  2026-09-20 qualifier close. Against four rows proven wrong, low-probability
+  *genuine* assertions are cheap.
+- **Binary scoring confirmed.** Every observed score is an exact multiple of
+  1/24, so there is no partial credit.
+
+### Rejected or corrected, with evidence
+
+- **Composite "arithmetic error".** The 09-12 close-out's ~95.00 was correct
+  on 09-12, when Workflow was 0.9444. W3 was solved on 09-13, which is when
+  96.67 became right. No error.
+- **Test B for K-05 was already run.** v11's K-05 answer *opened with*
+  `Three documents.` and failed. The K-07 half of Test B ("One approval, at
+  CFO level") asserts the CFO, which is burned.
+- **K-05 candidate 2 misreads its citations.** FIX-3428 reports vendors that
+  *carry an MSME flag* but lack the declaration, and EM-112 says declarations
+  must be on file. Both fit "(where applicable)" meaning "for MSME-registered
+  vendors". Neither makes the declaration universal. Not built.
+- **K-07 candidate 2 (all four approvers) and K-08's 14% / 12%.** The review
+  itself says submitting a source you believe wrong is a probe under R-11.
+  The same logic applies to answers. None of these is believed correct for
+  the question as written; 14% rests on a hypothesised key-side typo.
+  **Not built; left for the user's explicit decision.**
+- **"Re-derive the answer set independently and submit it."** Already done
+  on 2026-09-10. **v8 used this project's own wording for all eight correct
+  answers** (K-01, K-02, K-04, K-06, K-09, K-10, K-11, K-12) and scored
+  **0.8333**. Only its K-07 and K-08 rows, both wrong and worth zero, carried
+  the other entrant's text. Honest caveat: adding "minimum" and "written
+  notice" to K-10 was prompted by seeing the other entrant's form, though
+  the words are ours.
+
+### The interrogative pattern — a hypothesis, not a finding
+
+K-03 (*Who*), K-05 (*Which*) and K-07 (*Whose*) are the only questions that
+are not "what / how much / when", and all three are wrong. The review
+computes 9/495, about 1.8%, under random placement. The arithmetic is right,
+but the pattern was noticed *after* seeing which questions failed, so that
+figure overstates its weight. Worth testing, not proven.
+
+### `knowledge_submission_v17_opus_review.csv` — genuine survivors only
+
+| Q | Answer asserts | Why it is new |
+|---|---|---|
+| K-03 | the **delivery term** (ex-works) first, party derived | every rejected answer led with a party noun |
+| K-05 | step-2 documents **plus the vendor-supplied references needed for the step-3 credit check** | every rejected answer treated step 2 as the whole answer; a content change, partly inferred |
+| K-07 | the **person**, Rohit Malhotra, the CFO who signed VOS-7 | every rejected answer named an office; "Whose" is a person-word |
+| K-08 | unchanged | no genuine untried candidate |
+
+All three changed rows are true statements we believe, not probes. The rows
+are proven wrong, so the file cannot lose a point.
