@@ -1000,3 +1000,18 @@ likely explanation is that the scored question is not the text we hold.
 **Lead 1 remains untested** — no fresh `knowledge_questions.csv` has been
 downloaded yet, and it is now the single highest-value check left in the
 Knowledge family.
+
+### Lead 1 result: DISPROVEN — the question file is current
+
+A fresh `knowledge_questions.csv` downloaded from the signed-in Data tab on
+2026-09-13 is **byte-identical** to the local copy from 2026-09-07 (same
+980 bytes, same SHA-256 `8676e605…`). The questions we answer are the
+questions offered. Stale data is not why K-03 and K-07 reject every answer
+their governing documents can produce.
+
+**One caution about what the leaderboard proves.** It shows best-recorded
+scores with no date per family. bhasker's 24/24 comes from an account whose
+last run was 28 days ago. Our own measurements show the key stable from at
+least 2026-08-31 (MJenius's 0.8333 replicated exactly on 2026-09-10) through
+today, so bhasker's score may well be reachable now — but a best-recorded
+score cannot by itself prove the *current* key admits 24/24.
