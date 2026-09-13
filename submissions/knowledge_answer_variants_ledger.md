@@ -979,3 +979,24 @@ Sri Ranga Castings is direct-material and so takes the other category row.
 
 `knowledge_submission_v15_k07_two_dimension.csv` changes only K-07. Run it
 only if Lead 1 shows the question file is unchanged.
+
+### v15 result: 0.8333 — K-07's two-dimension reading fails too
+
+`CFO and GM Procurement` did not land. Every approval set the VOS-7 matrix
+can produce, under either reading of its structure, has now been asserted
+for K-07 and rejected:
+
+| Asserted | Reading |
+|---|---|
+| CFO | spend row alone |
+| CFO + Plant Head + QA | spend row + direct-material row |
+| GM Procurement | default row alone |
+| Plant Head + QA | direct-material row alone |
+| **CFO + GM Procurement** | **spend row + "all other vendors" row** |
+
+That exhausts the matrix. It strengthens Lead 1 rather than weakening it:
+when no answer the governing document can generate is accepted, the most
+likely explanation is that the scored question is not the text we hold.
+**Lead 1 remains untested** — no fresh `knowledge_questions.csv` has been
+downloaded yet, and it is now the single highest-value check left in the
+Knowledge family.
