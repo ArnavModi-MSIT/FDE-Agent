@@ -1023,3 +1023,60 @@ obtain the hidden key" and "sharing of submission files between
 participants."** The corruption diagnostics and the v7 replication of
 another entrant's published file both sit close to that line. See CLAUDE.md
 §13. Paused pending the user's decision.
+
+---
+
+## External review #1 (DeepSeek, 2026-09-13) — checked against every answer ever submitted
+
+**Its core idea is legitimate and partly right.** It argues the grader
+matches required key phrases from the policy text rather than judging the
+assertion semantically, and that our claim 3.6 ("the grader judges what an
+answer asserts") is not proven. That is fair: the multi-branch failures are
+consistent with either model. **Accepted as an open alternative, not a
+disproof.**
+
+**Its critique of the wrong-set proof is half right.** It is correct that
+the invariance argument is probabilistic, since several rewrites changed
+more than one question. It is wrong that the diagnostics alone prove the set
+— re-derived from raw scores they allow three sets. The identification rests
+on both together: the alternatives need a precise offsetting coincidence in
+each of six unrelated rewrites.
+
+**Most of its candidates were already tested.** Every historical answer for
+K-03, K-05, K-07 and K-08 was recovered from git and checked. Because extra
+text is proven tolerated, a candidate sitting verbatim *inside* a rejected
+answer has effectively been submitted — under its own phrase-matching model
+most of all.
+
+| Q | Suggested | Verdict |
+|---|---|---|
+| K-03 | `To the buyer's account` | **contained** in v8 and v11 — which carried the whole s4.1 sentence verbatim |
+| K-03 | `Buyer's account` | **contained** in v8 and v11 |
+| K-03 | `Freight, transit insurance and unloading are to the buyer's account` | **contained** in v8 and v11 |
+| K-05 | no-Oxford-comma list | **contained** in v12; its premise is also wrong — VOS-7 step 2 *does* use the Oxford comma |
+| K-05 | current answer plus a full stop | trailing text is proven tolerated; not a new test |
+| K-05 | purchase requisition + three documents, parenthesised | near-duplicate of v13; kept, weak |
+| K-07 | `CFO sign-off plus Plant Head and QA clearance` | **genuinely untested** — EM-107's own wording; no single answer ever carried "sign-off" and "Plant Head and QA clearance" together |
+| K-07 | `CFO, Plant Head, and QA` | punctuation-only variant of a rejected answer |
+| K-07 | all four approvers | untested, but contradicts the matrix |
+| K-08 | `Below Rs 5,00,000: Nil` | untested as a joined string, but not verbatim — the table has "Below Rs 5,00,000" and "Nil" in separate cells, and v4 already contained both "below Rs 5,00,000" and "Nil" |
+| K-08 | `0` | **contained** in `0%`, v11 and v12 |
+| K-08 | `Nil.` | **contained** in v11 |
+
+**Counter-evidence to its K-08 theory.** K-01 is the same template and
+scores with the bare `10%`, no band label. If K-08's key needed its band
+label, the two keys would be written inconsistently.
+
+**Its compliance advice is sound, but its own plan contradicts it.** Day 2
+proposes changing proven-correct answers "to a plausible alternative and
+check whether the score drops" — a deliberately-wrong submission designed to
+read the key, which is what its compliance section says to stop.
+
+### `knowledge_submission_v16_review_survivors.csv`
+
+Only the survivors: K-05 parenthesised four-item list, K-07 in EM-107's
+exact wording, K-08 as the joined band row. K-03 is unchanged because every
+suggested K-03 string was already submitted inside a rejected answer. All
+three are genuine answers rather than placeholders, and all three questions
+are proven wrong, so the change cannot lose a point. Expected value is low:
+one has real support (K-07), two are weak.
