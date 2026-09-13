@@ -2928,3 +2928,50 @@ Hypothesis 6 tested the opposite (unmerge the CAPS, keep the suffix merges)
 and collapsed to 0/6. **This mirror — keep the 5 CAPS merges, unmerge the 40
 suffix records — has never been run.** `scripts/w3_experiment_caps_only.py`,
 free preview, `--restore` rewrites `merged_into` for all 85 from snapshot.
+
+### W3 SOLVED — 6/6, Workflow 1.0000 (2026-09-13)
+
+**Hypothesis 11 confirmed by a real scoring run.** Keeping only the 5
+ALL-CAPS merges and unmerging the 40 `(North)`/`(South)`/`(II)` records read
+**W3 6/6** on the preview, with W1 8/8 and W2 8/8, and the Workflow scoring
+run returned **1.0000** ("Best recorded score for this family: 1.0000").
+M3 stayed **5/5** throughout, because this change touches only
+`merged_into`. Composite moves from about 95.00 to about **96.67**.
+
+**The correct duplicate rule.** Duplicates are the SalesTrack re-keys of an
+existing account: the same name in ALL CAPS (and, per EM-106, with AND for
+&). A trailing `(North)`/`(South)`/`(II)` tag marks a **separate account**,
+not a duplicate — including the 4 tagged records whose tier, region and
+credit terms happen to match their original exactly. The 5 merges:
+`C-5081→C-5024`, `C-5082→C-5014`, `C-5083→C-5019`, `C-5084→C-5020`,
+`C-5085→C-5029`.
+
+**Why every earlier W3 test missed it.** All eleven hypotheses before this
+one held the 45-record merge map fixed and varied everything around it. The
+map itself was the bug, and two readings hid it: the conclusion that "any
+deviation collapses to 0/6, so the map is exactly right" (drawn from two
+catastrophic deviations), and the belief that one check "never passed" (a
+carried-over assumption, disproven by hypotheses 9 and 10). The fix came
+from taking the organizer text literally — FIX-3415's *"a handful"* and
+EM-106's *"names in caps"* — and checking it against seed attributes. It is
+the same lesson as the UOM revert: the literal reading beat the clever one.
+
+**Engine updated to produce the proven result itself.**
+`src/workflow/w3_customer_dedup.py` no longer strips the regional tag when
+normalizing, so tagged records never group with their base name. `run_w3`
+now also clears any stale merge the plan does not name, so re-running it on
+a sandbox left at 45 merges converges to the 6/6 state instead of stopping
+at 5/6; `verify_w3` flags unexpected merges too. Tests rewritten to the
+proven rule, including one that reproduces the exact 5-merge map from the
+seed extract. **109/109 tests pass.** A dry run of the updated engine
+against the live 6/6 sandbox returns exactly the 5 live merges, 0 stale
+merges to clear, and 0 verification problems.
+
+**Hazard: the old experiment restores would undo this.** Every
+`scripts/w3_experiment_*.py --restore` rewrites state from
+`submissions/state_snapshots/crm_customers_before_w3_experiment.json`, which
+holds the **45-merge** map — running any of them puts W3 back to 5/6. The
+winning state is saved as
+`submissions/state_snapshots/crm_customers_w3_6of6_caps_only.json`. Do not
+run an old restore; use `run_w3(client, dry_run=False)` to rebuild W3 from a
+fresh or mixed state.

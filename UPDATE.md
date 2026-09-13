@@ -4,45 +4,43 @@
 quick "what just happened and why" for a human checking in — the full
 project record with all context/rationale lives in `CLAUDE.md`.
 
-## W3: M3 interference ruled out; a new, evidenced hypothesis
+## W3 solved: 6/6, Workflow 1.0000
 
-**Hypotheses 9 and 10 disproven.** With every customer's `crm_id` and
-migration flag back at seed — so `merged_into` was the only change anywhere,
-exactly W3's own end state — W3 still read **5/6**. M3 is not the cause, and
-"leave every other customer alone" on those fields is not the failing check.
-The failing check is a property of the merge map itself.
+Keeping only the **5 ALL-CAPS merges** and unmerging the 40 regional-tag
+records scored **W3 6/6**. The Workflow scoring run returned **1.0000**
+(best recorded 1.0000). M3 stayed 5/5, since only `merged_into` changed.
 
-## Hypothesis 11 — only the ALL-CAPS records are duplicates
+## The rule
 
-We have always merged **45**. The organizer text never says 45:
+Duplicates are the SalesTrack re-keys of an existing account: the same name
+in ALL CAPS. A `(North)`/`(South)`/`(II)` tag marks a separate account,
+covered by the brief's "leave every other customer alone".
 
-- FIX-3415: "at least **a handful** of distributors exist twice"
-- EM-106: "**names in caps** or with AND changed to ampersand"
+Organizer text said it all along: FIX-3415 "a handful", EM-106 "names in
+caps". Every earlier W3 test held the 45-merge map fixed and varied things
+around it. The map itself was the bug.
 
-Seed data fits that:
+## Engine fixed, not just the sandbox
 
-| Records | Count | In SalesTrack at seed | Tier + region + terms match original |
-|---|---|---|---|
-| ALL-CAPS | 5 | **5 of 5** | **5 of 5** |
-| (North)/(South)/(II) | 40 | 25 of 40 | 4 of 40 |
+- `src/workflow/w3_customer_dedup.py` keeps the regional tag when grouping,
+  and `run_w3` clears stale merges so a re-run converges to 6/6.
+- Tests rewritten to the proven rule, including exact reproduction of the
+  5-merge map from the seed extract. **109/109 pass.**
+- Dry run against the live sandbox: 5 merges, 0 stale, 0 problems.
 
-The suffix label matches its own region field in only 7 of 40. Those look
-like separate accounts the brief says to leave alone.
+## Hazard
 
-Hypothesis 6 (unmerge CAPS, keep suffix) collapsed to 0/6. **The mirror has
-never been run.**
-
-## Next
-
-```
-python scripts/w3_experiment_caps_only.py --execute
-```
-Read the free W3 preview, then `--restore`. If it moves but misses 6/6, the
-variant keeping the 4 suffix records that are exact copies is
-`--keep C-5057,C-5075,C-5077,C-5078`.
+Do **not** run any old `w3_experiment_*.py --restore`. They restore the
+45-merge snapshot and would drop W3 back to 5/6. The winning state is saved
+as `crm_customers_w3_6of6_caps_only.json`.
 
 ## Standing
 
-- Reconciliation **1.0000** · Migration **1.0000** (banked)
-- Workflow **0.9444** — W3 at 5/6, hypothesis 11 queued, free to test
-- Knowledge **0.8333** — closed
+| Family | Score |
+|---|---|
+| Reconciliation | **1.0000** |
+| Workflow | **1.0000** |
+| Migration | **1.0000** |
+| Knowledge | 0.8333 |
+
+Composite about **96.67**. Knowledge is the only remaining gap.

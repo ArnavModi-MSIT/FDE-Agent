@@ -1,6 +1,13 @@
+import csv
+import os
+
 import pytest
 
 from workflow.w3_customer_dedup import find_merge_plan, normalize_name
+
+_SEED_CUSTOMERS = os.path.join(
+    os.path.dirname(__file__), "..", "..", "dataset", "System extracts", "customers.csv"
+)
 
 
 def _c(legacy_id, name):
@@ -12,38 +19,35 @@ def test_unique_name_no_duplicate_left_alone():
     assert find_merge_plan(customers) == []
 
 
-def test_real_pattern_suffix_duplicate_merges_into_original():
-    # Real pair from the sandbox: C-5001 / C-5041
+def test_regional_tag_record_is_a_separate_account_left_alone():
+    # Real pair from the sandbox: C-5001 / C-5041. Merging these held W3 at
+    # 5/6; leaving them unmerged is part of the state that scored 6/6.
     customers = [_c("C-5001", "Tirupati Pump House"), _c("C-5041", "Tirupati Pump House (South)")]
-    plan = find_merge_plan(customers)
-    assert plan == [{"legacy_id": "C-5041", "merge_into_legacy_id": "C-5001"}]
+    assert find_merge_plan(customers) == []
 
 
-def test_real_pattern_three_way_group_both_duplicates_merge_into_original():
-    # Real triple from the sandbox: C-5024 (original), C-5064 (suffix
-    # dup), C-5081 (ALL-CAPS dup) -- both duplicates merge into the one
-    # canonical original, never into each other.
+def test_real_three_way_group_only_the_all_caps_record_merges():
+    # Real triple from the sandbox: C-5024 original, C-5064 tagged separate
+    # account, C-5081 ALL-CAPS SalesTrack re-key of C-5024.
     customers = [
         _c("C-5024", "Dhanlaxmi Distributors"),
         _c("C-5064", "Dhanlaxmi Distributors (North)"),
         _c("C-5081", "DHANLAXMI DISTRIBUTORS"),
     ]
-    plan = find_merge_plan(customers)
-    targets = {item["legacy_id"]: item["merge_into_legacy_id"] for item in plan}
-    assert targets == {"C-5064": "C-5024", "C-5081": "C-5024"}
+    assert find_merge_plan(customers) == [{"legacy_id": "C-5081", "merge_into_legacy_id": "C-5024"}]
 
 
-def test_various_suffix_tags_all_normalize_the_same():
-    assert normalize_name("Foo Bar") == normalize_name("Foo Bar (South)")
-    assert normalize_name("Foo Bar") == normalize_name("Foo Bar (North)")
-    assert normalize_name("Foo Bar") == normalize_name("Foo Bar (II)")
+def test_regional_tags_do_not_normalize_to_the_base_name_but_caps_does():
+    assert normalize_name("Foo Bar") != normalize_name("Foo Bar (South)")
+    assert normalize_name("Foo Bar") != normalize_name("Foo Bar (North)")
+    assert normalize_name("Foo Bar") != normalize_name("Foo Bar (II)")
     assert normalize_name("Foo Bar") == normalize_name("FOO BAR")
 
 
 def test_ambiguous_group_raises_instead_of_guessing():
-    # No canonical (no-suffix, not-all-caps) candidate exists -- must not
-    # silently pick one.
-    customers = [_c("C-1", "Weird Co (South)"), _c("C-2", "WEIRD CO")]
+    # Two normally-cased names that differ only in case give two canonical
+    # candidates -- must not silently pick one.
+    customers = [_c("C-1", "Weird Co"), _c("C-2", "weird co")]
     with pytest.raises(ValueError):
         find_merge_plan(customers)
 
@@ -54,13 +58,26 @@ def test_unrelated_names_never_grouped_together():
 
 
 def test_and_and_ampersand_normalize_the_same():
-    # Real, evidenced pattern (email EM-106): "names in caps or with AND
-    # changed to ampersand." Not currently exercised by any live
-    # /crm/customers row (checked directly), but defensive hardening
-    # against a named organizer-described risk.
+    # Evidenced pattern (email EM-106): "names in caps or with AND changed to
+    # ampersand." The SalesTrack re-key is ALL CAPS with AND spelled out.
     assert normalize_name("Agarwal Pumps and Motors") == normalize_name("Agarwal Pumps & Motors")
     plan = find_merge_plan([
         _c("C-1", "Agarwal Pumps & Motors"),
-        _c("C-2", "Agarwal Pumps and Motors (South)"),
+        _c("C-2", "AGARWAL PUMPS AND MOTORS"),
     ])
     assert plan == [{"legacy_id": "C-2", "merge_into_legacy_id": "C-1"}]
+
+
+def test_real_seed_extract_yields_exactly_the_five_merges_that_scored_6_of_6():
+    # The merge map below is the live sandbox state that scored W3 6/6 and
+    # Workflow 1.0000 on 2026-09-13. The seed extract must reproduce it exactly.
+    with open(_SEED_CUSTOMERS, encoding="utf-8-sig") as f:
+        customers = list(csv.DictReader(f))
+    plan = {item["legacy_id"]: item["merge_into_legacy_id"] for item in find_merge_plan(customers)}
+    assert plan == {
+        "C-5081": "C-5024",
+        "C-5082": "C-5014",
+        "C-5083": "C-5019",
+        "C-5084": "C-5020",
+        "C-5085": "C-5029",
+    }

@@ -1,45 +1,47 @@
-"""W3 -- Dedupe the distributor master. Confirmed real duplicate pattern
-from the sandbox's own /crm/customers response (see CLAUDE.md sec 9):
-85 customers = 40 originals (C-5001..C-5040, clean mixed-case names) +
-40 parenthetical-suffix duplicates ("(South)"/"(North)"/"(East)"/
-"(West)"/"(II)", C-5041..C-5080, each offset exactly +40 from its
-original) + 5 ALL-CAPS duplicates of 5 specific originals (C-5081..
-C-5085). No phone/email/GSTIN exist on this schema (confirmed directly)
--- customer_name is the only real signal, so matching is structural
-(strip a trailing parenthetical, case-fold), not fuzzy similarity."""
+"""W3 -- Dedupe the distributor master.
+
+The rule is proven by a real scoring run, not inferred (CLAUDE.md, W3
+hypothesis 11, 2026-09-13): merging ONLY the 5 ALL-CAPS records scored
+W3 6/6 and Workflow 1.0000, where merging all 45 name-matched records had
+held at 5/6 through every other configuration tested.
+
+85 customers = 40 originals (C-5001..C-5040) + 40 records carrying a
+trailing "(North)"/"(South)"/"(II)" tag (C-5041..C-5080) + 5 ALL-CAPS
+records (C-5081..C-5085).
+
+- The ALL-CAPS records ARE duplicates: the same account re-keyed in
+  SalesTrack. All 5 were in SalesTrack at seed and each matches its
+  original's tier, region and credit terms exactly.
+- The tagged records are NOT duplicates. They are separate accounts that
+  happen to share a base name -- most carry a different tier or credit
+  terms, and the tag agrees with their own region field in only 7 of 40.
+  They fall under the brief's "Leave every other customer alone", even the
+  4 whose attributes happen to match their original exactly.
+
+Organizer text says the same: FIX-3415 "at least a handful of distributors
+exist twice", EM-106 "names in caps or with AND changed to ampersand".
+
+No phone/email/GSTIN exist on this schema, so matching is structural on
+customer_name -- case-fold plus the AND/& equivalence -- never fuzzy."""
 import re
 from typing import Dict, List
 
 from api.client import DriClient
 
-_SUFFIX_PATTERN = re.compile(r"\s*\([^)]*\)\s*$")
 _AND_WORD_PATTERN = re.compile(r"\band\b", re.IGNORECASE)
 
 
 def normalize_name(name: str) -> str:
-    """Strips a trailing parenthetical suffix, case-folds, and treats
-    "AND" the same as "&" -- real organizer evidence, not a guess: email
-    EM-106 (Priya Nair -> Suresh Iyer, "Duplicate distributor records")
-    names this exact variant explicitly: "names in caps or with AND
-    changed to ampersand." Confirmed on the live sandbox as of 2026-09-08
-    that no standalone "AND" name currently exists in /crm/customers (0
-    of 85), so this makes no difference on the data we can see today --
-    pure defensive hardening against a named, evidenced risk, not a
-    guess, and provably can't hurt (see w3 tests)."""
-    name = _SUFFIX_PATTERN.sub("", name or "").strip().lower()
+    """Case-folds and treats "AND" the same as "&", the two re-keying
+    variants EM-106 names. A trailing "(North)"/"(South)"/"(II)" tag is
+    deliberately KEPT: it marks a separate account, not a duplicate."""
+    name = (name or "").strip().lower()
     return _AND_WORD_PATTERN.sub("&", name)
 
 
 def _is_canonical_form(name: str) -> bool:
-    """The 'original' record's name has no parenthetical suffix and isn't
-    ALL CAPS -- both real duplicate patterns confirmed in the sandbox add
-    exactly one of those two transformations, never neither."""
-    name = name or ""
-    if _SUFFIX_PATTERN.search(name):
-        return False
-    if name.isupper():
-        return False
-    return True
+    """The original keeps normal casing; the SalesTrack re-key is ALL CAPS."""
+    return not (name or "").isupper()
 
 
 def find_merge_plan(customers: List[Dict]) -> List[Dict]:
@@ -78,20 +80,33 @@ def run_w3(client: DriClient, dry_run: bool = True) -> Dict:
     data = client.get("/crm/customers")
     customers = data["customers"]
     plan = find_merge_plan(customers)
+    planned = {item["legacy_id"] for item in plan}
+
+    # Anything merged that the plan does not name is a stale merge from an
+    # earlier (45-record) run and has to be cleared, or W3 stays at 5/6.
+    stale = [c["legacy_id"] for c in customers
+             if c.get("merged_into") and c["legacy_id"] not in planned]
 
     if not dry_run:
+        for legacy_id in stale:
+            client.patch(f"/crm/customers/{legacy_id}", {"merged_into": None})
         for item in plan:
             client.patch(f"/crm/customers/{item['legacy_id']}", {"merged_into": item["merge_into_legacy_id"]})
 
-    return {"total_customers": len(customers), "merges_needed": len(plan), "plan": plan}
+    return {"total_customers": len(customers), "merges_needed": len(plan),
+            "stale_merges_cleared": len(stale), "plan": plan}
 
 
 def verify_w3(client: DriClient, plan: List[Dict]) -> List[str]:
     data = client.get("/crm/customers")
     by_id = {c["legacy_id"]: c for c in data["customers"]}
+    planned = {item["legacy_id"] for item in plan}
     problems = []
     for item in plan:
         actual = by_id.get(item["legacy_id"], {}).get("merged_into")
         if actual != item["merge_into_legacy_id"]:
             problems.append(f"{item['legacy_id']}: expected merged_into={item['merge_into_legacy_id']!r}, got {actual!r}")
+    for legacy_id, c in by_id.items():
+        if c.get("merged_into") and legacy_id not in planned:
+            problems.append(f"{legacy_id}: unexpected merged_into={c['merged_into']!r}")
     return problems
