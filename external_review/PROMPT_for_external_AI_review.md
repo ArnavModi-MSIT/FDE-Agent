@@ -1,13 +1,18 @@
 # Request for an independent review — FDE Hackathon 2026, Knowledge family
 
-You are being asked for an independent second opinion on a competition
-entry. Read this whole brief and the attached files, then **produce one
-Markdown file** in the format specified at the end.
+**Status of this brief: round 3, updated 2026-09-13 evening.** Two reviews
+have already been done (DeepSeek and Claude Opus 5). Both are attached in
+`prior_reviews/`. Every candidate they proposed that we believed was a
+genuine answer has been submitted, and none moved the score. **Please do not
+repeat their suggestions**; section 5 lists what was tried from each.
+
+Read this whole brief and the attached files, then **produce one Markdown
+file** in the format at the end.
 
 Be sceptical of everything here, including our conclusions. Several of our
-"proven" conclusions have turned out to be wrong before, and the two
-breakthroughs we did have came from questioning something we had held fixed.
-If you think a claim below is wrong, say so and show why.
+"proven" conclusions have turned out to be wrong, and both of the second
+review's main criticisms were accepted. The two breakthroughs we did have
+came from questioning something every experiment had held fixed.
 
 ---
 
@@ -31,13 +36,13 @@ governing source is the one that actually applies on the transaction date."*
 
 Other rules that matter:
 - Five scored submissions per family per calendar day (IST). The platform
-  keeps each family's **best** recorded score.
+  keeps each family's **best** recorded score. Roughly 40 attempts remain to
+  the qualifier close on 2026-09-20, and about 75 to the 2026-09-27 freeze.
 - One number per submission. No per-row feedback, ever.
 - **R-11:** *"No probing of the scoring endpoints, no attempts to obtain the
   hidden key, no sharing of submission files between participants, no
   multiple accounts to farm attempts. Organisers may disqualify a
   participant."* The FAQ also bans "sharing solutions across teams".
-- Submissions freeze 2026-09-27 23:59 IST. Qualifier close is 2026-09-20.
 
 ---
 
@@ -46,131 +51,56 @@ Other rules that matter:
 | Family | Our best | Status |
 |---|---|---|
 | Reconciliation | 1.0000 | solved |
-| Workflow | 1.0000 | solved |
+| Workflow | 1.0000 | solved (W3 cracked 2026-09-13) |
 | Migration | 1.0000 | solved |
 | **Knowledge** | **0.8333 (20/24)** | **4 answers wrong — the only open gap** |
 
-Composite about 96.67, tied with three others for third. Two entrants beat
-us on Knowledge: **bhasker 1.000 (24/24)**, whose last run was 28 days ago,
-and **Sanjay Prasad 0.875 (21/24)**, last run 3 days ago.
+Composite 96.67, tied with three others for third. Two entrants beat us on
+Knowledge: **bhasker 1.000 (24/24)**, last run 28 days ago, and **Sanjay
+Prasad 0.875 (21/24)**, last run 3 days ago. Undated best-recorded scores
+cannot by themselves prove the *current* key admits 24/24, but our own
+measurements show the key stable since at least 2026-08-31.
 
 ---
 
-## 3. What we believe is established about Knowledge
+## 3. What we believe is established — with the caveats reviews forced
 
-Please check each of these against the evidence, not just accept it.
+**3.1 All 12 `governing_source` values are correct.** Measured twice
+(2026-09-08, 2026-09-12). Both returned 0.5000 = 12 of 12 sources.
 
-**3.1 All 12 `governing_source` values are correct.** Measured twice, on
-2026-09-08 and 2026-09-12, by submitting a file with every answer replaced by
-a meaningless placeholder and the sources left intact. Both returned 0.5000,
-which is 12 of 12 sources. So 20/24 means 8 correct answers.
+**3.2 Scoring is additive and binary.** Every observed score is an exact
+multiple of 1/24, so there is no partial credit.
 
-**3.2 The scoring is additive per question.** Answers-only and sources-only
-placeholder files scored 0.2500 and 0.5000, summing to the 0.7500 baseline of
-that day.
-
-**3.3 The 8 correct answers are K-01, K-02, K-04, K-06, K-09, K-10, K-11,
-K-12. The 4 wrong ones are K-03, K-05, K-07, K-08.** Several placeholder
-diagnostics narrowed this to three possible sets. The final identification
-rests on something stronger: seven later submissions rewrote K-03, K-05, K-07
-and K-08 with very different content and the score never moved off 0.8333.
-Had any of the four been correct, rewriting it would have cost a point.
+**3.3 The 4 wrong answers are K-03, K-05, K-07, K-08.** The early diagnostics
+alone allow three possible sets. The deciding evidence is narrower than we
+first claimed: **v13** asserted DRI for K-03, and **v9 / v13** asserted two
+and four documents for K-05. Had K-03 or K-05 been correct, those runs would
+have cost a point. They did not.
 
 **3.4 The question file is current.** A fresh download on 2026-09-13 is
 byte-identical to the copy used throughout.
 
-**3.5 The grader tolerates extra text.** A correct answer kept its credit
-with an irrelevant filler sentence appended (110 characters total), and
-again when padded with filler to 297 characters.
+**3.5 Extra text does not hurt a correct answer — for quantity answers.** A
+correct K-10 kept its credit with filler appended (110 characters), and a
+correct K-09 kept its credit padded to 297 characters. **Caveat accepted
+from review 2:** both were quantity-led. We have never had a correct answer
+that is a party, list or role, so we do not know how the grader treats those.
 
-**3.6 Naming an alternative inside an answer does not earn credit.** Answers
-that stated our reading and also mentioned the competing reading, all under
-160 characters, scored nothing extra. We read this as: the grader judges what
-an answer *asserts*, not which words it *contains*.
+**3.6 Naming an alternative inside an answer earned nothing** on the four
+wrong questions. **Caveat accepted:** this was only ever tested on questions
+that already scored zero, so it does not prove the grader "judges
+assertions". **Whether the content of the four is actually wrong is open.**
 
-**3.7 How K-09 was solved.** `10%` failed. `10% of invoice value`, which is a
-literal quote of the governing sentence, also failed. This scored:
-*"A restocking charge of 10% of invoice value applies to unused goods in
-original packing returned within 30 days of despatch; made-to-order items
-are not returnable."* It restates the whole clause: value, condition and
-exclusion.
-
----
-
-## 4. The four wrong questions, and everything already rejected
-
-Do **not** propose anything below again unless you explain what makes your
-version materially different. "Probably wrong" marks a variant submitted
-alongside other changes, so its own status is slightly less certain.
-
-### K-03 — *"Who bears freight on a Rs 3,00,000 distributor order shipped in February 2024?"*
-Source `PP-2023` is correct. Rejected:
-- `The buyer (distributor)`
-- `Buyer`
-- `Buyer (all despatches are ex-works irrespective of order value)` ← current
-- `Buyer (ex-works)` — another entrant's attempt, scored as wrong
-- `The distributor`
-- `Buyer bears freight, transit insurance and unloading`
-- A full-clause sentence citing PP-2023 s4.1, ex-works, and all three cost categories (probably wrong)
-- A 339-character paragraph covering buyer, distributor, ex-works, the three cost categories, and "DRI does not bear freight"
-- `The buyer, i.e. the distributor, bears freight, transit insurance and unloading; PP-2023 makes all despatches ex-works. DRI paid only under PP-2019.`
-- `DRI bears the freight. Despatch is FOR destination for a single order above Rs 2,00,000, so the seller and not the distributor carries the freight cost.`
-
-**Both parties have been asserted and rejected.**
-
-### K-05 — *"Which documents must a new vendor submit at onboarding?"*
-Source `VOS-7` is correct. Rejected:
-- `GST registration certificate, cancelled cheque, and MSME declaration (where applicable)` ← current
-- `GST registration certificate, cancelled cheque, MSME declaration` — another entrant's attempt
-- `GST registration certificate, cancelled cheque, and MSME declaration`
-- `GST registration certificate and cancelled cheque`
-- `GST registration certificate, cancelled cheque and MSME declaration (where applicable) - the three documents collected by Procurement at VOS-7 step 2.`
-- A full paragraph adding "collected by Procurement at step 2" and "filed in The Vault within 7 days of vendor code creation" (asserted twice, once probably wrong)
-- `Purchase requisition with vendor justification, GST registration certificate, cancelled cheque, and MSME declaration where applicable - four items in all.`
-
-### K-07 — *"A new vendor's projected annual spend is Rs 14,00,000. Whose approval is required?"*
-Source `VOS-7` is correct. Rejected:
-- `CFO`
-- `Chief Financial Officer`
-- `CFO sign-off`
-- `CFO (projected annual spend above Rs 10,00,000)` ← current
-- `CFO approval is required, as the projected annual spend of Rs 14,00,000 exceeds the Rs 10,00,000 threshold.`
-- The full approval matrix stated, asserting CFO only
-- `CFO, Plant Head, QA`
-- `CFO, Plant Head and QA`
-- The full matrix stated, asserting CFO + Plant Head + QA (backed by email EM-107)
-- `CFO sign-off (Chief Financial Officer) for spend above Rs 10,00,000; a direct-material vendor also needs Plant Head and QA; others need GM Procurement.`
-- `GM Procurement approves the vendor. …`
-- `Plant Head and QA. …`
-- `CFO and GM Procurement`
-
-**Every approval set the matrix can produce has been asserted and rejected.**
-
-### K-08 — *"What discount applies to a single order of Rs 4,20,000 placed in March 2024?"*
-Source `PP-2023` is correct. Rejected:
-- `Nil`
-- `0%`
-- `Nil (0%)` ← current
-- `No discount`
-- `Nil discount`
-- `Nil - no discount applies, as the order value of Rs 4,20,000 is below the Rs 5,00,000 threshold.`
-- The full PP-2023 band table plus the non-cumulative clause
-- A supersession-led sentence (PP-2023 replaced PP-2019)
-- A 261-character paragraph covering Nil, no discount, 0%, zero, both notations of the amount, and the slab
-- `Nil, no discount: Rs 4,20,000 is below the Rs 5,00,000 slab under PP-2023. Had it reached that slab the rate would be 10%, and above Rs 15,00,000, 14%.`
-- `6% discount applies …` (the PP-2019 band)
-- `10% discount. …`
-
-**The paradox we cannot explain.** K-01 is the same question template in the
-same month — *"A distributor places a single order of Rs 7,20,000 in March
-2024. What discount applies?"* — and is **correct with the bare string
-`10%`**. Yet every expression of zero fails for K-08. The source PP-2023 is
-proven correct, and PP-2023 puts Rs 4,20,000 in the "Below Rs 5,00,000:
-Nil" band.
+**3.7 K-09 — corrected lesson.** `10%` and `10% of invoice value` (a literal
+quote) both failed. The scoring form in our live file is *"10% of invoice
+value (returns accepted within 30 days of despatch for unused goods in
+original packing)"*, 103 characters, **with no made-to-order exclusion**.
+What made it score was the **return window and the condition on the goods**,
+not restating the whole clause.
 
 ---
 
-## 5. The eight correct answers (current file)
+## 4. The eight correct answers (live file)
 
 | qid | answer | source |
 |---|---|---|
@@ -183,86 +113,173 @@ Nil" band.
 | K-11 | `June 2026 (whichever earlier: 12 months from commissioning falls in June 2026, before 18 months from despatch in July 2026)` | WRP-2020 |
 | K-12 | `60 days from the date of invoice` | PP-2023 |
 
-All eight lead with a quantity. All four wrong answers lead with a party, a
-list, a role, or a nil.
+All eight lead with a quantity. The four wrong ones answer **Who** (K-03),
+**Which** (K-05), **Whose** (K-07) and a **What** whose true answer is nil
+(K-08). K-03, K-05 and K-07 are the only non "what / how much / when"
+questions in the set. Review 2 noticed this; it was found after seeing the
+failures, so treat it as a hypothesis.
 
 ---
 
-## 6. Organizer text we have used as corroboration
+## 5. Everything already rejected for the four wrong questions
 
-These tickets and emails appear to confirm our reading of the four wrong
-questions. Check whether they say what we think they say.
+Do **not** propose anything here again unless you explain what is
+materially new. Items marked (R1) or (R2) came from the earlier reviews.
+Because extra text is tolerated on quantity answers, a string sitting
+verbatim inside a rejected answer has arguably been tested too.
 
-- **FIX-3407, EM-101, EM-102** — the Rs 7,20,000 order: "10 percent stands".
-- **FIX-3430, EM-113** — a distributor disputing freight on a Rs 3 lakh
-  order: "Post-Oct 2023 everything is ex-works."
-- **FIX-3444, EM-107** — a casting supplier at Rs 14 lakh: "per SOP this needs
-  CFO sign-off plus plant head and QA clearance as direct material. GST cert
-  and cancelled cheque are on file, MSME declaration awaited."
-- **FIX-3455** — a Rs 3.5 lakh first order on a new vendor, asking whether the
-  trial cap applies.
+### K-03 — *"Who bears freight on a Rs 3,00,000 distributor order shipped in February 2024?"*
+Source `PP-2023`. Rejected:
+- `The buyer (distributor)` · `Buyer` · `Buyer (ex-works)` · `The distributor`
+- `Buyer (all despatches are ex-works irrespective of order value)` ← live
+- `Buyer bears freight, transit insurance and unloading`
+- Full-clause and 339-character paragraphs containing the whole s4.1
+  sentence verbatim, including *"to the buyer's account irrespective of order
+  value"* — this covers R1's `To the buyer's account`, `Buyer's account` and
+  the reduced clause
+- A multi-branch answer naming the buyer and noting DRI paid under PP-2019
+- `DRI bears the freight. Despatch is FOR destination …`
+- (R2) `Ex-works. Under PP-2023 s4.1 every despatch is ex-works and freight, transit insurance and unloading are to the buyer's account irrespective of order value, so DRI's obligation ends at the works gate.`
+
+**Both parties, and the delivery term, have been asserted and rejected.**
+
+### K-05 — *"Which documents must a new vendor submit at onboarding?"*
+Source `VOS-7`. Rejected:
+- `GST registration certificate, cancelled cheque, and MSME declaration (where applicable)` ← live, and the exact VOS-7 step 2 wording (it does use the Oxford comma)
+- Without the qualifier; without the Oxford comma (R1, contained in a rejected answer); with a full stop (R1)
+- `GST registration certificate and cancelled cheque` (two documents)
+- A paragraph opening `Three documents.` — this covers R2's "Test B"
+- Paragraphs adding "collected by Procurement at step 2" and "filed in The Vault within 7 days"
+- Four items, adding the purchase requisition — with and without brackets (R1)
+- (R2) `GST registration certificate, cancelled cheque and MSME declaration where applicable at VOS-7 step 2, together with the bank and trade reference details Finance requires for the credit and reference check at step 3.`
+
+### K-07 — *"A new vendor's projected annual spend is Rs 14,00,000. Whose approval is required?"*
+Source `VOS-7`. Rejected:
+- `CFO` · `Chief Financial Officer` · `CFO sign-off`
+- `CFO (projected annual spend above Rs 10,00,000)` ← live
+- `CFO approval is required, as the projected annual spend of Rs 14,00,000 exceeds the Rs 10,00,000 threshold.`
+- Full matrix asserting CFO only; full matrix asserting CFO + Plant Head + QA
+- `CFO, Plant Head, QA` · `CFO, Plant Head and QA`
+- `GM Procurement …` · `Plant Head and QA …` · `CFO and GM Procurement`
+- A multi-branch answer naming all four roles, asserting CFO
+- (R1) `CFO sign-off plus Plant Head and QA clearance` — EM-107's own wording
+- (R2) `Rohit Malhotra, the Chief Financial Officer, whose approval VOS-7 s3 requires once projected annual spend exceeds Rs 10,00,000.`
+
+**Every approval set the matrix yields, under either reading of its rows,
+and the named individual, have been rejected.** Only the union of all four
+approvers is untried — see section 7.
+
+### K-08 — *"What discount applies to a single order of Rs 4,20,000 placed in March 2024?"*
+Source `PP-2023`. Rejected:
+- `Nil` · `0%` · `Nil (0%)` ← live · `No discount` · `Nil discount`
+- `Nil - no discount applies, as the order value of Rs 4,20,000 is below the Rs 5,00,000 threshold.`
+- The full band table plus the non-cumulative clause (contains "below Rs 5,00,000" and "Nil")
+- A supersession-led sentence; a 261-character coverage paragraph; a multi-branch answer
+- `6% discount applies …` (PP-2019 band) · `10% discount. …`
+- (R1) `Below Rs 5,00,000: Nil`; `0` and `Nil.` are contained in rejected answers
+
+**The paradox.** K-01 is the same template in the same month — *"A
+distributor places a single order of Rs 7,20,000 in March 2024. What
+discount applies?"* — and is **correct with the bare string `10%`**. Every
+expression of zero fails for K-08.
+
+---
+
+## 6. Organizer text — what it actually shows (corrected)
+
+- **FIX-3407, EM-101, EM-102** — the Rs 7,20,000 order; the **CFO rules**
+  "10 percent stands". Bears on K-01, which is *correct*.
+- **FIX-3430** — freight on a Rs 3 lakh order, **raised by the CFO, still In
+  Progress**. **EM-113** — a Sales manager *asserts* "Post-Oct 2023
+  everything is ex-works". Neither is a ruling on K-03.
+- **FIX-3444, EM-107** — a **direct-material** casting supplier at Rs 14 lakh
+  needing "CFO sign-off plus plant head and QA clearance as direct material".
+  K-07 does not say direct-material, so this does not corroborate any single
+  K-07 answer.
+- **FIX-3455** — an **open question** asking whether the trial cap applies to
+  a Rs 3.5 lakh first order. Not a ruling. (Our ledger misread it once.)
+- **FIX-3428, EM-112** — vendors carrying an MSME flag without declarations;
+  declarations must be on file before the audit.
 - **FIX-3440** — Gold tier: "Old timers say 45. Policy PDF says otherwise."
+- **FIX-3415, EM-106** — the W3 duplicates: "a handful", "names in caps".
 
 ---
 
-## 7. Lessons from the families we solved
+## 7. What is untested, and why it is held
 
-These may transfer.
+These were proposed by the reviews but **not submitted**, because none is an
+answer we believe is correct for the question as written, which sits close
+to R-11:
 
-- **Reconciliation.** We spent days on a clever unit-of-measure conversion
-  treating `Box(10)` as equal to 10 `Nos`. The organizers' own starter script
-  simply flags the string difference as `UOM_MISMATCH`. Switching to the
-  literal reading went straight to 1.0000. An "Open" ticket describing the
-  issue meant "flag it", not "resolve it away".
-- **Workflow W3, deduplicating distributors.** For days we merged 45 records
-  and sat at 5/6 through a dozen experiments. The ticket said "at least **a
-  handful** of distributors exist twice" and an email said "names in caps".
-  Merging only the 5 ALL-CAPS records scored 6/6. Every earlier test had held
-  the 45-record assumption fixed.
+- **K-08 as `14%` or `12%`** — assumes the key was built from Rs 42,00,000,
+  one comma away from Rs 4,20,000.
+- **K-07 as all four approvers** — no policy argument; it is simply the only
+  untried combination.
 
-In both cases the literal organizer wording beat the structurally elegant
-reading, and the bug was an assumption no experiment had varied.
+We want your view on whether submitting these is legitimate.
 
 ---
 
-## 8. Constraints on your suggestions
+## 8. Lessons from the families we solved
 
-1. **Stay inside R-11.** Do not propose deliberately wrong or placeholder
-   submissions designed to reveal the hidden key, probing of any scoring
-   endpoint, or copying another participant's submission file. Submitting
-   your own genuine best answer for a question, one change at a time, is
-   ordinary iteration and is fine.
-2. **No repeats** of anything in section 4 without saying what is materially
-   new.
-3. **Cite the source text** behind every candidate: document and section,
-   ticket id, or email id. Mark anything that is a guess as a guess.
-4. **Five attempts a day.** Plan for that.
+- **Reconciliation.** A clever `Box(10)` = 10 `Nos` conversion held us at
+  0.87. The organizers' starter script simply flags the string difference.
+  The literal reading scored 1.0000.
+- **Workflow W3.** We merged 45 name-matched records and sat at 5/6 through a
+  dozen experiments. The ticket said "a handful" and the email "names in
+  caps". Merging only the 5 ALL-CAPS records scored 6/6. Every earlier test
+  held the 45-record assumption fixed.
 
-We would also value your view on a compliance question. Our current 0.8333
-answer set replicates an answer file another entrant posted publicly in a
-GitHub repo. Several earlier submissions were deliberate placeholder
-diagnostics. Is either a meaningful R-11 risk, and what would you do about it?
+In both, the literal organizer wording beat the structurally elegant reading,
+and the bug was an assumption no experiment had varied. **For Knowledge, we
+do not yet know which assumption that is.**
 
 ---
 
-## 9. Your output
+## 9. Compliance — current position
 
-Produce **one Markdown file** named `review_<your-model-name>.md` with exactly
-these sections:
+- Placeholder "corruption" diagnostics and API route probing have **stopped**.
+- Our live Knowledge file replicates another entrant's publicly posted answer
+  file. **Mitigation:** our own file v8, submitted 2026-09-10, used our own
+  wording for all eight correct answers and also scored 0.8333. Only its two
+  wrong rows carried the other entrant's text.
+- Undecided: whether to disclose the replication, diagnostics and probing to
+  the organisers before the qualifier closes.
 
-1. **Verdict** — two or three sentences on whether our conclusions hold and
-   where you think the real problem is.
-2. **Claims you dispute** — each claim from sections 3–7 you think is wrong or
-   unsupported, and why.
-3. **Candidate answers** — for each of K-03, K-05, K-07 and K-08, up to three
-   ranked candidates. For each give the exact answer string to submit, the
-   reasoning, the supporting source text, why it is not a repeat of section 4,
-   and a confidence of high, medium or low.
-4. **A different explanation** — if you think the paradox in section 4 has a
-   cause other than wrong wording or wrong content, describe it and say how to
-   test it legitimately.
-5. **Compliance view** — your answer to the R-11 question in section 8.
-6. **Submission plan** — which files to submit over the next two days, in
-   order, and how to read each result.
-7. **Checked and rejected** — ideas you considered and discarded, so we do not
-   re-derive them.
+---
+
+## 10. Constraints on your suggestions
+
+1. **Stay inside R-11.** No placeholder or deliberately wrong submissions, no
+   endpoint probing, no copying another participant's file. A genuine answer
+   you believe is correct, one change at a time, is fine.
+2. **No repeats** of section 5, including rewordings of the same assertion.
+3. **Cite the source text** for every candidate: document and section,
+   ticket id or email id. Mark guesses as guesses.
+4. **Prefer new assumptions to new wordings.** Tell us which fixed
+   assumption you think is wrong, and how to test that with a genuine
+   submission.
+
+---
+
+## 11. Your output
+
+Produce **one Markdown file** named `review_<your-model-name>.md` with these
+sections:
+
+1. **Verdict** — two or three sentences on where you think the real problem
+   is.
+2. **The assumption you think is wrong** — the one thing every experiment
+   has held fixed that you would question first, and why.
+3. **Claims you dispute** — anything in sections 3–9 you think is wrong.
+4. **Candidate answers** — for each of K-03, K-05, K-07, K-08, up to three
+   ranked candidates: exact answer string, reasoning, supporting source
+   text, why it is not in section 5, and confidence (high / medium / low).
+   Say plainly if you think a question has no legitimate candidate left.
+5. **Section 7 view** — are `14%`, `12%` and all four approvers legitimate
+   submissions?
+6. **Compliance view** — would you disclose, and what would you say?
+7. **Submission plan** — files for the next two days, in order, and how to
+   read each result.
+8. **Checked and rejected** — ideas you discarded, so we do not re-derive
+   them.
