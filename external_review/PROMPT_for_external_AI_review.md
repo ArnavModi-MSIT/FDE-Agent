@@ -1,8 +1,8 @@
 # Request for an independent review — FDE Hackathon 2026, Knowledge family
 
-**Status of this brief: round 3, updated 2026-09-13 evening.** Two reviews
-have already been done (DeepSeek and Claude Opus 5). Both are attached in
-`prior_reviews/`. Every candidate they proposed that we believed was a
+**Status of this brief: round 4, updated 2026-09-13 night.** Three reviews
+have already been done (DeepSeek, Claude Opus 5, and a third unnamed model).
+All three are attached in `prior_reviews/`. Every candidate they proposed that we believed was a
 genuine answer has been submitted, and none moved the score. **Please do not
 repeat their suggestions**; section 5 lists what was tried from each.
 
@@ -124,9 +124,10 @@ failures, so treat it as a hypothesis.
 ## 5. Everything already rejected for the four wrong questions
 
 Do **not** propose anything here again unless you explain what is
-materially new. Items marked (R1) or (R2) came from the earlier reviews.
-Because extra text is tolerated on quantity answers, a string sitting
-verbatim inside a rejected answer has arguably been tested too.
+materially new. Items marked (R1), (R2) or (R3) came from the earlier reviews.
+A string seen only inside a longer rejected answer is **not** treated as
+cleanly tested if that answer also named a contradicting party (R3's point,
+accepted). The R3 strings below were then submitted on their own.
 
 ### K-03 — *"Who bears freight on a Rs 3,00,000 distributor order shipped in February 2024?"*
 Source `PP-2023`. Rejected:
@@ -141,7 +142,10 @@ Source `PP-2023`. Rejected:
 - `DRI bears the freight. Despatch is FOR destination …`
 - (R2) `Ex-works. Under PP-2023 s4.1 every despatch is ex-works and freight, transit insurance and unloading are to the buyer's account irrespective of order value, so DRI's obligation ends at the works gate.`
 
-**Both parties, and the delivery term, have been asserted and rejected.**
+- (R3) `Buyer's account` — submitted alone, clean
+
+**Both parties, the delivery term, and the policy's own phrase have been
+asserted and rejected.**
 
 ### K-05 — *"Which documents must a new vendor submit at onboarding?"*
 Source `VOS-7`. Rejected:
@@ -151,6 +155,7 @@ Source `VOS-7`. Rejected:
 - A paragraph opening `Three documents.` — this covers R2's "Test B"
 - Paragraphs adding "collected by Procurement at step 2" and "filed in The Vault within 7 days"
 - Four items, adding the purchase requisition — with and without brackets (R1)
+- (R3) re-proposed the bracketed four-item list, which R1's round had already submitted verbatim
 - (R2) `GST registration certificate, cancelled cheque and MSME declaration where applicable at VOS-7 step 2, together with the bank and trade reference details Finance requires for the credit and reference check at step 3.`
 
 ### K-07 — *"A new vendor's projected annual spend is Rs 14,00,000. Whose approval is required?"*
@@ -163,6 +168,7 @@ Source `VOS-7`. Rejected:
 - `GM Procurement …` · `Plant Head and QA …` · `CFO and GM Procurement`
 - A multi-branch answer naming all four roles, asserting CFO
 - (R1) `CFO sign-off plus Plant Head and QA clearance` — EM-107's own wording
+- (R3) `CFO sign-off plus plant head and QA clearance as direct material` — EM-107 in full
 - (R2) `Rohit Malhotra, the Chief Financial Officer, whose approval VOS-7 s3 requires once projected annual spend exceeds Rs 10,00,000.`
 
 **Every approval set the matrix yields, under either reading of its rows,
@@ -176,7 +182,8 @@ Source `PP-2023`. Rejected:
 - The full band table plus the non-cumulative clause (contains "below Rs 5,00,000" and "Nil")
 - A supersession-led sentence; a 261-character coverage paragraph; a multi-branch answer
 - `6% discount applies …` (PP-2019 band) · `10% discount. …`
-- (R1) `Below Rs 5,00,000: Nil`; `0` and `Nil.` are contained in rejected answers
+- (R1) `Below Rs 5,00,000: Nil` · `Nil.`
+- (R3) `0` — submitted alone as a bare string
 
 **The paradox.** K-01 is the same template in the same month — *"A
 distributor places a single order of Rs 7,20,000 in March 2024. What

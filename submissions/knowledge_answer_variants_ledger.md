@@ -1230,3 +1230,14 @@ the user's decision.**
 K-03 `Buyer's account`, K-07 EM-107 in full, K-08 `0`. K-05 stays at the
 live text. All three are genuine answers we believe, all three questions are
 proven wrong, so the file cannot lose a point. Expected value low.
+
+### v18 result: 0.8333 — none of review #3's clean strings landed
+
+`Buyer's account` (K-03), EM-107 quoted in full including "as direct
+material" (K-07), and a bare `0` (K-08) all fail, each submitted as a clean
+string with nothing contradicting it. That closes the containment objection
+for these three: they are now tested in isolation, not only inside longer
+answers.
+
+Three external reviews, every genuine candidate from each submitted, no
+movement. One Knowledge attempt left today.
