@@ -1190,3 +1190,43 @@ guesses not believed correct for the question as written — K-08 at 14% or
 12% (a hypothesised key typo) and K-07 as all four approvers. Those are
 held for the user's explicit decision because they sit close to R-11.
 Two attempts left today.
+
+---
+
+## External review #3 (unnamed model, 2026-09-13) — one fair challenge, one factual error
+
+**The fair challenge.** It attacks the rule this ledger used to discard
+earlier candidates: *a string sitting verbatim inside a rejected answer has
+been tested*. The tolerance probes only showed that **irrelevant** filler is
+ignored. They never showed that **contradicting** content is ignored — and
+v11, v12 and v17 each mentioned DRI while asserting the buyer. So a short
+phrase seen only inside those answers is not cleanly tested. **Accepted.**
+It is the same selection-bias point review #2 made from another angle.
+
+**Checked as exact submissions, not containment:**
+
+| Q | Candidate | Exact submission? | Verdict |
+|---|---|---|---|
+| K-03 | `Buyer's account` | never | contained in v8 (no DRI, but bundled with seven other changes) and in v11 / v17 (both mention DRI). **Untested in isolation.** Its "high" confidence is overstated: the same party was asserted cleanly, with no DRI, in `Buyer`, `The buyer (distributor)`, `The distributor`, `Buyer bears freight, transit insurance and unloading` and the live answer. Only an exact-phrase grader would treat this differently. |
+| K-05 | purchase requisition + three documents, bracketed | **v16, exactly** | **Rejected** — the review says this exact string was never tried. It was, verbatim, today. It also leans on the superseded "K-09 needed the whole clause" lesson. |
+| K-07 | `CFO sign-off plus plant head and QA clearance as direct material` | never | EM-107 quoted in full. v16 stopped before "as direct material". **Untested.** |
+| K-08 | `0` | never | only ever inside `0%` and amounts. **Untested as a bare string.** But its premise — a strict string parser — is contradicted by K-10 keeping credit with filler appended. |
+
+**Other claims.** It says the corruption scores "perfectly isolate" the four
+wrong answers; they do not — they allow three sets, which both earlier
+reviews and this ledger's own re-derivation agree on. It agrees that `14%`,
+`12%` and all four approvers are **not** legitimate submissions, matching
+review #2.
+
+**Compliance — the reviews now disagree.** Review #2 advised proactive
+written disclosure before qualifier close. Review #3 advises **not**
+disclosing, calling the diagnostics ordinary ablation testing and the public
+repo open-source information. Review #3 does not address the API route
+probing at all, which review #2 called the most serious item. **This remains
+the user's decision.**
+
+### `knowledge_submission_v18_clean_strings.csv`
+
+K-03 `Buyer's account`, K-07 EM-107 in full, K-08 `0`. K-05 stays at the
+live text. All three are genuine answers we believe, all three questions are
+proven wrong, so the file cannot lose a point. Expected value low.
