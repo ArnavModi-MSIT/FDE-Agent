@@ -1080,3 +1080,17 @@ suggested K-03 string was already submitted inside a rejected answer. All
 three are genuine answers rather than placeholders, and all three questions
 are proven wrong, so the change cannot lose a point. Expected value is low:
 one has real support (K-07), two are weak.
+
+### v16 result: 0.8333 — none of the review's survivors landed
+
+EM-107's exact wording for K-07 (`CFO sign-off plus Plant Head and QA
+clearance`), the joined band row for K-08 (`Below Rs 5,00,000: Nil`) and the
+parenthesised four-item list for K-05 all fail, as predicted. Combined with
+the candidates already contained in earlier rejected answers, **nothing in
+DeepSeek's review moves the score.**
+
+It also weakens the exact-phrase model slightly: the one phrase with real
+organizer backing, EM-107's own words, was not accepted either.
+
+Three Knowledge attempts remain today. Holding them for other reviews rather
+than spending them on further single-word variants.
