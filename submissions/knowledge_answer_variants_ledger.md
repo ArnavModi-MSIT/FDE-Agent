@@ -1278,3 +1278,24 @@ testing and the repo open information. The reviews split on disclosure too.
 `Three documents.`. Each is a trimmed prefix or fragment of an answer that
 failed without contradicting content, so each matters only under a strict
 exact-string grader — which K-10 keeping credit with filler argues against.
+
+## Public sweep (2026-09-13 night) — GitHub, YouTube and the web: nothing usable
+
+- **GitHub.** Repository search on the policy codes, `governing_source`,
+  `knowledge_questions`, the fictional company names, "FDE hackathon",
+  "machinehack" and related terms, including a pass restricted to repos
+  pushed since 2026-09-01. No new competition repo. MJenius has not pushed
+  since 2026-08-31 and `kundanc2/FDE-Hackathon` is still empty. Recent repos
+  from leaderboard entrants' likely accounts are unrelated; the one path
+  named `Knowledge.tsx` is a React page in an unrelated app.
+- **YouTube.** Ten searches parsed directly from the results page, covering
+  the competition name, MachineHack, AIM's Cypher 2026 and FDE hackathon
+  terms. Only generic FDE career videos and AIM's Cypher event promos. The
+  descriptions of the five closest matches mention none of MachineHack, DRI,
+  the policy codes or the competition.
+- **Web.** No walkthroughs, webinars, blog posts or articles about this
+  competition's Knowledge task.
+- **Competition site.** The "Agents", "Enterprise data" and "Evaluation"
+  items in the page header are decorative chips. Evaluation is the existing
+  on-page section: re-runs against a hidden suite, correctness first, cost
+  and latency as tiebreakers. Nothing about answer grading.
