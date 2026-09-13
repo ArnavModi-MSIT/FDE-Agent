@@ -2890,3 +2890,41 @@ duplicates that were already migrated at seed *away* from seed rather than
 back to it. If the sixth check is "nothing but `merged_into` changes on any
 customer", this is the state that passes it — and it is the state any team
 that scored Workflow before running M3 would have had.
+
+**Hypothesis 10 result: DISPROVEN — and it rules out M3 interference
+entirely.** With all 15 duplicates *and* all 15 non-duplicates reverted, no
+customer differed from seed on any field except `merged_into` (verified by
+a live re-fetch, 0 rows off). That is exactly the end state of W3 run on its
+own. **W3 still read 5/6**; M3 read 2/5, its seed baseline. Restored from
+snapshot afterwards.
+
+What this settles: the sixth W3 check is **not** caused by M3 touching
+customers, and "leave every other customer alone" on `crm_id` /
+`migrated_to_salestrack` is **not** it. In the pure W3-alone state the only
+thing we have changed is the 45-row merge map itself — so the failing check
+is a property of that map.
+
+### Hypothesis 11 — only the ALL-CAPS records are duplicates (2026-09-13)
+
+Every W3 experiment in this project has merged **45** records. Re-reading
+the organizer text in full, it never describes 45:
+
+- **FIX-3415**: *"At least **a handful** of distributors exist twice — once
+  as legacy C- records and once in SalesTrack with slightly different
+  names."*
+- **EM-106**: *"several distributors exist as legacy C- codes and again in
+  SalesTrack, **names in caps** or with AND changed to ampersand."*
+
+**The seed data fits that reading and not ours.** All **5** ALL-CAPS records
+were already in SalesTrack at seed, and each one's tier, region and credit
+terms **exactly match** its clean original (`C-5082` ↔ `C-5014` Standard /
+East / 30; `C-5081` ↔ `C-5024` Platinum / West / 60; and so on). The 40
+suffix records do not: they often carry a different tier and credit terms,
+and their `(North)`/`(South)` label agrees with their own `region` field in
+only **7 of 40**. They look like separate accounts — *"every other
+customer"*, which the brief says to leave alone.
+
+Hypothesis 6 tested the opposite (unmerge the CAPS, keep the suffix merges)
+and collapsed to 0/6. **This mirror — keep the 5 CAPS merges, unmerge the 40
+suffix records — has never been run.** `scripts/w3_experiment_caps_only.py`,
+free preview, `--restore` rewrites `merged_into` for all 85 from snapshot.

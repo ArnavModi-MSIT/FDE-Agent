@@ -100,7 +100,7 @@ def main():
     after = {c["legacy_id"]: c for c in client.get("/crm/customers")["customers"]}
     left = build_plan(after, args.include_duplicates)
     print(f"\nVerification: {len(plan) - len(left)}/{len(plan)} reverted; "
-          f"non-duplicates still differing from seed: {len(left)}")
+          f"{scope} still differing from seed: {len(left)}")
     print("Now read the FREE check-count preview: W3, and note M3.")
 
 

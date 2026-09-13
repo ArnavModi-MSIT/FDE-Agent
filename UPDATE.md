@@ -4,38 +4,45 @@
 quick "what just happened and why" for a human checking in — the full
 project record with all context/rationale lives in `CLAUDE.md`.
 
-## W3: a check we mis-derived, found by re-reading the live brief
+## W3: M3 interference ruled out; a new, evidenced hypothesis
 
-The full W3 brief ends: **"Leave every other customer alone."**
+**Hypotheses 9 and 10 disproven.** With every customer's `crm_id` and
+migration flag back at seed — so `merged_into` was the only change anywhere,
+exactly W3's own end state — W3 still read **5/6**. M3 is not the cause, and
+"leave every other customer alone" on those fields is not the failing check.
+The failing check is a property of the merge map itself.
 
-We had assumed one W3 check "never passed in any state" (seed 1/6, now
-5/6). That assumed the seed-passing check still passes. The simpler reading
-fits exactly: at seed a leave-alone check passes and five merge checks fail;
-after W3 **plus M3**, the merge checks pass and the leave-alone check fails.
+## Hypothesis 11 — only the ALL-CAPS records are duplicates
 
-## The evidence
+We have always merged **45**. The organizer text never says 45:
 
-Diffing live customers against the seed extract: **15 non-duplicate
-customers** changed `crm_id` / `migrated_to_salestrack` (N → Y, minted id).
-All 15 were changed **by our M3 run**, not by W3. The two tasks conflict on
-end state. MJenius MJ shows the same pattern — Migration 1.0000, W3 5/6.
+- FIX-3415: "at least **a handful** of distributors exist twice"
+- EM-106: "**names in caps** or with AND changed to ampersand"
 
-## Why it's fixable
+Seed data fits that:
 
-Families keep their **best recorded** score and a scoring run reads state
-at that moment. Migration's 1.0000 is banked, so a Workflow run taken with
-those 15 at seed values can bank W3 6/6 without costing Migration anything.
+| Records | Count | In SalesTrack at seed | Tier + region + terms match original |
+|---|---|---|---|
+| ALL-CAPS | 5 | **5 of 5** | **5 of 5** |
+| (North)/(South)/(II) | 40 | 25 of 40 | 4 of 40 |
+
+The suffix label matches its own region field in only 7 of 40. Those look
+like separate accounts the brief says to leave alone.
+
+Hypothesis 6 (unmerge CAPS, keep suffix) collapsed to 0/6. **The mirror has
+never been run.**
 
 ## Next
 
 ```
-python scripts/w3_experiment_leave_others_alone.py --execute
+python scripts/w3_experiment_caps_only.py --execute
 ```
-Then read the free W3 preview. 6/6 → spend one Workflow scoring run.
-Anything else → `--restore`.
+Read the free W3 preview, then `--restore`. If it moves but misses 6/6, the
+variant keeping the 4 suffix records that are exact copies is
+`--keep C-5057,C-5075,C-5077,C-5078`.
 
 ## Standing
 
-- Reconciliation **1.0000** · Migration **1.0000**
-- Workflow **0.9444** — W3 hypothesis 9 queued, free to test
-- Knowledge **0.8333** — closed, derivable assertions exhausted
+- Reconciliation **1.0000** · Migration **1.0000** (banked)
+- Workflow **0.9444** — W3 at 5/6, hypothesis 11 queued, free to test
+- Knowledge **0.8333** — closed
