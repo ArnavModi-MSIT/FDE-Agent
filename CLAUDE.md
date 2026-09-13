@@ -2872,3 +2872,21 @@ non-duplicates to seed values (`--execute`) and restores all 85 from the
 snapshot (`--restore`). **Measured first against the free check-count
 preview** — only if W3 reads 6/6 there is a Workflow scoring run worth
 spending.
+
+**Hypothesis 9 result: DISPROVEN, with a useful side-reading.** Reverting
+the 15 non-duplicates to seed left **W3 at 5/6**; **M3 fell 5/5 → 2/5**,
+which is exactly M3's seed-baseline score, confirming the revert landed as
+intended. So restoring the originals alone does not satisfy the sixth
+check.
+
+**Hypothesis 10 — only `merged_into` changed from seed, anywhere.** M3 also
+changed **15 merged duplicates** (N → Y, minted id), which hypothesis 9 left
+alone. Reverting those too produces the one end state never measured in this
+project: every customer's `crm_id` and `migrated_to_salestrack` exactly at
+seed, with `merged_into` the only field differing — **precisely what W3 run
+on its own, before M3, would leave behind.** It is distinct from hypotheses
+1 and 7, which cleared *all 45* duplicates' ids and so moved the 30
+duplicates that were already migrated at seed *away* from seed rather than
+back to it. If the sixth check is "nothing but `merged_into` changes on any
+customer", this is the state that passes it — and it is the state any team
+that scored Workflow before running M3 would have had.

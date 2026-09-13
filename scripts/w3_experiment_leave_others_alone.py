@@ -44,12 +44,12 @@ def _norm(v):
     return (v or "").strip() or None
 
 
-def build_plan(live):
+def build_plan(live, include_duplicates=False):
     seed = {r["legacy_id"]: r for r in csv.DictReader(open(SEED, encoding="utf-8-sig"))}
     plan = []
     for lid, s in seed.items():
         cur = live[lid]
-        if cur.get("merged_into"):
+        if cur.get("merged_into") and not include_duplicates:
             continue  # duplicates are the customers W3 is told to change
         target = {"crm_id": _norm(s.get("crm_id")),
                   "migrated_to_salestrack": _norm(s.get("migrated_to_salestrack"))}
@@ -63,6 +63,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--execute", action="store_true")
     ap.add_argument("--restore", action="store_true")
+    # Hypothesis 10: also revert merged duplicates, so merged_into is the ONLY
+    # field differing from seed on any customer -- the end state of W3 run alone.
+    ap.add_argument("--include-duplicates", action="store_true")
     args = ap.parse_args()
 
     load_env_file(os.path.join(REPO_ROOT, ".env"))
@@ -81,8 +84,9 @@ def main():
         return
 
     live = {c["legacy_id"]: c for c in client.get("/crm/customers")["customers"]}
-    plan = build_plan(live)
-    print(f"{len(plan)} non-duplicate customers differ from seed and would be reverted:\n")
+    plan = build_plan(live, args.include_duplicates)
+    scope = "customers" if args.include_duplicates else "non-duplicate customers"
+    print(f"{len(plan)} {scope} differ from seed and would be reverted:\n")
     for lid, name, target, current in plan:
         print(f"  {lid} {name[:30]:<30} {current} -> {target}")
 
@@ -94,7 +98,7 @@ def main():
         client.patch(f"/crm/customers/{lid}", target)
 
     after = {c["legacy_id"]: c for c in client.get("/crm/customers")["customers"]}
-    left = build_plan(after)
+    left = build_plan(after, args.include_duplicates)
     print(f"\nVerification: {len(plan) - len(left)}/{len(plan)} reverted; "
           f"non-duplicates still differing from seed: {len(left)}")
     print("Now read the FREE check-count preview: W3, and note M3.")
