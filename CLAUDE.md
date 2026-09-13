@@ -2975,3 +2975,39 @@ winning state is saved as
 `submissions/state_snapshots/crm_customers_w3_6of6_caps_only.json`. Do not
 run an old restore; use `run_w3(client, dry_run=False)` to rebuild W3 from a
 fresh or mixed state.
+
+---
+
+## 13. Rules re-read live (2026-09-13) — no new Knowledge guidance, one compliance flag
+
+The Rules and Starter Kit pages were re-read live. Both are unchanged from
+2026-09-08: rules R-01 to R-13, the same four FAQ entries, and a copy-ready
+brief that covers Reconciliation only. **Nothing new on how Knowledge
+answers are judged.**
+
+**Compliance flag — raised for the user's decision, not resolved here.**
+R-11 reads: *"No probing of the scoring endpoints, no attempts to obtain the
+hidden key, no sharing of submission files between participants, no
+multiple accounts to farm attempts. Organisers may disqualify a
+participant."* The FAQ adds that "sharing solutions across teams" is banned.
+Three practices in this project's record sit close to that line:
+
+- **Diagnostic corruption submissions.** Many Knowledge and several
+  Reconciliation-era submissions were deliberately wrong files built to
+  infer which hidden-key answers are correct from the returned score. That
+  is plausibly what "attempts to obtain the hidden key" describes, even
+  though each one was a normal upload within the daily limit.
+- **Replicating another entrant's answer set.** v7 copied the Knowledge
+  answers from MJenius's publicly posted `experiments/attempt_001` file. It
+  was published openly rather than shared privately, but it is still
+  another participant's submission file.
+- **Route probing on the sandbox API.** Probes included paths such as
+  `/score`, `/scoring` and `/submissions`. All returned 404 and the sandbox
+  is our own isolated copy, but the intent was to find scoring detail.
+
+None of this is a finding of a violation — the rules do not define these
+terms, and every submission stayed within the published attempt limits.
+But the risk is disqualification of the whole entry, which outweighs any
+remaining Knowledge gain. **No further corruption-style diagnostics or
+scoring-route probes should be run** unless the user decides otherwise,
+ideally after asking the organizers.

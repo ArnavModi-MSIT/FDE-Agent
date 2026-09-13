@@ -1015,3 +1015,11 @@ last run was 28 days ago. Our own measurements show the key stable from at
 least 2026-08-31 (MJenius's 0.8333 replicated exactly on 2026-09-10) through
 today, so bhasker's score may well be reachable now — but a best-recorded
 score cannot by itself prove the *current* key admits 24/24.
+
+### Rules re-read (2026-09-13): unchanged, and a reason to stop diagnostics
+
+Rules and Starter Kit re-read live, both unchanged. **R-11 bans "attempts to
+obtain the hidden key" and "sharing of submission files between
+participants."** The corruption diagnostics and the v7 replication of
+another entrant's published file both sit close to that line. See CLAUDE.md
+§13. Paused pending the user's decision.
