@@ -2829,3 +2829,46 @@ Knowledge's four wrong answers are worth `4/24 × 0.20 = +3.33` **and** are
 one measurement away from being individually named. Six entrants hold W3 at
 6/6, so it remains solvable; it reopens the moment genuinely new evidence
 appears, not on another permutation of the same three fields.
+
+### 2026-09-13: W3 re-read from the primary source — a check this project mis-derived
+
+The full W3 brief, read live from `/competitions/fde-hackathon-2026/sandbox-docs`
+rather than from fragments quoted in earlier notes:
+
+> *"The distributor master carries duplicate accounts. Merge each duplicate
+> into its original by setting the duplicate's merged_into to the original's
+> legacy_id. **Leave every other customer alone.**"*
+
+**The mis-derivation.** Every W3 hypothesis since 2026-09-08 rested on the
+claim that one check "has never passed in any state" — inferred from the
+seed score of 1/6 and today's 5/6. That inference assumed the check passing
+at seed still passes now. **It need not.** The history fits a simpler
+reading exactly: at seed nothing is touched, so a "leave every other
+customer alone" check passes and the five merge checks fail (1/6); after
+W3 *and M3*, the five merge checks pass and the leave-alone check fails
+(5/6). Same counts, opposite identity — the same "carried-over assumption"
+error just found and corrected in the Knowledge ledger.
+
+**The evidence it points at, measured against the seed extract.** Diffing
+live `/crm/customers` against `dataset/System extracts/customers.csv`:
+**15 non-duplicate customers** differ from seed on `crm_id` and
+`migrated_to_salestrack` — `C-5001`, `C-5002`, `C-5009`, `C-5010`,
+`C-5013`, `C-5014`, `C-5019`, `C-5022`, `C-5024`, `C-5031`, `C-5032`,
+`C-5033`, `C-5034`, `C-5035`, `C-5040` — every one flipped N → Y with a
+minted `ST-` id **by our own M3 run**. W3 never touches them; M3 does,
+because M3's brief tells it to. **The two tasks conflict on end state.**
+
+It also explains the independent corroboration: MJenius MJ holds Migration
+1.0000 *and* sits at exactly W3 5/6 — the same M3-then-score pattern.
+
+**Why this is resolvable despite the conflict.** Each family keeps its
+**best recorded** score, and a scoring run inspects state *at that moment*.
+Migration's 1.0000 is already banked. So a Workflow scoring run taken while
+those 15 customers sit at their seed values would bank W3 6/6 without
+costing Migration anything; M3's state can be re-applied afterwards.
+
+`scripts/w3_experiment_leave_others_alone.py` reverts exactly those 15
+non-duplicates to seed values (`--execute`) and restores all 85 from the
+snapshot (`--restore`). **Measured first against the free check-count
+preview** — only if W3 reads 6/6 there is a Workflow scoring run worth
+spending.
