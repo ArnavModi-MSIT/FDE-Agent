@@ -929,3 +929,53 @@ sixteen entrants, exactly one holds Knowledge at 1.0000.
 They are no longer experiments — the hypothesis space that the documents
 can generate is empty. Knowledge reopens only if genuinely new material
 appears. The composite stands at about 95.00.
+
+---
+
+## 2026-09-13: correction — "not derivable" was wrong, and two new leads
+
+**The close-out above said the last four answers are not derivable from the
+material provided. The leaderboard contradicts it:** bhasker holds 24/24 and
+Sanjay Prasad 21/24. That is the same error this project made on W3, where
+six entrants had already proven 6/6 reachable while the record called it
+unreachable. W3 was then solved by questioning the one thing every test had
+held fixed. The same discipline applies here.
+
+**No new public material.** MJenius's repo has had no commits since
+2026-08-31, `kundanc2/FDE-Hackathon` is still empty, and a fresh GitHub sweep
+restricted to repos pushed since 2026-09-01 finds nothing for this
+competition.
+
+### Lead 1 — the question file itself may be stale (the W3 lesson, applied)
+
+Every Knowledge experiment has held **our local `knowledge_questions.csv`**
+fixed. It was checked only against MJenius's copy — which dates from the
+same early download window, so both could be the same stale version. The
+Data page says download links are re-issued on every load, the FAQ says
+scored sets rotate weekly, and the Overview says solutions are tested
+against "unseen scenarios".
+
+It is also the only explanation yet that resolves the paradox: for K-03
+both parties, and for K-07 all four matrix outcomes, have been asserted and
+rejected. If the **scored** wording of those four questions differs from our
+local text, every answer derived from the local text fails for exactly that
+reason, while topic-driven sources still score 12/12 and the eight
+questions whose answer did not change still score.
+
+The Data page requires sign-in, so this needs a fresh download by the user
+and a byte-level diff against the local file. **Free, and decisive either
+way.**
+
+### Lead 2 — K-07 read as a two-dimension matrix
+
+VOS-7 s3 has three rows, and every K-07 test treated them as three mutually
+exclusive outcomes. They are more naturally **two independent dimensions**:
+a *spend* dimension (above Rs 10,00,000 → CFO) and a *category* dimension
+(direct-material → Plant Head + QA; **all other vendors** → GM Procurement).
+K-07 states only the spend, so the vendor falls under "all other vendors" —
+giving **CFO and GM Procurement**. That combination has never been asserted.
+It is also consistent with W1 scoring 8/8 with CFO + Plant Head + QA, since
+Sri Ranga Castings is direct-material and so takes the other category row.
+
+`knowledge_submission_v15_k07_two_dimension.csv` changes only K-07. Run it
+only if Lead 1 shows the question file is unchanged.
