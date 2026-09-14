@@ -1406,3 +1406,11 @@ grader is literal.
 Same content as answers already believed true, in the organizers' own
 notation. All four rows are proven wrong, so it cannot lose a point, and the
 score delta counts how many landed.
+
+### v20 result (2026-09-14): 0.8333 — none of the four landed
+
+`BUYER`, the three sandbox field names, `CFO, PLANT_HEAD, QA` and `NIL` all
+fail. The case-sensitive coded-key model is ruled out for the codes the
+organizers actually publish. Readable forms, uppercase forms and API
+vocabulary have now all been rejected for the same four questions. 2 of 5
+Knowledge attempts used today; holding the remaining 3 for new evidence.
