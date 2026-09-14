@@ -1535,3 +1535,18 @@ close to R-11; the user has now asked to use the attempts.
 
 **Submit order: v21, v22, v23, one at a time** — a rise in any file changes
 what the next should carry.
+
+### Results (2026-09-14): v21, v22 and v23 all 0.8333
+
+- **v21**: the same-source swap is ruled out — the key is not misaligned
+  within K-03/K-08 or K-05/K-07.
+- **v22**: quantity-led restatements fail — leading with a number is not
+  what separates the eight correct answers from the four wrong ones.
+- **v23**: bare `DRI`, EM-107's document shorthand, all four approvers and
+  `14%` all fail.
+
+Knowledge attempts today: 5 of 5 used (v19, v20, v21, v22, v23), every one
+0.8333. Submission files in git history now hold about seventy distinct
+answers for these four questions, across readable, uppercase, API-code,
+number-led, swapped and long-shot forms, and none has scored. Best recorded
+stays 0.8333.

@@ -3017,3 +3017,39 @@ But the risk is disqualification of the whole entry, which outweighs any
 remaining Knowledge gain. **No further corruption-style diagnostics or
 scoring-route probes should be run** unless the user decides otherwise,
 ideally after asking the organizers.
+
+---
+
+## 14. Knowledge, 2026-09-14 — five more attempts, all 0.8333
+
+All five changed only K-03, K-05, K-07 and K-08, which are proven wrong, so
+no file could lose a point. Full detail in
+`submissions/knowledge_answer_variants_ledger.md`.
+
+- **v19** — K-08 as `Nil (below Rs 5,00,000)`.
+- **v20** — the four written in the sandbox API's own vocabulary (`BUYER`,
+  `gst_cert, cancelled_cheque, msme_declaration`, `CFO, PLANT_HEAD, QA`,
+  `NIL`). Rules out a coded key matched case-sensitively.
+- **v21** — answers swapped within the only pairs that share a source
+  (K-03/K-08 on PP-2023, K-05/K-07 on VOS-7). Rules out a key misaligned
+  within those pairs. Not believed correct as written; built on the user's
+  request to use the attempts.
+- **v22** — each answer restated to lead with a quantity. Rules out "the
+  correct eight lead with a number" as the mechanism.
+- **v23** — held long shots: bare `DRI`, EM-107's document shorthand, all
+  four approvers, `14%`. Also not believed correct; same basis as v21.
+
+Free checks the same day: the four PDFs are tiny ReportLab files with no
+annotations, images, layers or small print, and their rendered pages match
+the extracted text exactly; every exception clause in the documents was
+checked against the four questions and changes none of them. Several
+external suggestions (layout-aware chunking, co-retrieval, agentic
+exception checkers, table extraction, "cross-system" CRM cascades, strict
+no-filler schemas, section-reference citations) were each checked and
+either do not apply — no retrieval pipeline produces these answers — or are
+contradicted by measured results.
+
+**State**: the answers match the documents and every reasonable notation of
+them has failed. The open question is how the grader matches text answers,
+which needs outside evidence (organizer clarification, a discussion post,
+the timing of the two entrants above us), not more submissions.

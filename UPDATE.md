@@ -1,38 +1,33 @@
-# Latest update — 2026-09-13
+# Latest update — 2026-09-14
 
 **This file is rewritten fresh on every change, not appended to.** It's a
 quick "what just happened and why" for a human checking in — the full
 project record with all context/rationale lives in `CLAUDE.md`.
 
-## W3 solved: 6/6, Workflow 1.0000
+## Knowledge: five attempts today, all 0.8333
 
-Keeping only the **5 ALL-CAPS merges** and unmerging the 40 regional-tag
-records scored **W3 6/6**. The Workflow scoring run returned **1.0000**
-(best recorded 1.0000). M3 stayed 5/5, since only `merged_into` changed.
+The four wrong answers are still K-03, K-05, K-07 and K-08. Every file today
+changed only those four rows, so none could lose a point.
 
-## The rule
+| File | What it tested | Score |
+|---|---|---|
+| v19 | K-08 as `Nil (below Rs 5,00,000)` | 0.8333 |
+| v20 | answers in the sandbox's own codes (`BUYER`, `gst_cert`, `PLANT_HEAD`, `NIL`) | 0.8333 |
+| v21 | answers swapped within the two same-source pairs (K-03/K-08, K-05/K-07) | 0.8333 |
+| v22 | every answer restated to lead with a number | 0.8333 |
+| v23 | long shots: bare `DRI`, EM-107 shorthand, all four approvers, `14%` | 0.8333 |
 
-Duplicates are the SalesTrack re-keys of an existing account: the same name
-in ALL CAPS. A `(North)`/`(South)`/`(II)` tag marks a separate account,
-covered by the brief's "leave every other customer alone".
+Ruled out today: key-format codes with case-sensitive matching, a swapped
+key, and "number-led answers score". Also checked for free: the PDFs hold
+no hidden content (rendered and read), and no exception clause in any
+document changes the four answers.
 
-Organizer text said it all along: FIX-3415 "a handful", EM-106 "names in
-caps". Every earlier W3 test held the 45-merge map fixed and varied things
-around it. The map itself was the bug.
+## Where the gap is
 
-## Engine fixed, not just the sandbox
-
-- `src/workflow/w3_customer_dedup.py` keeps the regional tag when grouping,
-  and `run_w3` clears stale merges so a re-run converges to 6/6.
-- Tests rewritten to the proven rule, including exact reproduction of the
-  5-merge map from the seed extract. **109/109 pass.**
-- Dry run against the live sandbox: 5 merges, 0 stale, 0 problems.
-
-## Hazard
-
-Do **not** run any old `w3_experiment_*.py --restore`. They restore the
-45-merge snapshot and would drop W3 back to 5/6. The winning state is saved
-as `crm_customers_w3_6of6_caps_only.json`.
+Our answers match the documents; the grader still rejects them. What is
+unknown is how the answer field is matched for text answers. That needs
+outside evidence — an organizer clarification, a discussion post, or the
+timing of the two entrants above us — not more submissions.
 
 ## Standing
 
@@ -43,4 +38,4 @@ as `crm_customers_w3_6of6_caps_only.json`.
 | Migration | **1.0000** |
 | Knowledge | 0.8333 |
 
-Composite about **96.67**. Knowledge is the only remaining gap.
+Composite about **96.67**. Commits since the last push are local only.
