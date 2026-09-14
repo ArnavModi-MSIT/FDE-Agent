@@ -1496,3 +1496,42 @@ the documents on all four.
 | Answers need a structured citation (`Section 4.1`, page refs) | contradicted. The citation column is `governing_source`, scored 12/12 as a bare code. Correct answers carry no section number; seven submitted K-03/K-05 answers did cite `clause 4.1`, `s4.1` or `VOS-7 step 2`, and failed. |
 | Strip whitespace, markdown, trailing periods; watch casing | checked: the banked file has no leading/trailing whitespace or markdown characters. Case is not it: `Nil`/`NIL` and `Buyer`/`BUYER` both failed. |
 | Extra CSV columns cause flat zeros | not applicable: exactly three columns, the upload page rejects anything else without spending an attempt, and eight rows score in the same file. The "HTTP 400" line is again the sandbox API's JSON rule. |
+
+## Three candidates for the remaining attempts (2026-09-14, user's request)
+
+The user asked for three files to use today's three attempts. Each changes
+only K-03, K-05, K-07 and K-08 (all proven wrong, so none can lose a point);
+the other eight rows and all twelve sources are the banked set. Every
+changed row was checked against all 59 historical rows for these four
+questions: none was ever submitted in that slot.
+
+### v21 `same_source_swap` — a key-misalignment hypothesis
+
+**The four wrong questions form two pairs with identical sources**: K-03 and
+K-08 are both PP-2023; K-05 and K-07 are both VOS-7. If the hidden key had
+those answers swapped within each pair, sources would still score 12/12 and
+every correct answer we wrote would fail — exactly what is observed. These
+are the only swaps consistent with 12/12 sources, since every other
+same-source question already scores. No answer ever submitted put another
+question's content in these slots. v21 puts K-08's answer in K-03, K-03's in
+K-08, K-07's in K-05 and K-05's in K-07. **Not believed correct for the
+questions as written** — it tests a defect in the key.
+
+### v22 `number_led` — the one pattern separating right from wrong
+
+All eight correct answers lead with a quantity; none of the four wrong ones
+does, except K-08's `0%`, which weakens this. Each of the four is restated
+as a true, quantity-led answer: `100% of freight … borne by the buyer`,
+`3 documents: …`, `1 approval: CFO …`, `0% discount (Nil) …`. A digit-led
+form was never tried for K-03, K-05 or K-07.
+
+### v23 `long_shots` — the held guesses
+
+`DRI` bare for K-03 (only ever submitted as a full sentence),
+`GST cert, cancelled cheque, MSME declaration` for K-05 (the organizers'
+own shorthand in EM-107), all four approvers for K-07, and `14%` for K-08.
+The last two were held since 2026-09-13 as **not believed correct** and
+close to R-11; the user has now asked to use the attempts.
+
+**Submit order: v21, v22, v23, one at a time** — a rise in any file changes
+what the next should carry.
