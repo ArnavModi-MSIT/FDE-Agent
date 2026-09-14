@@ -1319,3 +1319,35 @@ or evaluator file on our side, and R-08 is the only scoring text published.
 How the answer field is matched (exact, normalized, keyword, model judge) is
 exactly what the user is now searching for, or can ask the organizers as a
 format question. No new candidate; no attempt spent.
+
+## External review #5 (ChatGPT, 2026-09-14) — checked against git history
+
+**Correct.** The arithmetic (6 source points + 4 answer points = 10/12 =
+0.8333), the point that K-08 failing as `0%` means a numeric-answer rule
+alone cannot explain the split, and the conclusion that this is a
+matching/answer-key question rather than a policy-reading one.
+
+**Its example key strings, checked against every K-08 row in git history:**
+
+| Suggested key form | Status |
+|---|---|
+| `Below Rs 5,00,000: Nil` | **submitted exactly**, v16 — failed |
+| `0%` | submitted exactly — failed |
+| `Nil (below Rs 5,00,000)` | never submitted as that exact string; the same content, with no contradiction, failed as `Nil - no discount applies, as the order value of Rs 4,20,000 is below the Rs 5,00,000 threshold.` |
+
+Its "DRI rather than Buyer", "CFO rather than prose" and "the three-document
+list" suggestions are all already submitted exactly; it acknowledges DRI.
+
+**Its proposed mechanism conflicts with a measurement.** "Normalization, then
+exact or constrained comparison" cannot be plain exact matching: K-10 kept
+credit with irrelevant filler appended and K-09 kept credit padded to 297
+characters. A key-phrase-contained model survives that probe, but under it a
+trimmed fragment of an answer that already failed cannot score either.
+
+**One caution on its recommended route.** "Look for another participant's
+successful submission" is fine for public discussion of the *format*, but
+copying another entrant's answer rows is what v7 did and what R-11's "no
+sharing of submission files between participants" is closest to. Format
+evidence only.
+
+No new candidate built; no attempt spent.
