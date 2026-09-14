@@ -1452,3 +1452,19 @@ wrong questions:
 
 No cross-document exception exists either: the tickets and emails agree with
 the documents on all four.
+
+## Agentic-loop and table-extraction advice (2026-09-14) — does not apply
+
+- **Agentic exception checker** (look for "unless", "except", "subject to",
+  "provided that"). Every conditional in the four documents is already
+  listed in the table above: PP-2023's "unless expressly stated" (s2.2) and
+  "irrespective of order value" (s4.1), VOS-7's "where applicable" and
+  "direct-material vendors only", WRP-2020's "whichever is earlier",
+  exclusions, and Addendum A's "until existing stock is exhausted". None
+  changes K-03, K-05, K-07 or K-08.
+- **Table extraction** (Camelot, Table Transformer). The three tables that
+  matter — PP-2023 discount slabs, VOS-7 procedure and approval matrix — were
+  read from the rendered page images, not only from extracted text. They
+  read exactly as our answers assume: Below Rs 5,00,000 → Nil; spend above
+  Rs 10,00,000 → CFO; direct-material → Plant Head + QA; all other vendors →
+  GM Procurement.
