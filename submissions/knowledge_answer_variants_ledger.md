@@ -1468,3 +1468,20 @@ the documents on all four.
   read exactly as our answers assume: Below Rs 5,00,000 → Nil; spend above
   Rs 10,00,000 → CFO; direct-material → Plant Head + QA; all other vendors →
   GM Procurement.
+
+## "Cross-system mismatch" / "strict schema" advice (2026-09-14) — both contradicted by measurements
+
+- **"Knowledge mismatches cascade from sandbox state; run Task 01 first; the
+  half-migrated CRM (SYS-02) gives the wrong profile."** `SYS-02`, `Task 01`
+  and `Task 02` appear nowhere in this competition's material or this repo;
+  the families here are Reconciliation, Knowledge, Workflow, Migration. No
+  Knowledge question names a customer, vendor or record. And Knowledge is
+  scored against a hidden key, not sandbox state — the upload page says so,
+  and two measurements prove it: another entrant's answer set scored exactly
+  0.8333 on our account, and our Knowledge score stayed 0.8333 across the
+  2026-09-13 W3 state change (45 merges → 5).
+- **"Strict evaluation schema: no verbose filler."** The quoted line — unknown
+  fields rejected with HTTP 400 — is the sandbox API's rule for JSON request
+  bodies, not for answer text. Both halves of the advice are contradicted:
+  K-10 kept credit with irrelevant filler appended, K-09 kept credit padded
+  to 297 characters, and bare `Nil`, `Buyer`, `CFO`, `0` all failed.
