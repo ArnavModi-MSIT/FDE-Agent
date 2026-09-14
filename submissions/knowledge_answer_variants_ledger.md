@@ -1299,3 +1299,23 @@ exact-string grader — which K-10 keeping credit with filler argues against.
   items in the page header are decorative chips. Evaluation is the existing
   on-page section: re-runs against a hidden suite, correctness first, cost
   and latency as tiebreakers. Nothing about answer grading.
+
+## External review #4 (chat AI, 2026-09-14) — agrees with the diagnosis, its tests mostly don't apply
+
+**Agreed.** K-03's answer is the buyer under PP-2023, and after "Buyer",
+"The distributor", "Buyer's account", the three-cost sentence, the ex-works
+sentence and "DRI" all scored zero, more synonyms are the wrong layer. That
+matches this ledger's position since 2026-09-12.
+
+**Its retrieval, version and conflict tests do not apply.** They assume a
+RAG pipeline is being scored. Knowledge is scored on the uploaded CSV text
+only, and our K-03 row already states the buyer and ex-works. The version
+step is proven right independently: K-03's `PP-2023` source is part of the
+12/12 measured twice.
+
+**Its scoring test is the real question, and we cannot run it.**
+`knowledge_questions.csv` holds only `qid,question` — there is no gold answer
+or evaluator file on our side, and R-08 is the only scoring text published.
+How the answer field is matched (exact, normalized, keyword, model judge) is
+exactly what the user is now searching for, or can ask the organizers as a
+format question. No new candidate; no attempt spent.
