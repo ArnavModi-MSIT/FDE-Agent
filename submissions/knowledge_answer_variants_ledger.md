@@ -1485,3 +1485,14 @@ the documents on all four.
   bodies, not for answer text. Both halves of the advice are contradicted:
   K-10 kept credit with irrelevant filler appended, K-09 kept credit padded
   to 297 characters, and bare `Nil`, `Buyer`, `CFO`, `0` all failed.
+
+## "Reverse-engineer the grader" advice (2026-09-14) — already measured, or contradicted
+
+| Suggestion | Verdict |
+|---|---|
+| Format test on a certain answer: short, citation appended, raw PDF substring | **already measured.** Short passes (K-01 `10%`); appended text passes (K-10 filler, K-09 padding); K-09's raw PDF substring `10% of invoice value` failed while fuller forms passed. It also only probes a correct *number* answer — the open question is text answers. |
+| Check bhasker / Sanjay Prasad "last run" timing for an organizer hint | agreed — already on the user's search list |
+| Compare our CSV to a starter-kit sample | no Knowledge sample exists; only Reconciliation has one. The format is the spec's three columns. |
+| Answers need a structured citation (`Section 4.1`, page refs) | contradicted. The citation column is `governing_source`, scored 12/12 as a bare code. Correct answers carry no section number; seven submitted K-03/K-05 answers did cite `clause 4.1`, `s4.1` or `VOS-7 step 2`, and failed. |
+| Strip whitespace, markdown, trailing periods; watch casing | checked: the banked file has no leading/trailing whitespace or markdown characters. Case is not it: `Nil`/`NIL` and `Buyer`/`BUYER` both failed. |
+| Extra CSV columns cause flat zeros | not applicable: exactly three columns, the upload page rejects anything else without spending an attempt, and eight rows score in the same file. The "HTTP 400" line is again the sandbox API's JSON rule. |
