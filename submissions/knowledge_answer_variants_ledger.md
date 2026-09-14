@@ -1351,3 +1351,12 @@ sharing of submission files between participants" is closest to. Format
 evidence only.
 
 No new candidate built; no attempt spent.
+
+### v19 result (2026-09-14): 0.8333 — `Nil (below Rs 5,00,000)` fails
+
+Built by ChatGPT (it called the file v16; renamed v19 here because v16 is a
+spent candidate). Only K-08 changed from the banked set, verified
+byte-level. K-08 now has **fifteen** rejected real answers in git history
+(placeholder diagnostics excluded), including every
+short and long combination of `Nil`, `0`, `0%`, "no discount" and the
+Rs 5,00,000 band label. 1 of 5 Knowledge attempts used today.
