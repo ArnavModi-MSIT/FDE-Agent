@@ -1434,3 +1434,21 @@ directly, free:
   extracted text is unaffected.
 
 Nothing is hidden in the documents.
+
+## "Exception clauses" / co-retrieval advice (2026-09-14) — does not apply
+
+Generic RAG tip: rules and their exceptions sit far apart, so retrieve the
+parent section too. There is no retrieval step, and the four documents are
+one or two pages each. Every exception in them was checked against the four
+wrong questions:
+
+| Exception in the documents | Bears on | Already covered |
+|---|---|---|
+| PP-2023 s2.2 — slab discounts not cumulative with scheme or campaign discounts | K-08 | yes — carried in a submitted K-08 answer, failed; no scheme or campaign is named in the question, tickets or emails |
+| PP-2023 s1 — supersedes PP-2019 in full | K-03, K-08 | yes — the reason both answers use PP-2023; source proven 12/12 |
+| VOS-7 step 2 — MSME declaration "(where applicable)" | K-05 | yes — in the live answer; two-document and four-document readings also failed |
+| VOS-7 step 4 — quality audit, direct-material only | K-05, K-07 | yes — Plant Head + QA combinations all failed |
+| WRP-2020 Addendum A — FlowTech stock at 24 months | K-04 | correct already |
+
+No cross-document exception exists either: the tickets and emails agree with
+the documents on all four.
