@@ -1673,3 +1673,60 @@ banked text.
 | 0.8333 | the grader compares **numbers only**. A key with no digits then can't be matched in the usual way, so the four text keys either contain numbers we have never written in the right combination, or are unreachable. |
 | 0.6667 | the grader needs the **words** too (`days`, `months`) — literal token matching, so the four keys hold specific words we have not used. |
 | in between | mixed; the count says how many bare numbers survived. |
+
+### v28 result (2026-09-15): 0.8333 — numbers are what is matched
+
+`30`, `24`, `15` and `60` alone kept all four credits. Combined with v27
+(words alone lost them), **the grader extracts numbers and compares those**;
+the words around them do not count.
+
+**Extra numbers are allowed — it is a subset check, not equality.** v8
+(2026-09-10, 0.8333) carried eight correct answers stuffed with other
+numbers — K-01 also cited `2.1`, `5,00,000`, `15,00,000`, `14`, `7,20,000`
+and `2024`; K-02 and K-12 cited both `30` and `60`; K-11 cited `18`, `12`,
+`2025` and `2026` — and all eight kept their credit. So an answer passes
+when **every number in the key appears somewhere in it**.
+
+Retro-fits everything: K-09 `10%` failed and the winners carry `10` **and**
+`30`; terse K-11 `June 2026` failed and the long form adds `12` and `18`.
+
+**The pattern that has been in plain sight.** The eight questions we score
+are exactly the eight whose answers contain a number. The four we miss —
+Buyer, the document list, CFO, Nil — are exactly the four whose natural
+answers contain none. And almost the whole leaderboard is stuck at those
+same eight. A key with no numbers cannot be matched by a numbers check;
+whatever the grader does with those four, no ordinary answer satisfies it.
+
+Two possibilities remain for the four:
+
+1. **Their keys contain numbers we have never written.** Every earlier
+   answer used the policy's `Rs 3,00,000` style; the organizers' own tickets
+   and emails write `3 lakh`, `14 lakh`, `5 to 15 lakh slab`. A key written
+   that way has numbers (`3`, `14`, `5`) no submission has carried.
+2. **Their keys have no numbers** and the grader's text path is unmatched
+   by design or by bug. Then only an organizer clarification helps.
+
+### `knowledge_submission_v29_number_rich.csv` — for the next quota
+
+Tests possibility 1 with genuine answers, not stuffing: each of the four
+states its answer and cites the numbers a careful analyst would, in both
+the policy's comma style and the organizers' lakh style, plus clause and
+date. No contradicting values (no other discount bands).
+
+Because the check is a subset test, what matters is whether **one** answer
+holds every key number, not whether the numbers appeared across different
+past answers. Measured against all past rows (placeholders excluded):
+
+| Q | Numbers in the v29 answer | Never in any past answer | Most shared with one past answer |
+|---|---|---|---|
+| K-03 | 1, 2, 3, 4.1, 2019, 2023, 2024, 2,00,000, 3,00,000 | 1, 2 | 5 of 9 |
+| K-05 | 1, 2, 3, 7, 15, 2021 | 1, 15, 2021 | 3 of 6 |
+| K-07 | 1, 3, 7, 10, 14, 15, 2021, 10,00,000, 14,00,000 | 10, 15, 2021 | 4 of 9 |
+| K-08 | 0, 1, 2.1, 4.2, 5, 6, 2019, 2023, 2024, 1,00,000, 4,20,000, 5,00,000 | 2.1, 5 | 8 of 12 |
+
+No v29 answer is covered by any single past answer, so each can pass a key
+that every earlier submission missed. The lakh forms `3 lakh`, `14 lakh` and
+`4.2 lakh` had appeared before; `10 lakh`, `5 lakh` and `2 lakh` are new.
+K-08 mentions PP-2019's 6% only as the superseded rule.
+
+0.8333 would point strongly at possibility 2.

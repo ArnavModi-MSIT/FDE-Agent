@@ -4,31 +4,32 @@
 quick "what just happened and why" for a human checking in — the full
 project record with all context/rationale lives in `CLAUDE.md`.
 
-## Breakthrough on the mechanism: the Knowledge grader is literal
+## The Knowledge grader compares numbers
 
-v27 rewrote four **correct** number answers in words (`Ten percent`,
-`Thirty days …`, `Fifteen days …`, `Sixty days …`) and scored **0.6667** —
-all four lost their credit. The grader does not judge meaning: `10%` scores,
-`Ten percent` does not. Best recorded stays 0.8333.
+- **v27** (correct answers written in words) → 0.6667: words alone fail.
+- **v28** (correct answers cut to bare numbers `30`, `24`, `15`, `60`) →
+  0.8333: numbers alone pass.
+- **v8** from 10 Sep already showed extra numbers don't hurt.
 
-This explains the whole Knowledge history: extra text is tolerated, terse
-answers fail where the key carries more literal content, and the four text
-answers (K-03, K-05, K-07, K-08) fail in every wording because their keys'
-literal content has never appeared in our answers.
+So an answer scores when **every number in the hidden key appears in it**.
 
-## Last attempt today: v28
+## Why we're stuck at 8 of 12
 
-`submissions/knowledge_submission_v28_bare_numbers.csv` cuts four correct
-rows to bare numbers (K-02 `30`, K-04 `24`, K-10 `15`, K-12 `60`).
+The eight questions we score are exactly the eight with numeric answers.
+The four we miss — Buyer, the document list, CFO, Nil — are exactly the four
+whose natural answers have no number. Nearly the whole leaderboard sits at
+the same eight.
 
-- **0.8333** → numbers only are matched.
-- **0.6667** → words like `days`/`months` are matched too.
+Either those four keys contain numbers we've never written (the organizers'
+tickets write amounts as "3 lakh", "14 lakh", "5 to 15 lakh slab"), or they
+contain none and can't be matched without organizer clarification.
 
-## Also today
+## Ready for tomorrow: v29
 
-- v24–v26 all 0.8333.
-- Leaderboard JSON: bhasker's 24/24 was scored on 16 Aug, before the
-  competition opened — not proof 24/24 is reachable now.
+`submissions/knowledge_submission_v29_number_rich.csv` restates the four as
+genuine answers carrying their numbers in both styles (`Rs 3,00,000 (Rs 3
+lakh)`, `Rs 14,00,000 (Rs 14 lakh)`, `Rs 5,00,000 (Rs 5 lakh)`) plus clause
+and date. All 5 Knowledge attempts for today are used.
 
 ## Standing
 

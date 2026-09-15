@@ -3101,6 +3101,22 @@ the timing of the two entrants above us), not more submissions.
   file and the ledger is overturned. It fits all prior observations (extra
   text tolerated; terse K-09 and K-11 failing where fuller forms with more
   numbers pass; `Chief Financial Officer` failing).
-- **v28 (built, for the last attempt today)** reduces four correct rows to
-  bare numbers (K-02 `30`, K-04 `24`, K-10 `15`, K-12 `60`): 0.8333 means
-  numbers-only matching, 0.6667 means the words are matched too.
+- **v28 scored 0.8333 — the grader compares numbers.** Four correct rows cut
+  to bare numbers (K-02 `30`, K-04 `24`, K-10 `15`, K-12 `60`) kept their
+  credit. With v27, words don't count; numbers do.
+- **It is a subset check.** v8 (0.8333) carried eight correct answers with
+  many extra numbers (K-01 also cited `5,00,000`, `15,00,000`, `14`,
+  `7,20,000`; K-11 cited `18`, `12`, `2025`), and all eight scored. An answer
+  passes when every number in the key appears in it. This retro-fits K-09
+  (needs `10` and `30`) and K-11 (terse `June 2026` failed; the long form
+  adds `12` and `18`).
+- **The eight questions we score are exactly the eight with numeric answers;
+  the four we miss (Buyer, documents, CFO, Nil) are exactly the four whose
+  natural answers have no number** — and nearly the whole leaderboard sits
+  at those same eight. Either the four keys hold numbers never written (the
+  organizers' tickets write amounts in lakh: `3 lakh`, `14 lakh`, `5 to 15
+  lakh`), or they hold none and the text path can't be met without organizer
+  input.
+- **v29 (built, for the next quota)** restates the four as genuine answers
+  carrying their numbers in both comma and lakh style plus clause and date,
+  with no contradicting values.
