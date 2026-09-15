@@ -1,33 +1,32 @@
-# Latest update — 2026-09-14
+# Latest update — 2026-09-15
 
 **This file is rewritten fresh on every change, not appended to.** It's a
 quick "what just happened and why" for a human checking in — the full
 project record with all context/rationale lives in `CLAUDE.md`.
 
-## Knowledge: five attempts today, all 0.8333
+## Overview page re-read live
 
-The four wrong answers are still K-03, K-05, K-07 and K-08. Every file today
-changed only those four rows, so none could lose a point.
+- **Evaluation section**: re-runs against a hidden task suite, correctness
+  first, cost and latency as tiebreakers, model calls through a metered
+  proxy, any stack allowed. Nothing on how Knowledge answers are matched.
+  The CSV uploads don't go through the proxy — "How to compete" says to
+  submit the output CSV and "how you built it is your business".
+- **Timeline not previously recorded**: finalists announced 2 Oct; finals
+  7–9 Oct at Cypher 2026, where finalists walk through their agent live.
+- **Correction**: an external tip's "SYS-02" and "Task 01" wording was
+  dismissed yesterday as not from this competition. It is — the Overview
+  lists systems SYS-01 to SYS-05 and challenges 01 to 04. The tip's
+  substance is still contradicted by our results.
 
-| File | What it tested | Score |
-|---|---|---|
-| v19 | K-08 as `Nil (below Rs 5,00,000)` | 0.8333 |
-| v20 | answers in the sandbox's own codes (`BUYER`, `gst_cert`, `PLANT_HEAD`, `NIL`) | 0.8333 |
-| v21 | answers swapped within the two same-source pairs (K-03/K-08, K-05/K-07) | 0.8333 |
-| v22 | every answer restated to lead with a number | 0.8333 |
-| v23 | long shots: bare `DRI`, EM-107 shorthand, all four approvers, `14%` | 0.8333 |
+## Why the finals date matters
 
-Ruled out today: key-format codes with case-sensitive matching, a swapped
-key, and "number-led answers score". Also checked for free: the PDFs hold
-no hidden content (rendered and read), and no exception clause in any
-document changes the four answers.
+The Knowledge engine (`scripts/run_knowledge.py`) still produces the 0.7500
+answers; the banked 0.8333 set is hand-written. A live walkthrough would
+show the engine, so it should be updated to reproduce the banked answers.
 
-## Where the gap is
+## Knowledge yesterday
 
-Our answers match the documents; the grader still rejects them. What is
-unknown is how the answer field is matched for text answers. That needs
-outside evidence — an organizer clarification, a discussion post, or the
-timing of the two entrants above us — not more submissions.
+Five attempts (v19–v23), all 0.8333. Still wrong: K-03, K-05, K-07, K-08.
 
 ## Standing
 

@@ -39,7 +39,10 @@ from the rules page**, not assumed:
   2026-09-20; **all submissions freeze 2026-09-27 23:59 IST** (a separate,
   later hard cutoff than the qualifier close — the gap between the two
   isn't explained anywhere I've read, don't assume extra scored attempts
-  in that week without checking).
+  in that week without checking). The Overview timeline (re-read live
+  2026-09-15) adds **P3 finalists announced 2026-10-02** and **P4 finals
+  2026-10-07 to 10-09 at Cypher 2026**, where finalists "walk through their
+  agent live".
 - 5 scored submissions per task family per day (Asia/Kolkata); a
   malformed/rejected file doesn't consume an attempt; ground truth is
   never disclosed, only one number per submission.
@@ -3053,3 +3056,24 @@ contradicted by measured results.
 them has failed. The open question is how the grader matches text answers,
 which needs outside evidence (organizer clarification, a discussion post,
 the timing of the two entrants above us), not more submissions.
+
+### Overview page re-read live (2026-09-15)
+
+- **Evaluation cards say nothing about answer matching.** "Automatic
+  re-runs" against a hidden task suite, "correctness first" with cost and
+  latency as tiebreakers, a "metered proxy" for model calls with a
+  per-submission cost cap, and "any model, any framework". The same page's
+  "How to compete" says to submit the output CSV and "How you built it is
+  your business", so the proxy does not touch the CSV uploads this project
+  has made. The Understand challenge is described as "evidence-backed
+  answers", which matches the `governing_source` column.
+- **Correction to the ledger.** An external tip's `SYS-02` and "Task 01"
+  naming was dismissed as absent from this competition. It is real: the
+  Overview lists `SYS-01`–`SYS-05` (`SYS-02` = half-migrated CRM) and numbers
+  the challenges 01–04. The tip's substance is still contradicted by
+  measurement.
+- **Finals are a live agent walkthrough (2026-10-07 to 10-09).** That makes
+  the §9b hazard matter beyond the leaderboard: the Knowledge engine still
+  emits the 0.7500 answer set, while the banked 0.8333 set is hand-authored.
+  If the entry reaches the finals, the engine should reproduce the banked
+  answers itself.

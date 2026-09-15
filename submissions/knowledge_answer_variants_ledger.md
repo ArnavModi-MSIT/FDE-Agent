@@ -1472,9 +1472,14 @@ the documents on all four.
 ## "Cross-system mismatch" / "strict schema" advice (2026-09-14) — both contradicted by measurements
 
 - **"Knowledge mismatches cascade from sandbox state; run Task 01 first; the
-  half-migrated CRM (SYS-02) gives the wrong profile."** `SYS-02`, `Task 01`
-  and `Task 02` appear nowhere in this competition's material or this repo;
-  the families here are Reconciliation, Knowledge, Workflow, Migration. No
+  half-migrated CRM (SYS-02) gives the wrong profile."** **Correction
+  (2026-09-15): the naming was real, and this entry first said otherwise.**
+  The live Overview page lists the client's systems as `SYS-01` Legacy ERP
+  through `SYS-05` Document store, with `SYS-02` the "Half-migrated CRM", and
+  numbers the challenges `01 — Reconcile`, `02 — Understand`,
+  `03 — Orchestrate`, `04 — Act safely`. The repo grep found nothing only
+  because the Overview text was never saved here. The substance of the
+  advice still fails, for the reasons below. No
   Knowledge question names a customer, vendor or record. And Knowledge is
   scored against a hidden key, not sandbox state — the upload page says so,
   and two measurements prove it: another entrant's answer set scored exactly
