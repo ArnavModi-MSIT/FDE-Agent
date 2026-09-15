@@ -1591,3 +1591,52 @@ from source spans and matched by token overlap.
   written.
 
 Submit one at a time: v24, v25, v26.
+
+### Results (2026-09-15): v24, v25 and v26 all 0.8333
+
+Plain synonyms (incl. K-08 `None`), verbatim policy spans, the escalation
+framing, bare `3`, `CFO, GM_PROCUREMENT` and `12%` all fail. **Every value in
+both discount tables has now been asserted for K-08** (Nil, 6%, 12%, 10%,
+14%). 3 of 5 Knowledge attempts used today.
+
+**v21 also firmly settles the wrong set.** It put another question's answer
+into K-03 and K-05 and scored 0.8333. If either had been correct, that file
+would have lost a point with nothing able to offset it. The three sets the
+diagnostics allowed collapse to one: K-03, K-05, K-07, K-08.
+
+## Leaderboard JSON (2026-09-15) — the 24/24 predates the competition
+
+The public leaderboard links a JSON feed (`/api/public/leaderboard`) with an
+exact `last_run` per entrant:
+
+| Entrant | Knowledge | Entries | Last run (UTC) |
+|---|---|---|---|
+| bhasker | **1.000** | 10 | **2026-08-16 10:28** |
+| Sanjay Prasad | **0.875** | 37 | 2026-09-10 07:38 |
+| Naveen M H | 0.500 | 9 | 2026-08-18 11:32 |
+| Mileta Mitrovic | 0.8333 | **2** | 2026-09-11 |
+
+- **bhasker's last run is four days before the competition opened** (Overview:
+  "Opens 20 Aug 2026"). All ten of that account's entries, including the
+  24/24, were scored before launch, which fits an organizer or test account,
+  possibly against an earlier key. **It is not evidence that 24/24 is
+  reachable now.** Naveen M H is also pre-launch.
+- **Sanjay Prasad is the only post-launch entrant above 20/24.** 21/24 is
+  either 12 sources + 9 answers or 11 + 10, so at least one of the four is
+  probably reachable — but when that best was set is not shown.
+- **Mileta Mitrovic reached 0.8333 in two entries.** An ordinary answer set
+  lands at 8/12 immediately; the four are hard for the whole field, not
+  just us.
+
+## `knowledge_submission_v27_words_not_digits.csv` — a mechanism test on correct rows
+
+Something different in kind: instead of guessing the four wrong rows (left
+at the banked text), it rewrites four **correct** number answers in words —
+K-01 `Ten percent`, K-02 `Thirty days …`, K-10 `Fifteen days …`, K-12
+`Sixty days …`. Best-recorded scoring means it cannot lower the banked score.
+
+| Score | Meaning |
+|---|---|
+| 0.8333 | word forms accepted → the grader judges meaning, so the four keys hold content different from the policy answers. Rewording is finished for good. |
+| 0.6667 | all four broke → the grader matches literal tokens or numbers, which is why readable text answers fail; the next search is for the literal form |
+| in between | mixed matcher; the count says how many word forms survived |

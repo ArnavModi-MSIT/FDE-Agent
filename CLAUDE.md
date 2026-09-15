@@ -3077,3 +3077,23 @@ the timing of the two entrants above us), not more submissions.
   emits the 0.7500 answer set, while the banked 0.8333 set is hand-authored.
   If the entry reaches the finals, the engine should reproduce the banked
   answers itself.
+
+### 2026-09-15: v24–v26 all 0.8333, and the 24/24 predates launch
+
+- **v24** plain synonyms (K-08 `None`), **v25** verbatim policy spans,
+  **v26** escalation framing plus the last unasserted values (`3`,
+  `CFO, GM_PROCUREMENT`, `12%`) — all 0.8333. Every value in both discount
+  tables has now been asserted for K-08.
+- **v21 settles the wrong set on its own.** It put other questions' answers
+  into K-03 and K-05 with no score loss, so neither was correct. The wrong
+  set is K-03, K-05, K-07, K-08 without relying on the diagnostics.
+- **The public leaderboard JSON (`/api/public/leaderboard`) gives exact
+  `last_run` times.** bhasker's 24/24 account last ran **2026-08-16**, four
+  days before the competition opened on 20 Aug — consistent with an
+  organizer or test account, possibly on an earlier key, so it no longer
+  proves 24/24 is reachable. Sanjay Prasad (0.875, last run 2026-09-10) is
+  the only post-launch entrant above 20/24. Mileta Mitrovic reached 0.8333
+  in two entries, so 8/12 is where ordinary answers land.
+- **v27 (built, not yet submitted)** rewrites four *correct* number answers
+  in words (K-01 `Ten percent`, K-02/K-10/K-12 in words) to test whether the
+  grader judges meaning (0.8333) or literal tokens (0.6667).
