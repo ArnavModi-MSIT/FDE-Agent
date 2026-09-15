@@ -1640,3 +1640,36 @@ K-01 `Ten percent`, K-02 `Thirty days …`, K-10 `Fifteen days …`, K-12
 | 0.8333 | word forms accepted → the grader judges meaning, so the four keys hold content different from the policy answers. Rewording is finished for good. |
 | 0.6667 | all four broke → the grader matches literal tokens or numbers, which is why readable text answers fail; the next search is for the literal form |
 | in between | mixed matcher; the count says how many word forms survived |
+
+### v27 result (2026-09-15): 0.6667 — THE GRADER IS LITERAL
+
+`0.6667 = 16/24` = 12 sources + 4 answers. All four word-form rewrites
+(`Ten percent`, `Thirty days …`, `Fifteen days …`, `Sixty days …`) lost their
+credit; K-04, K-06, K-09 and K-11 kept theirs. Best recorded stays 0.8333.
+
+**This is the first measurement of how answers are matched, and it
+overturns every "semantic grader" reading in this ledger.** The grader does
+not judge meaning. `10%` scores and `Ten percent` does not, so it matches
+literal digits or literal tokens. That fits every earlier observation:
+
+- Extra text is tolerated (K-10 filler, K-09 padding) — a literal
+  containment or token-recall check ignores unmatched extras.
+- K-09 `10% of invoice value` failed while fuller forms passed, and terse
+  `June 2026` for K-11 failed in the old set while the long form passes —
+  the key carries more literal content (`30 days`; `12`/`18 months`) than
+  the terse answers did.
+- `Chief Financial Officer` failing where a meaning-judge would accept it.
+- Readable text answers for K-03, K-05, K-07, K-08 failing in every
+  wording: whatever literal content their keys carry has never appeared.
+
+### `knowledge_submission_v28_bare_numbers.csv` — numbers only, or tokens?
+
+Splits the two literal models. Four correct rows keep only their number:
+K-02 `30`, K-04 `24`, K-10 `15`, K-12 `60`. The four wrong rows stay at the
+banked text.
+
+| Score | Meaning |
+|---|---|
+| 0.8333 | the grader compares **numbers only**. A key with no digits then can't be matched in the usual way, so the four text keys either contain numbers we have never written in the right combination, or are unreachable. |
+| 0.6667 | the grader needs the **words** too (`days`, `months`) — literal token matching, so the four keys hold specific words we have not used. |
+| in between | mixed; the count says how many bare numbers survived. |

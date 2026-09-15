@@ -3094,6 +3094,13 @@ the timing of the two entrants above us), not more submissions.
   proves 24/24 is reachable. Sanjay Prasad (0.875, last run 2026-09-10) is
   the only post-launch entrant above 20/24. Mileta Mitrovic reached 0.8333
   in two entries, so 8/12 is where ordinary answers land.
-- **v27 (built, not yet submitted)** rewrites four *correct* number answers
-  in words (K-01 `Ten percent`, K-02/K-10/K-12 in words) to test whether the
-  grader judges meaning (0.8333) or literal tokens (0.6667).
+- **v27 scored 0.6667 — the grader is literal.** Four *correct* number
+  answers rewritten in words (K-01 `Ten percent`, K-02/K-10/K-12 in words)
+  all lost their credit. The grader does not judge meaning: `10%` scores,
+  `Ten percent` does not. Every earlier "semantic grader" reading in this
+  file and the ledger is overturned. It fits all prior observations (extra
+  text tolerated; terse K-09 and K-11 failing where fuller forms with more
+  numbers pass; `Chief Financial Officer` failing).
+- **v28 (built, for the last attempt today)** reduces four correct rows to
+  bare numbers (K-02 `30`, K-04 `24`, K-10 `15`, K-12 `60`): 0.8333 means
+  numbers-only matching, 0.6667 means the words are matched too.

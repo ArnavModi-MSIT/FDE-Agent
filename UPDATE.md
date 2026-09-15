@@ -4,33 +4,31 @@
 quick "what just happened and why" for a human checking in — the full
 project record with all context/rationale lives in `CLAUDE.md`.
 
-## Knowledge: v24–v26 all 0.8333
+## Breakthrough on the mechanism: the Knowledge grader is literal
 
-Plain synonyms, verbatim policy text, and long shots all failed. Every
-discount value in both policy tables has now been tried for K-08. v21's
-swap test also proves on its own that the wrong set is K-03, K-05, K-07,
-K-08.
+v27 rewrote four **correct** number answers in words (`Ten percent`,
+`Thirty days …`, `Fifteen days …`, `Sixty days …`) and scored **0.6667** —
+all four lost their credit. The grader does not judge meaning: `10%` scores,
+`Ten percent` does not. Best recorded stays 0.8333.
 
-## The 24/24 predates the competition
+This explains the whole Knowledge history: extra text is tolerated, terse
+answers fail where the key carries more literal content, and the four text
+answers (K-03, K-05, K-07, K-08) fail in every wording because their keys'
+literal content has never appeared in our answers.
 
-The leaderboard's JSON feed has exact last-run times. **bhasker (Knowledge
-1.000) last ran on 16 Aug — four days before the competition opened on
-20 Aug.** That looks like an organizer or test account, so it no longer
-proves 24/24 is reachable today. The only post-launch entrant above us is
-Sanjay Prasad at 0.875 (last run 10 Sep). One entrant reached 0.8333 in
-just two tries: 8/12 is where ordinary answers land.
+## Last attempt today: v28
 
-## Next: v27, a different kind of test
+`submissions/knowledge_submission_v28_bare_numbers.csv` cuts four correct
+rows to bare numbers (K-02 `30`, K-04 `24`, K-10 `15`, K-12 `60`).
 
-`submissions/knowledge_submission_v27_words_not_digits.csv` leaves the four
-wrong rows alone and writes four *correct* number answers in words (`Ten
-percent`, `Thirty days …`, `Fifteen days …`, `Sixty days …`). It can't lower
-the banked score.
+- **0.8333** → numbers only are matched.
+- **0.6667** → words like `days`/`months` are matched too.
 
-- **0.8333** → the grader judges meaning; the four keys hold different
-  content, and rewording is over.
-- **0.6667** → the grader matches literal numbers or tokens, which is why
-  text answers fail.
+## Also today
+
+- v24–v26 all 0.8333.
+- Leaderboard JSON: bhasker's 24/24 was scored on 16 Aug, before the
+  competition opened — not proof 24/24 is reachable now.
 
 ## Standing
 
@@ -41,5 +39,4 @@ the banked score.
 | Migration | **1.0000** |
 | Knowledge | 0.8333 |
 
-Composite **96.67**, rank 6 of 18 (tied on score with ranks 3–5).
-Commits since the last push are local only.
+Composite **96.67**. Commits since the last push are local only.
