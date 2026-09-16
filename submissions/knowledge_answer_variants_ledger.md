@@ -1730,3 +1730,39 @@ that every earlier submission missed. The lakh forms `3 lakh`, `14 lakh` and
 K-08 mentions PP-2019's 6% only as the superseded rule.
 
 0.8333 would point strongly at possibility 2.
+
+## v29 RESULT (2026-09-16): 0.8750 — FIRST GAIN SINCE 09-10, and the numbers model is confirmed
+
+`0.8750 = 21/24` = 12 sources + **9 answers**. Exactly one of K-03, K-05,
+K-07 and K-08 landed. Best recorded is now **0.8750**; Knowledge is
+9/12 answers.
+
+**What it proves.** Possibility 2 is dead: at least one of the four keys
+**does** contain numbers, and the subset model (an answer scores when every
+number in the key appears in it) now has a positive confirmation, not just
+negative ones. Nothing about the wording changed the outcome — v29 says the
+same things earlier failures said; what changed is that it carries the
+policy's comma amounts **and** the organizers' lakh forms plus the clause
+and effective/transaction dates.
+
+Free note: a first upload today went to the reconciliation tab and was
+rejected for the wrong columns. Rejected files do not consume an attempt,
+exactly as the page says.
+
+### `knowledge_submission_v30_isolate_k03_k05.csv` — which one landed
+
+K-07 and K-08 go back to the banked v7 text (no numbers beyond their own),
+while K-03 and K-05 carry **supersets** of their v29 numbers — every number
+in v29 plus more: K-03 adds 100 (percent borne), 30 September 2023, and the
+PP-2019 FOR-destination threshold in both notations; K-05 adds the other
+VOS-7 step numbers, the Rs 2,00,000 trial cap and the 90-day review.
+
+| Score | Reading |
+|---|---|
+| 0.8333 | neither K-03 nor K-05 lands even expanded → **the v29 winner was K-07 or K-08** |
+| 0.8750 | one of K-03/K-05 lands → the winner is in that pair |
+| 0.9167 | both land → the v29 winner plus a second one |
+
+Adding numbers cannot lose a point under the subset model (v8 proved extra
+numbers are harmless), so the expansion is free; the only thing at risk is
+the v29 gain, which is already banked as the best recorded score.

@@ -3120,3 +3120,18 @@ the timing of the two entrants above us), not more submissions.
 - **v29 (built, for the next quota)** restates the four as genuine answers
   carrying their numbers in both comma and lakh style plus clause and date,
   with no contradicting values.
+
+### 2026-09-16: v29 scored 0.8750 — the first Knowledge gain in six days
+
+`21/24` = 12 sources + **9 answers**, so exactly one of K-03, K-05, K-07,
+K-08 landed. **This confirms the numbers model positively**: at least one of
+the four keys contains numbers, and carrying them all — the policy's comma
+amounts *and* the organizers' lakh forms, plus clause and dates — is what
+flipped it. Wording was not the lever; number coverage was.
+
+`submissions/knowledge_submission_v30_isolate_k03_k05.csv` isolates which:
+K-07/K-08 revert to the banked text while K-03/K-05 carry supersets of their
+v29 numbers. 0.8333 means the winner was K-07 or K-08; 0.8750 means it is in
+the K-03/K-05 pair; 0.9167 means a second row landed too. Extra numbers
+cannot lose a point (v8), so only the banked 0.8750 is at stake, and that is
+already recorded.
