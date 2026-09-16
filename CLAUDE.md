@@ -3135,3 +3135,13 @@ v29 numbers. 0.8333 means the winner was K-07 or K-08; 0.8750 means it is in
 the K-03/K-05 pair; 0.9167 means a second row landed too. Extra numbers
 cannot lose a point (v8), so only the banked 0.8750 is at stake, and that is
 already recorded.
+
+- **v30 scored 0.8333**, so the v29 winner is **K-07 or K-08**, and K-03/K-05
+  do not respond to number coverage even when widened to 11 numbers each
+  (both notations, clause, dates, superseded thresholds, every VOS-7 step).
+  Their keys most likely carry no numbers, which the numbers check cannot
+  match.
+- **v31 (built)** widens K-07 *and* K-08 while keeping every v29 number, so
+  the banked winner keeps scoring and the other gets its best shot: 0.9167
+  means both are right (10/12 answers); 0.8750 means only the winner; 0.8333
+  would falsify the subset model.

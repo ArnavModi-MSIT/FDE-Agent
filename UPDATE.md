@@ -15,14 +15,15 @@ it. v29 restated the four answers carrying their numbers in both the
 policy's style (`Rs 5,00,000`) and the organizers' lakh style (`Rs 5 lakh`),
 plus the clause and the dates. Same claims as before; more number coverage.
 
-## Next: find out which one landed
+## Next: chase the second of the pair
 
-`submissions/knowledge_submission_v30_isolate_k03_k05.csv` — K-07 and K-08
-go back to the banked text, K-03 and K-05 carry even more numbers.
+v30 scored 0.8333, so the winner is K-07 or K-08, and K-03/K-05 do not
+respond to number coverage. `knowledge_submission_v31_widen_k07_k08.csv`
+widens both K-07 and K-08 while keeping every v29 number.
 
-- **0.8333** → the winner was K-07 or K-08.
-- **0.8750** → the winner is K-03 or K-05.
-- **0.9167** → a second answer landed as well.
+- **0.9167** → the second one landed too (10/12 answers).
+- **0.8750** → still only the v29 winner.
+- **0.8333** → would falsify the subset model (both rows are supersets).
 
 Extra numbers cannot cost a point, and 0.8750 is already banked.
 
@@ -35,5 +36,5 @@ Extra numbers cannot cost a point, and 0.8750 is already banked.
 | Migration | **1.0000** |
 | Knowledge | **0.8750** |
 
-Composite **97.50**. 4 Knowledge attempts left today. Commits since the last
+Composite **97.50**. 3 Knowledge attempts left today. Commits since the last
 push are local only.

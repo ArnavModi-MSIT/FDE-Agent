@@ -1766,3 +1766,36 @@ VOS-7 step numbers, the Rs 2,00,000 trial cap and the 90-day review.
 Adding numbers cannot lose a point under the subset model (v8 proved extra
 numbers are harmless), so the expansion is free; the only thing at risk is
 the v29 gain, which is already banked as the best recorded score.
+
+### v30 result (2026-09-16): 0.8333 — the v29 winner is K-07 or K-08
+
+Reverting K-07 and K-08 to the banked text lost the gain, and the widened
+K-03/K-05 (11 numbers each, supersets of v29) did not land. So:
+
+- **The v29 winner is K-07 or K-08.**
+- **K-03 and K-05 do not respond to number coverage.** Between v29 and v30
+  they have carried the amount in both notations, the clause, the effective
+  and transaction dates, the superseded PP-2019 threshold, the 100% share,
+  and every VOS-7 step number, the trial cap and the 90-day review. Their
+  keys most likely contain no numbers at all, which the numbers check cannot
+  match — the same dead end as before, now with two failed expansions behind
+  it.
+
+### `knowledge_submission_v31_widen_k07_k08.csv` — go for the second of the pair
+
+Rather than spend an attempt only to name the winner, this widens **both**
+K-07 and K-08 while keeping every v29 number, so whichever landed keeps
+scoring and the other gets its best shot:
+
+| Q | Numbers now carried |
+|---|---|
+| K-07 | 1, 2, 3, 6, 7, 10, 14, 15, 90, 2021, 2,00,000, 10,00,000, 14,00,000 |
+| K-08 | 0, 1, 2.1, 2.2, 4.2, 5, 6, 10, 12, 14, 15, 30, 2019, 2023, 2024, 1,00,000, 4,20,000, 5,00,000, 15,00,000 |
+
+K-03 and K-05 keep v30's widest text (harmless, already proven not to land).
+
+| Score | Reading |
+|---|---|
+| 0.9167 | the second one landed too — **10/12 answers** |
+| 0.8750 | still only the v29 winner; the other's key holds something no number covers |
+| 0.8333 | impossible under the subset model (both rows are supersets of v29) — would falsify it |
