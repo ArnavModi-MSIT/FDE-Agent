@@ -3172,3 +3172,8 @@ already recorded.
   composite **97.50**, level with Sanjay Prasad, the only post-launch entrant
   who ever passed 20/24 — consistent with 9/12 being the live ceiling unless
   K-03/K-05/K-07's keys turn out to hold numbers after all.
+- **Housekeeping 2026-09-16**: every spent Knowledge candidate CSV (v7,
+  v9–v33, the probe/diagnostic files) is deleted from the working tree; git
+  history retains them and the ledger records what each tested. New
+  candidates are built from `knowledge_submission_best_0p8750.csv`, which is
+  now the only base file on disk.

@@ -1894,3 +1894,21 @@ Ideas left for the next quota, in order:
    missing — candidates are `1` (one approval), `4` (step 4 QA) or none.
 2. **K-03's freight threshold in lakh** (`Rs 2 lakh` was in v30, failed).
 3. Accept 0.8750 and ask the organizers how non-numeric answers are matched.
+
+## Housekeeping (2026-09-16): spent candidate CSVs removed
+
+Every spent Knowledge candidate, probe and diagnostic file (v7, v9–v33 and
+the four probe/diagnostic files) is deleted from the working tree. Git
+history keeps them all — `git log --all -- 'submissions/*.csv'` recovers any
+row, and this ledger records what each one tested and scored.
+
+What remains in `submissions/`:
+
+| File | Why it stays |
+|---|---|
+| `knowledge_submission_best_0p8750.csv` | the scoring set; **the base for building any new candidate** (v7 no longer exists on disk) |
+| `knowledge_submission.csv` | live file, same content as the best set |
+| `submission.csv` | the 1.0000 Reconciliation output |
+| `knowledge_answer_variants_ledger.md` | this record |
+| `reconciliation_report.md`, `reconciliation_status_matrix.md` | organizer-requested artifacts |
+| `state_snapshots/` | W3/M3 sandbox states, including the 6/6 winner |
