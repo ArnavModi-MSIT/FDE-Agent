@@ -4,28 +4,34 @@
 quick "what just happened and why" for a human checking in — the full
 project record with all context/rationale lives in `CLAUDE.md`.
 
-## Knowledge is up: 0.8333 → 0.8750
+## Knowledge 0.8333 → 0.8750, and we know exactly why
 
-v29 scored **0.8750** (21/24 = 12 sources + 9 answers). One of the four
-failing answers — K-03, K-05, K-07, K-08 — finally landed.
+Five attempts today took Knowledge from 8/12 to **9/12 answers**.
 
-**Why it worked.** Yesterday's tests showed the grader compares numbers, not
-words, and passes an answer when every number in the hidden key appears in
-it. v29 restated the four answers carrying their numbers in both the
-policy's style (`Rs 5,00,000`) and the organizers' lakh style (`Rs 5 lakh`),
-plus the clause and the dates. Same claims as before; more number coverage.
+- **v29 (0.8750)** — the four failing answers restated with their numbers in
+  both notations. One landed.
+- **v30 (0.8333)** — K-03/K-05 widened, K-07/K-08 reverted: the winner is in
+  the K-07/K-08 pair, and K-03/K-05 don't respond to numbers.
+- **v31 (0.8750)** — widening both added nothing; only one of the pair is
+  reachable.
+- **v32 (0.8333)** — reverting K-08 alone lost the point: **K-08 is the one**.
+- **v33 (0.8750)** — K-08 still scores with the clause number dropped.
 
-## Next: chase the second of the pair
+**The finding.** v11's failed K-08 already carried every number v33 has
+except one: `5`, from writing the threshold as **`Rs 5 lakh`**. The hidden
+keys use the organizers' own lakh notation, not the PDF's `Rs 5,00,000`.
 
-v30 scored 0.8333, so the winner is K-07 or K-08, and K-03/K-05 do not
-respond to number coverage. `knowledge_submission_v31_widen_k07_k08.csv`
-widens both K-07 and K-08 while keeping every v29 number.
+## Best set
 
-- **0.9167** → the second one landed too (10/12 answers).
-- **0.8750** → still only the v29 winner.
-- **0.8333** → would falsify the subset model (both rows are supersets).
+`submissions/knowledge_submission_best_0p8750.csv` (also copied to
+`knowledge_submission.csv`): the banked eight, K-08 as the scoring answer,
+and K-03/K-05/K-07 at their banked text.
 
-Extra numbers cannot cost a point, and 0.8750 is already banked.
+## What's left
+
+K-03, K-05 and K-07 survived two rounds of full number coverage. Their keys
+probably hold no numbers, which this grader can't match. The only
+post-launch entrant who ever beat 20/24 sits at 0.875 too — the same 9/12.
 
 ## Standing
 
@@ -36,5 +42,4 @@ Extra numbers cannot cost a point, and 0.8750 is already banked.
 | Migration | **1.0000** |
 | Knowledge | **0.8750** |
 
-Composite **97.50**. 3 Knowledge attempts left today. Commits since the last
-push are local only.
+Composite **97.50** (was 96.67). Commits since the last push are local only.

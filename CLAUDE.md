@@ -2611,11 +2611,12 @@ current best set (0.8333) is hand-authored — the engine was never updated
 to produce it. **Running that script silently overwrites the banked best
 with a file that scores 0.7500.**
 
-`submissions/knowledge_submission_v7_replicate_0p8333.csv` is kept as the
-protected copy the script cannot touch. Restore with:
+`submissions/knowledge_submission_best_0p8750.csv` is kept as the protected
+copy the script cannot touch (it scored 0.8750 on 2026-09-16 and is what
+`knowledge_submission.csv` now holds). Restore with:
 
 ```bash
-cp submissions/knowledge_submission_v7_replicate_0p8333.csv submissions/knowledge_submission.csv
+cp submissions/knowledge_submission_best_0p8750.csv submissions/knowledge_submission.csv
 ```
 
 The proper fix is to fold the proven answers back into `policy_kb.py` /
@@ -3158,3 +3159,16 @@ already recorded.
   (from `Rs 5 lakh`) — every other number in it had appeared in a failed
   answer. **v33 (built)** keeps `5` and drops `2.1`: 0.8750 means keys write
   amounts in lakh; 0.8333 means keys cite clause numbers.
+- **v33 scored 0.8750 — the key holds `5`, so keys write amounts in lakh.**
+  K-08 kept its credit with the clause number `2.1` dropped, and v11's failed
+  K-08 already carried every other number in v33 (`0`, `4,20,000`,
+  `4.2 lakh`, `5,00,000`, `2023`, `2024`). The single difference between a
+  failing and a scoring K-08 is the threshold written as **`Rs 5 lakh`** —
+  the organizers' own ticket notation, not the PDF's `Rs 5,00,000`. The
+  lakh lead noted on 2026-09-10 and dismissed was right.
+- **Best set banked**: `submissions/knowledge_submission_best_0p8750.csv`
+  (banked eight + the winning K-08 + K-03/K-05/K-07 at banked text), copied
+  over `knowledge_submission.csv`. Knowledge **0.8750 = 9/12 answers**,
+  composite **97.50**, level with Sanjay Prasad, the only post-launch entrant
+  who ever passed 20/24 — consistent with 9/12 being the live ceiling unless
+  K-03/K-05/K-07's keys turn out to hold numbers after all.

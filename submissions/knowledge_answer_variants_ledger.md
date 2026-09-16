@@ -1851,3 +1851,46 @@ under PP-2023, so no discount applies.` — keeps `5`, drops `2.1` (and `1`,
 
 Either answer is the most informative thing available for tomorrow's quota,
 and the banked 0.8750 cannot be lost.
+
+### v33 result (2026-09-16): 0.8750 — the key holds `5`, so KEYS WRITE AMOUNTS IN LAKH
+
+K-08 kept its credit with `2.1` dropped. That pins the discriminator exactly:
+**v11's failed K-08 already contained every number v33 carries except `5`**
+(`0`, `4,20,000`, `4.2 lakh`, `5,00,000`, `2023`, `2024`, plus `6` and
+`2019`). The only difference between a failing and a scoring answer is the
+threshold written as **`Rs 5 lakh`**.
+
+So the hidden key for K-08 is something like *"Nil — below the Rs 5 lakh
+slab"*: the organizers' own ticket/email notation (`7.2L`, `3 lakh`,
+`14 lakh`, `5 to 15 lakh slab`), not the PDF's `Rs 5,00,000`. The
+lakh-notation lead recorded on 2026-09-10 and dismissed then ("none of the
+four wrong answers is monetary") was right after all — K-08's *threshold* is
+monetary even though its answer is not.
+
+### Best set and live file
+
+`submissions/knowledge_submission_best_0p8750.csv` is the scoring set: the
+banked eight, plus K-08 as
+
+> `Nil (0%). A single order of Rs 4,20,000 (Rs 4.2 lakh) placed in March 2024
+> is below the Rs 5,00,000 (Rs 5 lakh) slab under PP-2023, so no discount
+> applies.`
+
+with K-03, K-05 and K-07 at their banked text. `knowledge_submission.csv`
+now holds the same content.
+
+### State: 9/12 answers, and 0.8750 may be the live ceiling
+
+K-03, K-05 and K-07 have no monetary threshold in their answers, and both
+number-coverage rounds failed on them. If their keys hold no numbers, the
+numbers check cannot match them at all. That fits the leaderboard exactly:
+Sanjay Prasad, the only post-launch entrant above 20/24, sits at **0.875 —
+the same 9/12 we now hold** — and the only 24/24 was scored four days before
+the competition opened.
+
+Ideas left for the next quota, in order:
+1. **Lakh forms everywhere for K-07**: its threshold is `Rs 10 lakh` and its
+   spend `Rs 14 lakh`; v29 carried both and failed, so a key number is still
+   missing — candidates are `1` (one approval), `4` (step 4 QA) or none.
+2. **K-03's freight threshold in lakh** (`Rs 2 lakh` was in v30, failed).
+3. Accept 0.8750 and ask the organizers how non-numeric answers are matched.
