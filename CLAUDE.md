@@ -3145,3 +3145,8 @@ already recorded.
   the banked winner keeps scoring and the other gets its best shot: 0.9167
   means both are right (10/12 answers); 0.8750 means only the winner; 0.8333
   would falsify the subset model.
+- **v31 scored 0.8750** — widening both did not add a second answer and did
+  not lose one, so the subset model holds. Only one of K-07/K-08 is
+  reachable; K-03, K-05 and the other are not, by number coverage.
+- **v32 (built)** reverts K-08 alone to the banked text: 0.8750 names K-07 as
+  the correct one, 0.8333 names K-08.

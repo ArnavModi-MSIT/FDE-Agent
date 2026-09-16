@@ -1799,3 +1799,23 @@ K-03 and K-05 keep v30's widest text (harmless, already proven not to land).
 | 0.9167 | the second one landed too — **10/12 answers** |
 | 0.8750 | still only the v29 winner; the other's key holds something no number covers |
 | 0.8333 | impossible under the subset model (both rows are supersets of v29) — would falsify it |
+
+### v31 result (2026-09-16): 0.8750 — only one of the pair is reachable
+
+Widening both did not add a second answer, and the score did not fall, so
+the subset model stands. State: **9/12 answers**, one of K-07/K-08 correct,
+and K-03, K-05 plus the other of K-07/K-08 unreachable by number coverage.
+
+### `knowledge_submission_v32_isolate_k07.csv` — name the winner
+
+v31 with **K-08 alone** reverted to the banked `Nil (0%)`; K-07 keeps its
+wide form.
+
+| Score | Reading |
+|---|---|
+| 0.8750 | **K-07 is the correct one** — its key's numbers are covered (the Rs 10,00,000 / Rs 10 lakh threshold, VOS-7 s3, the 15 June 2021 date) |
+| 0.8333 | **K-08 was the winner** — its key needed `2.1`, `5 lakh` or another number v29 added |
+
+Worth the attempt: the banked best is 0.8750 either way, and the answer
+decides which long form goes into the live submission file and into the
+engine for the finals walkthrough.
