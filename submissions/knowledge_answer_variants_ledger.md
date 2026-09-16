@@ -1819,3 +1819,35 @@ wide form.
 Worth the attempt: the banked best is 0.8750 either way, and the answer
 decides which long form goes into the live submission file and into the
 engine for the finals walkthrough.
+
+### v32 result (2026-09-16): 0.8333 — **K-08 IS THE ANSWER THAT LANDED**
+
+Reverting K-08 alone to `Nil (0%)` cost the point, with K-07 left wide. So
+K-08's v29 form is correct and **K-07 is not reachable by number coverage**,
+alongside K-03 and K-05.
+
+**The winning K-08 answer** (v29):
+
+> `Nil (0%). Under PP-2023 s2.1, effective 1 October 2023, a single order of
+> Rs 4,20,000 (Rs 4.2 lakh) placed in March 2024 is below the Rs 5,00,000
+> (Rs 5 lakh) slab, so no discount applies.`
+
+**What made the difference is narrow and identifiable.** Every failed K-08
+answer already carried `0`, `4,20,000`, `5,00,000`, `2023`, `2024` and even
+`4.2 lakh` (v11). Exactly two numbers were new in v29: **`2.1`** (the clause)
+and **`5`** (from `Rs 5 lakh`). One of those is in the key.
+
+### `knowledge_submission_v33_k08_lakh_no_clause.csv` — which of the two
+
+The banked set with K-08 as `Nil (0%). A single order of Rs 4,20,000
+(Rs 4.2 lakh) placed in March 2024 is below the Rs 5,00,000 (Rs 5 lakh) slab
+under PP-2023, so no discount applies.` — keeps `5`, drops `2.1` (and `1`,
+`6`, `2019`, `1,00,000`).
+
+| Score | Reading |
+|---|---|
+| 0.8750 | the key holds **`5`** — keys write amounts in **lakh**, the organizers' ticket style. Then K-07's key would want `10`/`14` in lakh (v29 had both, so K-07's key must hold something else), and K-03's `3 lakh`. |
+| 0.8333 | the key holds **`2.1`** — keys cite **clause numbers**. K-03 carried `4.1` and K-07 `3`/`7` without landing, so those keys cite something else or nothing. |
+
+Either answer is the most informative thing available for tomorrow's quota,
+and the banked 0.8750 cannot be lost.

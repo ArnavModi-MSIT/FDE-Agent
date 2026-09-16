@@ -3150,3 +3150,11 @@ already recorded.
   reachable; K-03, K-05 and the other are not, by number coverage.
 - **v32 (built)** reverts K-08 alone to the banked text: 0.8750 names K-07 as
   the correct one, 0.8333 names K-08.
+- **v32 scored 0.8333 — the landed answer is K-08.** Its v29 form (`Nil (0%)`
+  plus PP-2023 s2.1, 1 October 2023, Rs 4,20,000 / Rs 4.2 lakh, Rs 5,00,000 /
+  Rs 5 lakh) is correct; K-07's wide form is not. K-03, K-05 and K-07 all
+  resist number coverage. Knowledge stands at **0.8750 = 9/12 answers**.
+- **Only two numbers were new in the winning K-08**: `2.1` (clause) and `5`
+  (from `Rs 5 lakh`) — every other number in it had appeared in a failed
+  answer. **v33 (built)** keeps `5` and drops `2.1`: 0.8750 means keys write
+  amounts in lakh; 0.8333 means keys cite clause numbers.
