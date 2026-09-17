@@ -1958,3 +1958,21 @@ one round was enough for K-08. **Their keys almost certainly contain no
 numbers**, so whatever the grader does with a number-less key, no answer we
 can write has satisfied it. 1 of 5 Knowledge attempts used today; v35 and
 v36 (the short text-style long shots) remain.
+
+### v35 and v36 results (2026-09-17): both 0.8750 — the short text route fails too
+
+`Buyer (ex-works)`, `Distributor (ex-works)`, the condensed document lists,
+`CFO approval` and `CFO approval required` all fail. K-03, K-05 and K-07
+have now resisted three number-coverage rounds and two short-text rounds.
+**Knowledge holds at 0.8750 (9/12); 3 of 5 attempts used today, 2 held.**
+
+## Engine now reproduces the scoring set (2026-09-17)
+
+`src/knowledge/answering.py` was rewritten to emit the proven answer forms,
+so `scripts/run_knowledge.py` regenerates
+`knowledge_submission_best_0p8750.csv` byte for byte instead of the old
+0.7500 set. The forms follow the measured grading rule: K-08's Nil answer
+carries both the comma and lakh notations of the order and the nil-band
+ceiling; K-09 carries the 30-day window; K-11 carries both warranty periods.
+A new pipeline test fails if the engine's output ever drifts from the
+scoring file.

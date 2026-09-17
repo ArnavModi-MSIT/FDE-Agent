@@ -96,4 +96,5 @@ def test_warranty_calc_reversed_order_produces_same_final_answer():
 
     forward = answer_question("K-TEST-A", "A DRI pump is despatched in January 2025 and commissioned in June 2025. When does warranty end?")
     reversed_ = answer_question("K-TEST-B", "A DRI pump is commissioned in June 2025 after being despatched in January 2025. When does warranty end?")
-    assert forward.answer == reversed_.answer == "June 2026"
+    assert forward.answer == reversed_.answer
+    assert forward.answer.startswith("June 2026")

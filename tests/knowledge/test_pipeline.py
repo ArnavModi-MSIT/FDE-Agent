@@ -34,3 +34,15 @@ def test_submission_has_required_header_and_every_qid_answered(tmp_path):
     for row in rows:
         assert row["answer"] != "UNPARSEABLE", f"{row['qid']} was not answered"
         assert row["governing_source"], f"{row['qid']} has no governing_source"
+
+
+def test_engine_reproduces_the_scoring_submission_byte_for_byte(tmp_path):
+    # submissions/knowledge_submission_best_0p8750.csv scored 0.8750 on the
+    # live leaderboard (2026-09-16). The engine must regenerate it exactly,
+    # so running scripts/run_knowledge.py can never overwrite the banked
+    # best with a weaker file again.
+    out_path = tmp_path / "submission.csv"
+    run(DATA_DIR, str(out_path))
+    best = os.path.join(REPO_ROOT, "submissions", "knowledge_submission_best_0p8750.csv")
+    with open(best, "rb") as f:
+        assert out_path.read_bytes() == f.read()

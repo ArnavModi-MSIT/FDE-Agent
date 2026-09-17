@@ -22,19 +22,17 @@ PP_2023_EFFECTIVE_FROM = date(2023, 10, 1)
 # --- Pricing & Distributor Policy: discount bands -----------------------
 # PP-2019 s2.1: <1L nil / 1L-5L 6% / >5L 12% flat
 # PP-2023 s2.1: <5L nil / 5L-15L 10% / >15L 14%
+def nil_discount_ceiling_rupees(transaction_date: date) -> int:
+    """Order value below which the governing policy gives no discount."""
+    return 500_000 if transaction_date >= PP_2023_EFFECTIVE_FROM else 100_000
+
+
 def discount_pct(order_value_rupees: float, transaction_date: date) -> float:
+    if order_value_rupees < nil_discount_ceiling_rupees(transaction_date):
+        return 0.0
     if transaction_date >= PP_2023_EFFECTIVE_FROM:
-        if order_value_rupees < 500_000:
-            return 0.0
-        if order_value_rupees <= 1_500_000:
-            return 10.0
-        return 14.0
-    else:
-        if order_value_rupees < 100_000:
-            return 0.0
-        if order_value_rupees <= 500_000:
-            return 6.0
-        return 12.0
+        return 10.0 if order_value_rupees <= 1_500_000 else 14.0
+    return 6.0 if order_value_rupees <= 500_000 else 12.0
 
 
 # --- Credit terms ---------------------------------------------------------
@@ -49,10 +47,13 @@ def credit_terms_days(tier: str, transaction_date: date) -> int:
 # --- Freight ----------------------------------------------------------------
 # PP-2019 s4.1: >2L DRI bears freight (FOR destination); <=2L buyer pays (freight-to-pay)
 # PP-2023 s4.1: always ex-works -- buyer always bears freight, any order value
+FOR_DESTINATION_THRESHOLD_RUPEES = 200_000
+
+
 def freight_borne_by(order_value_rupees: float, transaction_date: date) -> str:
     if transaction_date >= PP_2023_EFFECTIVE_FROM:
         return "buyer"
-    return "DRI" if order_value_rupees > 200_000 else "buyer"
+    return "DRI" if order_value_rupees > FOR_DESTINATION_THRESHOLD_RUPEES else "buyer"
 
 
 # --- Price revision notice --------------------------------------------------

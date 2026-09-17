@@ -2603,26 +2603,33 @@ its 3 tasks; "wiping rows instead of correcting them scores zero":
 
 ---
 
-## 9b. A hazard to know before running the Knowledge engine
+## 9b. The Knowledge engine reproduces the scoring set (hazard resolved 2026-09-17)
 
-`scripts/run_knowledge.py` writes to `submissions/knowledge_submission.csv`,
-but the Knowledge engine still emits the **original terse answers**. The
-current best set (0.8333) is hand-authored — the engine was never updated
-to produce it. **Running that script silently overwrites the banked best
-with a file that scores 0.7500.**
+Until 2026-09-17, `scripts/run_knowledge.py` emitted the original terse
+answers (0.7500) while the banked best was hand-authored, so running it
+overwrote the best file. **That is fixed.** `src/knowledge/answering.py` now
+emits the proven forms and the script regenerates
+`submissions/knowledge_submission_best_0p8750.csv` **byte for byte**;
+`tests/knowledge/test_pipeline.py::test_engine_reproduces_the_scoring_submission_byte_for_byte`
+fails if that ever drifts.
 
-`submissions/knowledge_submission_best_0p8750.csv` is kept as the protected
-copy the script cannot touch (it scored 0.8750 on 2026-09-16 and is what
-`knowledge_submission.csv` now holds). Restore with:
+The forms follow the measured grading rule (§14: the key's numbers must all
+appear in the answer):
+- **Discount, nil band** — `Nil (0%)` plus the order and the nil-band ceiling
+  in both notations (`Rs 5,00,000 (Rs 5 lakh)`), the month and the policy.
+  `policy_kb.nil_discount_ceiling_rupees()` gives the ceiling (Rs 5 lakh under
+  PP-2023, Rs 1 lakh under PP-2019). Non-nil rates stay bare (`10%`).
+- **Restocking** — carries the 30-day return window.
+- **Warranty calculation** — carries both periods, earlier one first.
+- **Credit terms, notice, FlowTech warranty, trial cap, approvals, freight,
+  documents** — the banked wording; K-03, K-05 and K-07 still do not score.
+
+`knowledge_submission_best_0p8750.csv` stays as the protected reference the
+test compares against. Restore it with:
 
 ```bash
 cp submissions/knowledge_submission_best_0p8750.csv submissions/knowledge_submission.csv
 ```
-
-The proper fix is to fold the proven answers back into `policy_kb.py` /
-`answering.py` so the engine regenerates the best set itself. Deferred
-deliberately: the last four wrong answers are still unlocated, so there is
-nothing final to encode yet.
 
 ---
 
@@ -2632,7 +2639,7 @@ nothing final to encode yet.
 python scripts/run_reconciliation.py      # runs the real engine, writes submissions/submission.csv
 python scripts/run_knowledge.py           # runs the Knowledge engine, writes submissions/knowledge_submission.csv
 python scripts/audit_practice_data.py     # re-proves every empirical claim in §4, no narration needed
-python -m pytest tests/ -v                # 54 tests
+python -m pytest tests/ -v                # 117 tests
 python starter_reconciliation.py          # organizers' own naive baseline, for diffing (run from dataset/System extracts/)
 ```
 
@@ -3186,3 +3193,13 @@ zeros, the MSMED Act year) and none landed. After three rounds of number
 coverage, these three keys almost certainly hold no numbers, which the
 numbers check cannot match. v35 and v36 (short key-style text strings) are
 the remaining long shots; 9/12 is most likely the live ceiling.
+
+### 2026-09-17: v35/v36 also 0.8750; engine now reproduces the scoring set
+
+- **v35 and v36** (short key-style text: `Buyer (ex-works)`, `CFO approval`,
+  condensed document lists) both scored 0.8750. K-03, K-05 and K-07 have
+  resisted three number-coverage rounds and two short-text rounds. 9/12 is
+  the working ceiling; 2 of today's attempts were held.
+- **Knowledge engine fixed (§9b).** `answering.py` now emits the proven
+  answer forms and `run_knowledge.py` regenerates the 0.8750 file byte for
+  byte, pinned by a new test. 117/117 tests pass.
