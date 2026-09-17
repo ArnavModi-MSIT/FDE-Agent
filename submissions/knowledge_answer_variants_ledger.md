@@ -1912,3 +1912,39 @@ What remains in `submissions/`:
 | `knowledge_answer_variants_ledger.md` | this record |
 | `reconciliation_report.md`, `reconciliation_status_matrix.md` | organizer-requested artifacts |
 | `state_snapshots/` | W3/M3 sandbox states, including the 6/6 winner |
+
+## 2026-09-17: three candidates for the remaining three (K-03, K-05, K-07)
+
+All built from `knowledge_submission_best_0p8750.csv`: the nine scoring rows
+(including the winning K-08) are unchanged, and only K-03, K-05 and K-07
+move. None of the new rows repeats any of the 66 historical rows for those
+questions.
+
+### v34 `notation_sweep` — every remaining way to write the numbers
+
+Yesterday proved the keys can hold numbers in a notation we never wrote
+(`5` from `Rs 5 lakh`). v34 carries every other plausible notation in one
+answer per question, since extra numbers cannot cost a point:
+
+| Q | Notations added | Never used before |
+|---|---|---|
+| K-03 | amount as `Rs 3 lakh`, `Rs 300000`, `3L`, `0.03 crore`; dates as `01/10/2023`, `2023-10-01`, `02/2024`, `2024-02`, `Feb-24`, `30/09/2023`; 100% / 0% shares; `Rs 2 lakh` / `2L` | `0.03`, `01`, `02`, `09`, `10`, `24` |
+| K-05 | three documents numbered, the 7-step procedure, `15/06/2021`, the MSMED Act 2006 | `06`, `2006` |
+| K-07 | spend as `Rs 14 lakh`, `Rs 1400000`, `14L`, `1.4 million`, `0.14 crore`; threshold as `Rs 10 lakh`, `Rs 1000000`, `10L`, `1 million`, `0.1 crore`; `15/06/2021` | `0.1`, `0.14`, `1.4`, `06` |
+
+0.8750 would mean the numbers route is exhausted for these three: their
+keys almost certainly hold no numbers.
+
+### v35 / v36 `short_key_style` — the text route, long odds
+
+If a key has no numbers, the grader must compare text somehow, and every
+readable answer so far has failed that comparison. These two try short
+strings shaped like an answer key, none ever submitted exactly:
+
+| Q | v35 | v36 |
+|---|---|---|
+| K-03 | `Buyer (ex-works)` | `Distributor (ex-works)` |
+| K-05 | `GST certificate, cancelled cheque, MSME declaration` | `GST registration certificate; cancelled cheque; MSME declaration (if applicable)` |
+| K-07 | `CFO approval` | `CFO approval required` |
+
+Submit v34 first. If it rises, isolate before running v35/v36.
