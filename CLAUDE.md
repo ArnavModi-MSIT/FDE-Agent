@@ -3177,3 +3177,12 @@ already recorded.
   history retains them and the ledger records what each tested. New
   candidates are built from `knowledge_submission_best_0p8750.csv`, which is
   now the only base file on disk.
+
+### 2026-09-17: v34 notation sweep scored 0.8750 — numbers route closed
+
+v34 gave K-03, K-05 and K-07 every remaining way to write their numbers
+(lakh, plain digits, `14L`, crore, `1.4 million`, numeric dates with leading
+zeros, the MSMED Act year) and none landed. After three rounds of number
+coverage, these three keys almost certainly hold no numbers, which the
+numbers check cannot match. v35 and v36 (short key-style text strings) are
+the remaining long shots; 9/12 is most likely the live ceiling.

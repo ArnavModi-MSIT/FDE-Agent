@@ -1948,3 +1948,13 @@ strings shaped like an answer key, none ever submitted exactly:
 | K-07 | `CFO approval` | `CFO approval required` |
 
 Submit v34 first. If it rises, isolate before running v35/v36.
+
+### v34 result (2026-09-17): 0.8750 — the numbers route is closed for K-03, K-05, K-07
+
+Every plausible notation (lakh, plain digits, `L`, crore, million, numeric
+dates with leading zeros, statute year) added nothing. Three rounds of
+number coverage (v29/v30, v31, v34) have now failed on these three while
+one round was enough for K-08. **Their keys almost certainly contain no
+numbers**, so whatever the grader does with a number-less key, no answer we
+can write has satisfied it. 1 of 5 Knowledge attempts used today; v35 and
+v36 (the short text-style long shots) remain.

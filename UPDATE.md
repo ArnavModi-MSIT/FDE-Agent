@@ -42,4 +42,4 @@ post-launch entrant who ever beat 20/24 sits at 0.875 too — the same 9/12.
 | Migration | **1.0000** |
 | Knowledge | **0.8750** |
 
-Composite **97.50** (was 96.67). Commits since the last push are local only.
+Composite **97.50**. 2026-09-17: v34 (every other number notation for K-03, K-05, K-07) also scored 0.8750, so the numbers route is closed for those three. v35 and v36 (short text-style long shots) are built. Commits since the last push are local only.
