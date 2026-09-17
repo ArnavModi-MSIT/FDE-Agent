@@ -1976,3 +1976,39 @@ carries both the comma and lakh notations of the order and the nil-band
 ceiling; K-09 carries the 30-day window; K-11 carries both warranty periods.
 A new pipeline test fails if the engine's output ever drifts from the
 scoring file.
+
+## Four external documents (2026-09-17) — checked against the record
+
+| Document | Verdict |
+|---|---|
+| `knowledge_score_improvement_plan.md` | Mostly already done: verbatim policy spans (v25), answer + condition + exception (v4, v11, v12), policy vocabulary (v20 and every readable form), direct-section number inventory (v29, v30, v34). Repeats the superseded K-09 lesson — the scoring K-09 has **no** made-to-order exclusion; it needed the `30`. One untried string: `Buyer — ex-works; buyer bears freight`. |
+| `actionable_strategies_to_increase_knowledge_score.md` | Generic personal-learning advice (Feynman technique, spaced repetition, Stack Overflow reputation). Not about this competition. |
+| `deepseek_markdown_20260917_0e65c9.md` | **Truncated at line 82**, mid-way through its K-03 section; no candidates survive. Its one argument is right and sharpens the model: if a key has no numbers, "every key number appears in the answer" is vacuously true, so every answer would pass — which never happens. So number-less keys go through a **different, text-based check**. Its "superset answer" move was already run (number supersets v29/v30/v34; phrase coverage v11/v12), and combining verbatim spans with numbers is moot for a key with no numbers. |
+| `knowledge_score_improvement_ideas.md` | Misquotes three questions: K-03 as "today" (it is February 2024), K-05's wording, and **K-07 as a direct-material vendor** (the question states only the spend) — its K-07 list rests on that. Its Tier 1 "calibration probes" all mutate numeric-key rows (K-08, K-09, K-04), which go through the numbers check we already understand, so they cannot reveal how text keys are matched. It assumes ~50 attempts to 27 Sep, but qualifier submissions close **20 Sep** (Overview timeline); only ~17 are certain. Its "one row per file" rule is unnecessary: the three rows are proven wrong, so bundling one candidate each and isolating on a rise is cheaper. Agreed: ask the organizers; keep watching the leaderboard; check for hidden characters and re-pull the vault. |
+
+**Free checks run today.** The three failing rows in the best file contain
+no non-ASCII, control or double-space characters, and the file has no BOM.
+`/vault/documents` still returns the same four documents, with the ex-works
+sentence, the VOS-7 step 2 wording, the approval-matrix row and the
+discount row all present word for word.
+
+**Candidate audit.** Of the 21 concrete strings proposed, 5 were already
+submitted exactly, 3 match a past answer once case and punctuation are
+ignored, 7 were never submitted alone but sit inside a longer past answer,
+and 6 are new.
+
+### v37 / v38 — untried short exact strings
+
+If number-less keys are compared as whole strings, only an exact match
+scores, so short strings never submitted on their own are still untested
+even when a longer answer contained them.
+
+| Q | v37 | v38 |
+|---|---|---|
+| K-03 | `The buyer` | `ex-works` |
+| K-05 | `GST certificate, cancelled cheque and MSME declaration` | `GST registration certificate, cancelled cheque, MSME declaration` |
+| K-07 | `The CFO` | `Chief Financial Officer (CFO)` |
+
+None repeats a past answer even after lower-casing and stripping
+punctuation. The three rows are proven wrong, so a rise means one landed and
+is isolated next.
