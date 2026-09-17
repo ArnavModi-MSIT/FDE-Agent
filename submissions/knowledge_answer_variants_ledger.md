@@ -2012,3 +2012,14 @@ even when a longer answer contained them.
 None repeats a past answer even after lower-casing and stripping
 punctuation. The three rows are proven wrong, so a rise means one landed and
 is isolated next.
+
+### v37 and v38 results (2026-09-17): both 0.8750
+
+`The buyer`, `ex-works`, both condensed document lists, `The CFO` and
+`Chief Financial Officer (CFO)` all fail as exact short strings. All 5
+Knowledge attempts used today (v34–v38), every one 0.8750.
+
+**Running tally for the three unscored questions:** 81 distinct answers
+across readable, uppercase, API-code, number-led, swapped, verbatim,
+number-superset and short exact forms. Nothing reaches them. Best recorded
+stays **0.8750 = 9/12**.

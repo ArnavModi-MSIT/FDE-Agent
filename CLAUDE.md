@@ -3203,3 +3203,16 @@ the remaining long shots; 9/12 is most likely the live ceiling.
 - **Knowledge engine fixed (§9b).** `answering.py` now emits the proven
   answer forms and `run_knowledge.py` regenerates the 0.8750 file byte for
   byte, pinned by a new test. 117/117 tests pass.
+- **Four external documents checked (2026-09-17)**; details in the ledger.
+  Nothing new beyond six untried short strings: one misquoted three
+  questions (including K-07 as direct-material), one proposed probes on
+  numeric-key rows that cannot reveal the text check, one was generic study
+  advice, and the DeepSeek file was truncated. Its valid point: a key with no
+  numbers would pass everything under a pure numbers check, so number-less
+  keys must be checked on text. Free checks: the three failing rows hold no
+  hidden characters; the vault's four governing sentences are unchanged.
+- **v37 and v38** (exact short strings: `The buyer`, `ex-works`, two
+  condensed document lists, `The CFO`, `Chief Financial Officer (CFO)`) both
+  scored 0.8750. All 5 attempts on 2026-09-17 returned 0.8750.
+- **Attempt budget is uncertain past 2026-09-20**, when qualifier submissions
+  close; only 15 more attempts (18–20 Sep) are certain to count.
