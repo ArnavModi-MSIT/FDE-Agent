@@ -2080,3 +2080,27 @@ no `.env`.
 **Correction:** the 2026-09-17 tally above said 81 distinct answers after
 v38. The true count then was 78; that figure counted rows that repeated an
 answer with a different source. After v39 the distinct count is 81.
+
+## Round-5 reviews (2026-09-18) — checked against the record
+
+| Review | Verdict |
+|---|---|
+| **Kimi** | The strongest. Right that the leaderboard ceiling (no post-launch entrant above 21/24) is the best single datum and points at **broken or unguessable keys** for K-03/K-05/K-07 (its estimate: ~45%). Right that byte-identical *question* files say nothing about the *key* file, and that v39 only rules out containment if the key uses ordinary characters. Right that case was only tested upper-case (v20), never lower-case. Its curly-apostrophe idea is **not supported**: every organizer text on record (policies, questions, tickets, emails) uses the ASCII apostrophe; the only non-ASCII characters they use are en and em dashes. Its "81 includes cross-question duplicates" point is wrong in substance — 81 counts distinct answers per question, and the same text in a different question's slot is a different test. 14 of its 15 candidates are new. Its organizer message is good but says "81 submissions"; it was 81 answers across roughly 30 uploads, and it is better not to describe the experiments at all. |
+| **GPT-5.6 Luna** | Useful framing: v39 separates "phrase anywhere" from whole-string checks but cannot tell exact equality, normalised equality, field extraction or a malformed key apart. Its "one canonical string for everything" model is contradicted for numeric keys: K-02 scores both as `30` and as `30 days from the date of invoice`, which no single whole string can equal. **Two of its three headline Test 1 rows were already submitted** (v25: `Projected annual spend above Rs 10,00,000: CFO`; the `Collect …` sentence differs only by a full stop), and its K-05 purchase-requisition idea is v16 exactly. 10 of 13 candidates new. |
+| **Gemini** | Claims every candidate was checked against Appendix C; **10 of its 15 were already submitted** (`Buyer (Ex-works)` = v35, `GST certificate, cancelled cheque, MSME declaration` = v35, `CFO, Plant Head, QA` and variants). Its K-07 reasoning treats EM-107's direct-material vendor as the K-07 vendor; the question states only the spend, and every approver combination has failed. Little new. |
+| **DeepSeek** | The file is 42 bytes: a title and "...". Nothing to review; the export was cut off. |
+
+### v40–v43 — the reviews' new candidates, today's 4 attempts
+
+| File | K-03 | K-05 | K-07 |
+|---|---|---|---|
+| v40 `structure_and_register` | `Buyer pays freight` | `Cancelled cheque, GST registration certificate, and MSME declaration (where applicable)` (order never varied before) | `CFO (Rohit Malhotra)` |
+| v41 `policy_sentence_forms` | `Freight, transit insurance and unloading are to the buyer's account.` | `GST registration certificate, cancelled cheque, MSME declaration where applicable` | `CFO approval for projected annual spend above Rs 10,00,000` |
+| v42 `list_and_title_variants` | `Freight is to the buyer's account.` | `GST registration certificate; cancelled cheque; MSME declaration (where applicable)` | `Chief Finance Officer` |
+| v43 `lowercase_exact` | `buyer` | the banked list in lower case | `cfo` |
+
+v40–v42 are new even ignoring case and punctuation. v43 deliberately repeats
+tried answers in lower case: it only matters if the grader compares exact,
+case-sensitive strings and the key is lower case. All rows are genuine
+answers under the governing policy. Expected value is low; if all four stay
+at 0.8750, stop and ask the organizers.
