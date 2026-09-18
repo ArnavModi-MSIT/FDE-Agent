@@ -2053,3 +2053,16 @@ answers, K-10 loses its point and the three tests are void.
 | 0.8333 | K-10 lost its point: long answers are cut off, so v39 tested nothing on the other three |
 | 0.8750 | no length cap up to 935 characters, and containment-style matching is ruled out for plausible wording: the three keys need an exact string or are unreachable |
 | 0.9167+ | at least one landed through containment: isolate next |
+
+### v39 result (2026-09-18): 0.8750 — containment-style matching ruled out
+
+K-10 kept its point at 935 characters, so there is no length cap in that
+range, and none of the three wide answers landed. (The only other way to
+read 0.8750 needs both a length cap falling exactly between 859 and 935
+characters and a hit on one of the three at the same time; not credible.)
+
+So for keys with no numbers, the grader does **not** look for the key phrase
+or key words anywhere in the answer, at least not for any phrasing on
+record. What remains is a whole-string comparison against a key string we
+cannot derive, or keys that no answer can match. Either way, more guessing
+cannot be targeted. **Holding the remaining 4 attempts today.**

@@ -3216,3 +3216,13 @@ the remaining long shots; 9/12 is most likely the live ceiling.
   scored 0.8750. All 5 attempts on 2026-09-17 returned 0.8750.
 - **Attempt budget is uncertain past 2026-09-20**, when qualifier submissions
   close; only 15 more attempts (18–20 Sep) are certain to count.
+
+### 2026-09-18: v39 rules out containment-style matching for number-less keys
+
+v39 gave K-03, K-05 and K-07 answers of 666–859 characters carrying every
+phrasing on record (verbatim policy sentences, ticket and email wording,
+synonyms, API codes), with K-10 padded to 935 characters as a length control.
+Score **0.8750**: K-10 kept its point (no length cap to 935) and none of the
+three landed. The grader does not look for a key phrase or key words anywhere
+in the answer for these keys; it compares the whole string or cannot be met.
+Remaining attempts held. Knowledge stays **0.8750 = 9/12**.

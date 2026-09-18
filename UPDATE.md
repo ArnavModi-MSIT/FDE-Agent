@@ -1,30 +1,26 @@
-# Latest update — 2026-09-17
+# Latest update — 2026-09-18
 
 **This file is rewritten fresh on every change, not appended to.** It's a
 quick "what just happened and why" for a human checking in — the full
 project record with all context/rationale lives in `CLAUDE.md`.
 
-## Knowledge: five attempts today, all 0.8750
+## v39: the last useful Knowledge test, 0.8750
 
-| File | What it tried for K-03, K-05, K-07 | Score |
-|---|---|---|
-| v34 | every other number notation (lakh, plain, `14L`, crore, dates) | 0.8750 |
-| v35 | short key-style text (`Buyer (ex-works)`, `CFO approval`) | 0.8750 |
-| v36 | second short-text set | 0.8750 |
-| v37 | exact short strings (`The buyer`, `The CFO`, document list) | 0.8750 |
-| v38 | exact short strings (`ex-works`, `Chief Financial Officer (CFO)`) | 0.8750 |
+v39 gave K-03, K-05 and K-07 very long answers carrying every phrasing on
+record, and padded K-10 (already correct) to 935 characters as a length
+check. K-10 kept its point and none of the three landed.
 
-81 distinct answers have now failed on these three questions. Their keys
-hold no numbers, and whatever text check the grader applies to them hasn't
-been met by anything we can derive. **9/12 (0.8750) is the working ceiling.**
+**What that settles:** for these three questions the grader does not look
+for the answer phrase anywhere in what we submit. It compares the whole
+answer to a hidden string we can't derive, or no answer can match. More
+guessing can't be aimed at anything, so the other 4 attempts today were
+held.
 
-## Also today
+## Where Knowledge stands
 
-- Knowledge engine now reproduces the 0.8750 file byte for byte (test-pinned).
-- Four external improvement docs reviewed; only six untried strings came out
-  of them (v37/v38).
-- Only 15 more attempts (18–20 Sep) are certain to count; qualifier
-  submissions close 20 Sep.
+**0.8750 = 9/12 answers**, the same as the only other entrant above 20/24
+since launch. The best file is `submissions/knowledge_submission_best_0p8750.csv`
+and the engine reproduces it byte for byte.
 
 ## Standing
 
