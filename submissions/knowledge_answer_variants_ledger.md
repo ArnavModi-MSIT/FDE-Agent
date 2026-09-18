@@ -2023,3 +2023,33 @@ Knowledge attempts used today (v34–v38), every one 0.8750.
 across readable, uppercase, API-code, number-led, swapped, verbatim,
 number-superset and short exact forms. Nothing reaches them. Best recorded
 stays **0.8750 = 9/12**.
+
+## 2026-09-18: v39 — a mechanism test for keys with no numbers
+
+A key with no numbers cannot be checked by "every key number appears in the
+answer" (it would pass everything), so the grader must check those keys on
+text. The two families of text check make opposite predictions:
+
+- **Containment-style** (the key phrase, or every key word, must appear
+  somewhere in the answer; `partial_ratio`/`token_set` fuzzy matching behaves
+  the same way): a very wide answer carrying every plausible phrasing should
+  hit.
+- **Whole-string** (exact match after normalising, or overall similarity):
+  a wide answer can never hit; only the exact key string can.
+
+`knowledge_submission_v39_coverage_and_length.csv` gives K-03, K-05 and K-07
+answers of 666–859 characters, each stating the answer and then every
+phrasing on record: the policy sentence verbatim, the organizers' ticket and
+email wording (EM-107, EM-113), synonyms, API codes and the superseded rule.
+Past coverage answers (v11/v12) stopped at 339 characters with a narrower
+vocabulary.
+
+**Length control.** K-10, a correct row, is padded with digit-free filler to
+935 characters, longer than any of the three. If the grader truncates long
+answers, K-10 loses its point and the three tests are void.
+
+| Score | Reading |
+|---|---|
+| 0.8333 | K-10 lost its point: long answers are cut off, so v39 tested nothing on the other three |
+| 0.8750 | no length cap up to 935 characters, and containment-style matching is ruled out for plausible wording: the three keys need an exact string or are unreachable |
+| 0.9167+ | at least one landed through containment: isolate next |
