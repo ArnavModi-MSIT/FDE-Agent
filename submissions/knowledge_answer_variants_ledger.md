@@ -2066,3 +2066,17 @@ or key words anywhere in the answer, at least not for any phrasing on
 record. What remains is a whole-string comparison against a key string we
 cannot derive, or keys that no answer can match. Either way, more guessing
 cannot be targeted. **Holding the remaining 4 attempts today.**
+
+## Review brief for outside AIs (2026-09-18)
+
+`external_review/knowledge_review_brief_2026-09-18.md` is a self-contained
+brief with the reviewer prompt, the 12 questions and the 0.8750 answers,
+the measured grader behaviour, everything ruled out, the full policy text,
+the relevant tickets and emails, and all 81 answers already tried for K-03,
+K-05 and K-07. The gitignored `external_review/share/` folder was refreshed
+to match (new prompt, the 0.8750 file, current ledger); it holds no key and
+no `.env`.
+
+**Correction:** the 2026-09-17 tally above said 81 distinct answers after
+v38. The true count then was 78; that figure counted rows that repeated an
+answer with a different source. After v39 the distinct count is 81.

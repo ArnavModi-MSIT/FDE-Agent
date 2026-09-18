@@ -1,3 +1,5 @@
+> **Superseded (2026-09-18) by `knowledge_review_brief_2026-09-18.md`**, which reflects the 0.8750 state and the numbers-matching grader. Kept for history.
+
 # Request for an independent review — FDE Hackathon 2026, Knowledge family
 
 **Status of this brief: round 4, updated 2026-09-13 night.** Three reviews
