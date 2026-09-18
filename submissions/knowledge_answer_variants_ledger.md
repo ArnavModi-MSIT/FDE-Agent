@@ -2104,3 +2104,18 @@ tried answers in lower case: it only matters if the grader compares exact,
 case-sensitive strings and the key is lower case. All rows are genuine
 answers under the governing policy. Expected value is low; if all four stay
 at 0.8750, stop and ask the organizers.
+
+### v40–v43 results (2026-09-18): all 0.8750
+
+Order permutation, named approver, the second policy sentence alone,
+bracket-free and semicolon lists, `Chief Finance Officer`, and exact
+lower-case strings all fail. All 5 attempts on 2026-09-18 returned 0.8750.
+
+**Where this leaves K-03, K-05, K-07:** every family of answer the four
+outside reviews could propose has now been submitted — readable, coded,
+cased (upper and lower), swapped, number-covered, verbatim, short exact,
+very wide, reordered and title-variant — across 93 distinct answers. The
+leading explanation is Kimi's: these three key rows are broken or hold
+strings nobody can derive, which matches the leaderboard, where no
+post-launch entrant has passed 21/24. **Stop spending Knowledge attempts
+on them.** The only remaining lever is the organizers.

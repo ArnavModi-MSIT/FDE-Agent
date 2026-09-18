@@ -3226,3 +3226,19 @@ Score **0.8750**: K-10 kept its point (no length cap to 935) and none of the
 three landed. The grader does not look for a key phrase or key words anywhere
 in the answer for these keys; it compares the whole string or cannot be met.
 Remaining attempts held. Knowledge stays **0.8750 = 9/12**.
+
+### 2026-09-18: outside reviews checked; v40–v43 all 0.8750 — stop on K-03/K-05/K-07
+
+A self-contained review brief (`external_review/knowledge_review_brief_2026-09-18.md`)
+went to four outside AIs. Kimi's review was the strongest: the leaderboard
+ceiling (no post-launch entrant above 21/24) points at broken or
+underivable key rows. Luna and Gemini each re-proposed answers already
+submitted despite claiming to have checked; DeepSeek's file was empty.
+Kimi's curly-apostrophe idea is not supported: all organizer text uses ASCII
+apostrophes. v40–v43 took every genuinely new candidate (order permutation,
+named approver, second policy sentence alone, list punctuation variants,
+`Chief Finance Officer`, lower-case exact strings) and all scored 0.8750.
+**93 distinct answers have failed on these three questions. Knowledge
+attempts on them are stopped;** the remaining lever is an organizer
+question about how answers are matched and whether these key rows are
+gradeable.

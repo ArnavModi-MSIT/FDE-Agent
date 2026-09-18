@@ -4,23 +4,26 @@
 quick "what just happened and why" for a human checking in — the full
 project record with all context/rationale lives in `CLAUDE.md`.
 
-## v39: the last useful Knowledge test, 0.8750
+## Knowledge: five more attempts today, all 0.8750 — stopping on the last three
 
-v39 gave K-03, K-05 and K-07 very long answers carrying every phrasing on
-record, and padded K-10 (already correct) to 935 characters as a length
-check. K-10 kept its point and none of the three landed.
+- **v39** — very long answers plus a length check: rules out "phrase
+  anywhere in the answer" matching.
+- **v40–v43** — the new candidates from four outside AI reviews (reordered
+  document list, `CFO (Rohit Malhotra)`, the second policy sentence alone,
+  list punctuation variants, `Chief Finance Officer`, lower-case exact
+  strings). All 0.8750.
 
-**What that settles:** for these three questions the grader does not look
-for the answer phrase anywhere in what we submit. It compares the whole
-answer to a hidden string we can't derive, or no answer can match. More
-guessing can't be aimed at anything, so the other 4 attempts today were
-held.
+93 distinct answers have failed on K-03, K-05 and K-07. The best
+explanation is that those three hidden answers are broken or can't be
+derived; no entrant since launch has passed 21/24. **No more attempts on
+them.** Next step: ask the organizers how answers are matched and whether
+those three are gradeable.
 
-## Where Knowledge stands
+## Outside reviews
 
-**0.8750 = 9/12 answers**, the same as the only other entrant above 20/24
-since launch. The best file is `submissions/knowledge_submission_best_0p8750.csv`
-and the engine reproduces it byte for byte.
+`external_review/knowledge_review_brief_2026-09-18.md` was sent to four AIs.
+Kimi's review was the most useful. Luna and Gemini re-proposed answers
+already tried; DeepSeek's file came back empty.
 
 ## Standing
 
