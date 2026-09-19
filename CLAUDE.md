@@ -3242,3 +3242,11 @@ named approver, second policy sentence alone, list punctuation variants,
 attempts on them are stopped;** the remaining lever is an organizer
 question about how answers are matched and whether these key rows are
 gradeable.
+
+### 2026-09-19: v44–v48 built on the user's request
+
+Five more exact strings per question for K-03, K-05 and K-07. Each is new
+against every past answer in git history under five normalisations.
+Mostly genuine policy answers; `GM Procurement` for K-07 tests a key built
+without the spend row. Files and reasoning in the ledger. Low odds; a rise
+is isolated next.

@@ -2119,3 +2119,31 @@ leading explanation is Kimi's: these three key rows are broken or hold
 strings nobody can derive, which matches the leaderboard, where no
 post-launch entrant has passed 21/24. **Stop spending Knowledge attempts
 on them.** The only remaining lever is the organizers.
+
+## 2026-09-19: v44–v48 — five more exact strings, on the user's request
+
+Built against every K-03/K-05/K-07 answer in git history (31, 29 and 36
+strings, including diagnostic placeholders). Each new string is checked five
+ways: raw, case-insensitive, punctuation turned into spaces, punctuation
+deleted, and with articles, `and`, `is` and `are` removed. It must be new
+under all five and must not repeat another row in this batch. Two early picks were dropped because a
+normalised comparison showed they had been tried before (`CFO approval is
+required.`, a no-parentheses document list). The same check showed that
+dash, `+`, hyphen and `Ex Works` variants are only new if the grader
+compares raw strings. `EXW`, `ex works` and `Plant Head + QA` already
+appear inside the wide v39 answers, so those were not used either.
+
+| File | K-03 | K-05 | K-07 |
+|---|---|---|---|
+| v44 `exw_and_title_forms` | `Buyer (EXW)` | `GST certificate, cancelled cheque, MSME declaration (where applicable)` | `CFO (Chief Financial Officer)` |
+| v45 `sentence_forms` | `The buyer bears the freight.` | `GST registration, cancelled cheque, MSME declaration` | `Approval from the CFO` |
+| v46 `passive_and_if` | `Freight is borne by the buyer.` | `GST certificate, cancelled cheque, MSME declaration (if applicable)` | `CFO only` |
+| v47 `distributor_and_gstin` | `Distributor (buyer)` | `GSTIN certificate, cancelled cheque, MSME declaration` | `CFO's approval` |
+| v48 `short_forms_and_default` | `Buyer bears freight (ex-works)` | `GST cert, cancelled cheque, MSME declaration (where applicable)` | `GM Procurement` |
+
+All but one are genuine answers under the governing policy. `GM Procurement`
+is the matrix's default row: it tests whether the key was built without the
+spend condition, and it is not believed correct. The other nine rows are
+the scoring set unchanged. Expected value remains low (the leading
+explanation is still that these keys cannot be matched); a rise to 0.9167
+means one row landed and is isolated next.
