@@ -3274,3 +3274,12 @@ its owner; it is private (404 without a login). No other entrant's code is
 public. MJenius's repo hardcodes their sandbox key as a default in several
 scripts. It is theirs, and this project must never use it. Our own git
 history was scanned: no `dri_` key in any commit, and `.env` is ignored.
+
+**Web search, 2026-09-19** (Sanjay Prasad, Paavas Goyal, bhasker, each tied
+to competition terms): no write-up, post or code for this competition by
+any of them. One useful fact: MachineHack's founder is **Bhasker Gupta**
+(Tracxn; his LinkedIn posts announce MachineHack challenges). With the
+leaderboard account "bhasker" holding the only 24/24 from a run before
+launch, this makes the "organizer test account" reading very likely. It is
+still a name match only, not confirmed. Paavas Goyal appears only on a 2025
+Odoo x NMIT hackathon team list.
