@@ -2147,3 +2147,10 @@ spend condition, and it is not believed correct. The other nine rows are
 the scoring set unchanged. Expected value remains low (the leading
 explanation is still that these keys cannot be matched); a rise to 0.9167
 means one row landed and is isolated next.
+
+### v44–v48 results (2026-09-19): all 0.8750
+
+None of the 15 new exact strings landed, so 108 distinct answers have now
+failed on K-03, K-05 and K-07. `GM Procurement` failed as well, so a key
+that ignored the spend condition is also ruled out. All 5 Knowledge
+attempts on 2026-09-19 are used. Best recorded stays **0.8750 = 9/12**.

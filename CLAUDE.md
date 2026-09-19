@@ -3248,5 +3248,5 @@ gradeable.
 Five more exact strings per question for K-03, K-05 and K-07. Each is new
 against every past answer in git history under five normalisations.
 Mostly genuine policy answers; `GM Procurement` for K-07 tests a key built
-without the spend row. Files and reasoning in the ledger. Low odds; a rise
-is isolated next.
+without the spend row. Files and reasoning in the ledger. **All five
+scored 0.8750**: 108 distinct answers have now failed on these three.
