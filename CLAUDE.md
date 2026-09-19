@@ -3256,3 +3256,11 @@ Knowledge 0.875 / 97.50, so three independent teams sit at exactly 21/24 and
 none is above it (bhasker's 1.000 is still the pre-launch run). We rank 3rd
 among them. The tie appears to go to whoever reached the score first
 (Sanjay 37 entries, us 79, Paavas 23). This is inferred, not confirmed.
+
+**GitHub re-check 2026-09-19:** no new public repo for this competition.
+Matching accounts for the names above ours (Paavas Goyal = `Yeetogami`,
+Sripathi Mohanasundaram = `microize`, plausible Sanjay Prasad / Akash Kapoor
+accounts) have no competition repos. Keyword searches since mid-August find
+only MJenius's repo (unchanged since 2026-08-31) and the still-empty
+`kundanc2/FDE-Hackathon`. Limit: GitHub's unauthenticated API searches repo
+names and descriptions only, not code.
