@@ -2154,3 +2154,15 @@ None of the 15 new exact strings landed, so 108 distinct answers have now
 failed on K-03, K-05 and K-07. `GM Procurement` failed as well, so a key
 that ignored the spend condition is also ruled out. All 5 Knowledge
 attempts on 2026-09-19 are used. Best recorded stays **0.8750 = 9/12**.
+
+## Leaderboard, 2026-09-19 (user screenshot)
+
+A third entrant, Paavas Goyal (23 entries, last run about 5 h ago), has
+reached Knowledge 0.875 and composite 97.50. Three independent teams now sit
+at exactly 21/24 on Knowledge (Sanjay Prasad, us, Paavas Goyal), and no
+post-launch entrant is above it. bhasker's 1.000 is still the pre-launch run
+(34 days ago). This strengthens the reading that 9/12 is the live ceiling
+and that K-03, K-05 and K-07 cannot be scored. The three tied teams are
+ordered Sanjay (37 entries), us (79), Paavas (23). That fits "first to reach
+the score ranks higher", not fewest entries. Inferred from the ordering;
+not confirmed by any rule text.

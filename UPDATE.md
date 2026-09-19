@@ -16,6 +16,14 @@ be matched by any upload; no entrant since launch has passed 21/24.
 lever left is asking the organizers how answers are matched and whether
 K-03, K-05 and K-07 can be scored at all.
 
+## Leaderboard (2026-09-19)
+
+A third team, Paavas Goyal, has reached Knowledge 0.875 / 97.50. Three
+independent teams are now at exactly 21/24 and none is above it, which
+further supports 21/24 as the real ceiling. We are 3rd, tied on score; ties
+appear to go to whoever got there first (inferred from the order, not from
+the rules).
+
 ## Standing
 
 | Family | Score |

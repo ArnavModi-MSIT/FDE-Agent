@@ -3250,3 +3250,9 @@ against every past answer in git history under five normalisations.
 Mostly genuine policy answers; `GM Procurement` for K-07 tests a key built
 without the spend row. Files and reasoning in the ledger. **All five
 scored 0.8750**: 108 distinct answers have now failed on these three.
+
+**Leaderboard 2026-09-19:** a third entrant (Paavas Goyal) has reached
+Knowledge 0.875 / 97.50, so three independent teams sit at exactly 21/24 and
+none is above it (bhasker's 1.000 is still the pre-launch run). We rank 3rd
+among them. The tie appears to go to whoever reached the score first
+(Sanjay 37 entries, us 79, Paavas 23). This is inferred, not confirmed.
