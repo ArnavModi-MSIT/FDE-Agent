@@ -3264,3 +3264,13 @@ accounts) have no competition repos. Keyword searches since mid-August find
 only MJenius's repo (unchanged since 2026-08-31) and the still-empty
 `kundanc2/FDE-Hackathon`. Limit: GitHub's unauthenticated API searches repo
 names and descriptions only, not code.
+**Logged-in GitHub code search, same day** (the user's browser session):
+queries for `knowledge_questions.csv`, `"VOS-7" "PP-2023"`,
+`governing_source`, `"UOM_MISMATCH" "DUPLICATE_INVOICE"`, `mapped_dri_sku`,
+`migrated_to_salestrack`, `"Sri Ranga Castings"` and
+`machinehack.com/api/public` return only MJenius's repo and our own
+`ArnavModi-MSIT/FDE-Agent`. Our repo shows only because the search runs as
+its owner; it is private (404 without a login). No other entrant's code is
+public. MJenius's repo hardcodes their sandbox key as a default in several
+scripts. It is theirs, and this project must never use it. Our own git
+history was scanned: no `dri_` key in any commit, and `.env` is ignored.
