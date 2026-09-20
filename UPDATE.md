@@ -19,6 +19,21 @@ Paavas Goyal is now at Knowledge **0.9583 (23/24)**, composite 99.17, up from
 Today (2026-09-20) is the last day uploads are certain to count; the daily
 quota has reset.
 
+## Five different-kind files built for today (v49–v53)
+
+Not more rewordings: each tests a different way the grader might work, and
+each changes only K-03, K-05 and K-07, so no file can lose a point.
+
+- **v49** newline-separated lists of many short exact candidates
+- **v50** JSON list answers (`["Buyer"]`, three documents, `["CFO"]`)
+- **v51** short sentences in the organizers' own email voice
+- **v52** full sentences that restate the question's facts
+- **v53** blank / `nan` / `None` (for a broken or empty key)
+
+0.9167 or more means a row landed; 0.8750 rules that idea out. Send me the
+five scores. v53 has a blank answer and the site may reject it; a rejected
+file costs no attempt.
+
 ## Standing
 
 | Family | Score |

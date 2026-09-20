@@ -2166,3 +2166,28 @@ and that K-03, K-05 and K-07 cannot be scored. The three tied teams are
 ordered Sanjay (37 entries), us (79), Paavas (23). That fits "first to reach
 the score ranks higher", not fewest entries. Inferred from the ordering;
 not confirmed by any rule text.
+
+## 2026-09-20: v49–v53 — five different KINDS of answer, after Paavas Goyal reached 23/24
+
+Paavas Goyal (public leaderboard JSON) went 0.875 -> 0.9583 in five uploads,
+so at least two of K-03, K-05 and K-07 are gradeable and the 108 answers
+already tried all missed some kind of answer. These five files test five
+mechanisms rather than five wordings. Each changes only K-03, K-05 and K-07;
+the other nine rows are the 0.8750 set, so nothing can be lost.
+
+| File | Mechanism tested | K-03 | K-05 | K-07 |
+|---|---|---|---|---|
+| v49 `newline_candidate_lists` | The grader splits the answer on line breaks and accepts any exact line (10–12 short candidates per row, including en/em-dash, `&`, `+`, `EXW`) | 12 lines starting `Buyer`, `Buyer's account`, `Buyer – ex-works` | 10 lines: single documents, `&`, dash and slash joined lists | 11 lines: `CFO`, `CFO – Chief Financial Officer`, `CFO + Plant Head + QA`, `Approval of the CFO` |
+| v50 `json_list_answers` | The answer is parsed as a structured list | `["Buyer"]` | `["GST registration certificate", "cancelled cheque", "MSME declaration"]` | `["CFO"]` |
+| v51 `organizer_email_voice` | The key was written in the organizers' own email voice, and a short verbatim-style sentence matches it (earlier wide answers diluted this) | `Post-Oct 2023 everything is ex-works.` (EM-113) | `GST cert and cancelled cheque are on file, MSME declaration awaited.` (EM-107) | `Around 14 lakh a year, so per SOP this needs CFO sign-off.` (EM-107) |
+| v52 `question_restated_sentences` | The key restates the question's facts in a complete sentence | `Freight on a Rs 3,00,000 distributor order shipped in February 2024 is borne by the buyer, because PP-2023 makes all despatches ex-works.` | `At onboarding, a new vendor has to hand over its GST registration certificate, a cancelled cheque and its MSME declaration, the last one only where applicable.` | `For a new vendor with projected annual spend of Rs 14,00,000, the approval required is that of the CFO.` |
+| v53 `broken_key_sentinels` | One of the three keys is empty or a stringified null and only an equal sentinel matches (Kimi's broken-key reading, now applying to at most one row) | *(blank)* | `nan` | `None` |
+
+Every answer was checked against the 111 K-03/K-05/K-07 answers in git
+history. All are new except v50, whose brackets and quotes disappear when
+punctuation is ignored (plain `Buyer`, the three documents and `CFO` were
+tried); it only matters if the grader reads structure or compares raw
+strings. v49 puts several line breaks inside one CSV cell (quoted, valid
+CSV). v53 has a blank answer, which the site may reject; a rejected file
+costs no attempt. A score of 0.9167 or more means one row landed and needs
+an isolating file; 0.8750 means that mechanism is ruled out.

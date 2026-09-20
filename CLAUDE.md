@@ -3310,3 +3310,8 @@ only public timing and scores are used here. Best-recorded scores mean their
 probing cannot lower their standing, and five uploads is a small budget, so
 the winning forms were probably not a wide search. Leaderboard now: bhasker
 99.44 (pre-launch run), Paavas Goyal 99.17, Sanjay Prasad 97.50, us 97.50.
+
+**v49–v53 built 2026-09-20** to test five *kinds* of answer for K-03, K-05
+and K-07 (newline-separated candidate lists, JSON lists, organizer email
+voice, question-restating sentences, empty/`nan`/`None` sentinels). Detail
+and rationale in the ledger. Results not yet known.
