@@ -3283,3 +3283,30 @@ leaderboard account "bhasker" holding the only 24/24 from a run before
 launch, this makes the "organizer test account" reading very likely. It is
 still a name match only, not confirmed. Paavas Goyal appears only on a 2025
 Odoo x NMIT hackathon team list.
+
+### 2026-09-20: CORRECTION — K-03, K-05 and K-07 ARE gradeable; Paavas Goyal has 23/24
+
+The public leaderboard JSON shows **Paavas Goyal at Knowledge 0.9583 = 23/24
+= 12 sources + 11 answers** (composite 99.17, 28 entries, last run
+2026-09-19T20:14Z). They were at 0.875 with 23 entries earlier the same day,
+so **5 uploads bought +2 answers**. That overturns three conclusions
+recorded above:
+
+- "9/12 is the live ceiling" and "no post-launch entrant has passed 21/24"
+  are false as of today.
+- "K-03/K-05/K-07 keys are broken or underivable" (Kimi's leading reading)
+  is contradicted: at least **two of the three** were matched by a real
+  entrant, in five uploads. The keys are gradeable and something derivable
+  matches them.
+- Our 108-answer search space is therefore missing a whole *kind* of answer,
+  not just wording. Every family we tried (readable, coded, cased, swapped,
+  number-covered, verbatim, short, wide, reordered) failed, so the missing
+  kind is something none of them covered.
+
+What is NOT known: which two of the three landed, or what Paavas submitted.
+No public repo or write-up exists for them (GitHub and web checked
+2026-09-19). Nothing may be copied from another participant's files (R-11);
+only public timing and scores are used here. Best-recorded scores mean their
+probing cannot lower their standing, and five uploads is a small budget, so
+the winning forms were probably not a wide search. Leaderboard now: bhasker
+99.44 (pre-launch run), Paavas Goyal 99.17, Sanjay Prasad 97.50, us 97.50.

@@ -1,28 +1,23 @@
-# Latest update — 2026-09-19
+# Latest update — 2026-09-20
 
 **This file is rewritten fresh on every change, not appended to.** It's a
 quick "what just happened and why" for a human checking in — the full
 project record with all context/rationale lives in `CLAUDE.md`.
 
-## Knowledge: v44–v48 all 0.8750
+## Big change: Knowledge 23/24 has been reached by a real entrant
 
-Today's five files tried 15 new exact answers for K-03, K-05 and K-07
-(`Buyer (EXW)`, `CFO only`, `GSTIN certificate, …`, `GM Procurement` and
-others). None landed. **108 distinct answers have now failed on those three
-questions.** The best explanation is still that their hidden answers can't
-be matched by any upload; no entrant since launch has passed 21/24.
+Paavas Goyal is now at Knowledge **0.9583 (23/24)**, composite 99.17, up from
+0.875 in five uploads (public leaderboard JSON, last run 2026-09-19 20:14 UTC).
 
-2026-09-20 is the last day qualifier submissions are certain to count. The
-lever left is asking the organizers how answers are matched and whether
-K-03, K-05 and K-07 can be scored at all.
+- The "9/12 ceiling" and "K-03/K-05/K-07 can't be scored" readings are
+  **wrong**. At least two of the three keys were matched, quickly.
+- We don't know what they submitted and won't copy it (R-11). We only know
+  the keys are gradeable and that something we haven't tried matches them.
+- Our 108 failed answers covered wording, case, codes, numbers and length,
+  so the missing idea is a different *kind* of answer.
 
-## Leaderboard (2026-09-19)
-
-A third team, Paavas Goyal, has reached Knowledge 0.875 / 97.50. Three
-independent teams are now at exactly 21/24 and none is above it, which
-further supports 21/24 as the real ceiling. We are 3rd, tied on score; ties
-appear to go to whoever got there first (inferred from the order, not from
-the rules).
+Today (2026-09-20) is the last day uploads are certain to count; the daily
+quota has reset.
 
 ## Standing
 
@@ -33,5 +28,5 @@ the rules).
 | Migration | **1.0000** |
 | Knowledge | **0.8750** |
 
-Composite **97.50**. 117/117 tests pass. Commits since the last push are
-local only.
+Composite **97.50** (4th; Paavas Goyal 99.17). 117/117 tests pass. Commits
+since the last push are local only.
