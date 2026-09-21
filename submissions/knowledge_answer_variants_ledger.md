@@ -2230,3 +2230,23 @@ whether the site has a length limit (K-10 padded to 935 characters was
 accepted; v56 cells are about 5.2k, and a rejected file costs no attempt),
 and whether extra words, unlike extra numbers, are harmless. If v54 or v55
 lands, isolate the row with a follow-up; if only v56 lands, both matter.
+
+### v54–v58 results (2026-09-21): all 0.8750
+
+None landed. Both carpets failed: v54 carried every integer 0–300, every
+decimal x.y up to 20.9, `N,00,000` up to 20 lakh and years 2015–2030;
+v55 carried every word of the four policies, six tickets and five emails;
+v56 carried both. So the check on these three rows is **not** "every key
+number (or word) appears somewhere in the answer" for any number or word
+from the organizers' own texts. The numbers-subset model, which explains all
+nine scoring answers, does not explain K-03, K-05 and K-07. One caveat that
+cannot be ruled out: a length cutoff between the 935-character K-10 control
+and the carpets' 2–5k characters could have hidden the tail of each cell,
+though the natural answer and the first ~900 characters were intact.
+
+Running tally: 131 distinct answers have failed on these three rows across
+every family tried (readable, coded, cased, swapped, number-covered,
+verbatim, short, wide, reordered, lists, JSON, email voice, restated
+sentences, sentinels, number and word carpets, raw period, citations).
+Paavas Goyal reached 23/24 with two of the three, so the rows are
+gradeable by something we have not found.

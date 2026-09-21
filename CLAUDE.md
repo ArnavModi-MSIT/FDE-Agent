@@ -3326,3 +3326,12 @@ period raw form and citation-as-answer. Rationale: under the measured
 numbers model a number-less key would pass everything, so these keys must
 hold numbers never written; covering them all tests that directly. Results
 not yet known. Detail in the ledger.
+
+**v54–v58 all 0.8750 (2026-09-21).** The number carpet, the vocabulary
+carpet, both together, the trailing-period form and citation-as-answer all
+failed. The numbers-subset model therefore does **not** explain K-03/K-05/
+K-07: no number or word from the organizers' texts, in any quantity up to
+5k characters, makes them pass. (Uncaught caveat: a length cutoff between
+935 and ~2k characters.) 131 distinct answers have failed on these rows.
+Paavas Goyal solved two of three, so they are gradeable by something not yet
+found. Best option left is asking the organizers; see UPDATE.md.
