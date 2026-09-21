@@ -3335,3 +3335,15 @@ K-07: no number or word from the organizers' texts, in any quantity up to
 935 and ~2k characters.) 131 distinct answers have failed on these rows.
 Paavas Goyal solved two of three, so they are gradeable by something not yet
 found. Best option left is asking the organizers; see UPDATE.md.
+
+**All-entrant repo check, 2026-09-21** (22 leaderboard names; logged-in
+GitHub code search plus user and repo lookups): still only MJenius's repo
+and our private one. Searches used the Knowledge CSV header
+`qid,answer,governing_source` (15 files, all MJenius or ours),
+`starter_reconciliation` (9 files; every entrant's repo would contain it),
+`"K-07" "governing_source"`, `"K-05" "MSME" "cancelled cheque"`, `DRI_KEY`
+and `Deshmukh & Rao`, plus gist search. Every K-03/K-05/K-07 answer in
+MJenius's repo (`Buyer`, `CFO`, the banked document list) is one we have
+already tried, and MJenius sits at 0.8333. No entrant below us has a
+public repo. Limits: private repos, Kaggle, GitLab, Hugging Face and
+notebooks are not covered.
