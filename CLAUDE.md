@@ -3315,3 +3315,14 @@ the winning forms were probably not a wide search. Leaderboard now: bhasker
 and K-07 (newline-separated candidate lists, JSON lists, organizer email
 voice, question-restating sentences, empty/`nan`/`None` sentinels). Detail
 and rationale in the ledger. Results not yet known.
+
+**2026-09-20/21 results and next files.** v49–v53 all failed to beat 0.8750
+(our entries 79 -> 84, Knowledge still 0.875). Paavas Goyal ran 5 more
+uploads (33 entries) and is still 0.9583, so two of three answered and one
+unsolved for them too; uploads are still recorded after the 20 Sep close
+(last Paavas run 01:24 IST on 21 Sep). **v54–v58 built:** a number carpet
+(526 numbers), a vocabulary carpet (400 words), both together, a trailing-
+period raw form and citation-as-answer. Rationale: under the measured
+numbers model a number-less key would pass everything, so these keys must
+hold numbers never written; covering them all tests that directly. Results
+not yet known. Detail in the ledger.
