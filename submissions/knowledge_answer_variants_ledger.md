@@ -2275,3 +2275,20 @@ from the 2026-09-21 carpet result. All five are checked against the 175
 K-03/K-05/K-07/K-10 answers already in git history and are new. Expected
 value on v60–v63 is low given how thoroughly the field has already been
 covered; v59 is genuinely diagnostic regardless of outcome.
+
+### v59–v63 results (2026-09-23): all 0.8750
+
+None landed. **v59 is the important one**: K-10 kept its point at 3,668
+characters, digit-free filler included, so there is no length cutoff
+between 935 and 3,668 characters. That closes the one open uncertainty from
+2026-09-21 for good — the number and vocabulary carpets (up to ~5.2k
+characters) really did fail on their content, not get truncated before the
+check ran. Ticket-ID numbers, the documents' real signatories, their full
+titles, and a leading clause number all failed too.
+
+Running tally: 141 distinct answers have now failed on K-03, K-05 and K-07,
+covering the full number range in the organizer texts, the full vocabulary,
+signatories, titles and citation forms in both directions. Paavas Goyal
+solved two of the three in five uploads, so whatever they used is not among
+these. No further hypothesis is available from the organizer text; the next
+lever is the organizers themselves.

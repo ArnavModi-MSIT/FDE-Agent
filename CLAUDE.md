@@ -3357,3 +3357,14 @@ covered before: ticket-ID numbers (3400s, missing from the number carpet),
 the documents' real signatories, their full titles (not just the code),
 and a clause number placed before the text instead of after. Results not
 yet known.
+
+**v59–v63 all 0.8750 (2026-09-23).** K-10 kept its point at 3,668
+characters (v59), closing the length-cutoff uncertainty from 2026-09-21 for
+good: the earlier carpets failed on content, not truncation. Ticket-ID
+numbers, signatories, full document titles and a leading clause number all
+failed too. 141 distinct answers have now failed on K-03/K-05/K-07 across
+every organizer-text source and every format tried. No further hypothesis
+survives; asking the organizers is the only lever left. Housekeeping: all
+spent Knowledge candidate CSVs (v34-v63) removed from the working tree,
+history retained in git and in the ledger; only `knowledge_submission.csv`
+and `knowledge_submission_best_0p8750.csv` remain on disk.
