@@ -2250,3 +2250,28 @@ verbatim, short, wide, reordered, lists, JSON, email voice, restated
 sentences, sentinels, number and word carpets, raw period, citations).
 Paavas Goyal reached 23/24 with two of the three, so the rows are
 gradeable by something we have not found.
+
+## 2026-09-23: v59–v63 — a length probe, plus four genuinely untested ideas
+
+Leaderboard unchanged since 21 Sep (us 89 entries/0.8750, Paavas Goyal 38
+entries/0.9583, still missing one). 131 answers have failed on K-03, K-05
+and K-07 across every family tried, including full number and vocabulary
+carpets up to ~5.2k characters. Two things remained open from that result:
+whether a length cutoff between 935 and ~2k characters hid part of the
+carpets, and a genuine gap in the number carpet (it covered 0–300, x.y
+decimals, lakh amounts and years, but not the four-digit ticket-ID range
+the organizer texts actually use, 3400–3460).
+
+| File | What it changes | What it tests |
+|---|---|---|
+| v59 `length_cutoff_probe` | **K-10 only** (already proven correct), padded with digit-free filler to 3,668 characters — K-03/K-05/K-07 stay at the banked 0.8750 text | Whether a length cutoff exists between the 935 characters already proven safe (v39) and full carpet length. If K-10 keeps its point, no cutoff exists anywhere near what was used, and the carpet failures in v54–v56 are real, not truncated |
+| v60 `ticket_numbers` | Natural answer + the 14 ticket-ID numbers (3401–3458) that never appeared in the number carpet | The one number range genuinely missing from v54's carpet |
+| v61 `signatory_names` | Natural answer plus the real signatory named on each governing document's footer (Anjali Deshmukh for PP-2023, Rohit Malhotra for VOS-7) | A detail from the literal PDF text never tried before |
+| v62 `document_title` | Natural answer plus the document's full title, not just its code (`Pricing & Distributor Policy (Revised)`, `Vendor Onboarding SOP`) | Whether the key expects the full title somewhere in the answer, distinct from `governing_source`'s already-proven-correct code |
+| v63 `clause_leading` | The clause number placed **first** (`4.1: ...`), unlike v58's bare trailing citation (`PP-2023 s4.1`) | A citation form not yet tried: number-led rather than number-trailing |
+
+v59 is the highest-value file: it resolves the one real uncertainty left
+from the 2026-09-21 carpet result. All five are checked against the 175
+K-03/K-05/K-07/K-10 answers already in git history and are new. Expected
+value on v60–v63 is low given how thoroughly the field has already been
+covered; v59 is genuinely diagnostic regardless of outcome.

@@ -3347,3 +3347,13 @@ MJenius's repo (`Buyer`, `CFO`, the banked document list) is one we have
 already tried, and MJenius sits at 0.8333. No entrant below us has a
 public repo. Limits: private repos, Kaggle, GitLab, Hugging Face and
 notebooks are not covered.
+
+**v59–v63 built 2026-09-23.** Leaderboard unchanged since 21 Sep. v59 pads
+K-10 (already proven correct) to 3,668 characters with digit-free filler,
+touching no K-03/K-05/K-07 row, to resolve the one open uncertainty from
+the 2026-09-21 carpet result: whether a length cutoff between 935 and ~2k
+characters hid part of those carpets. v60–v63 test four specific gaps never
+covered before: ticket-ID numbers (3400s, missing from the number carpet),
+the documents' real signatories, their full titles (not just the code),
+and a clause number placed before the text instead of after. Results not
+yet known.
