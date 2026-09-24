@@ -1,31 +1,32 @@
-# Latest update — 2026-09-23
+# Latest update — 2026-09-24
 
 **This file is rewritten fresh on every change, not appended to.** It's a
 quick "what just happened and why" for a human checking in — the full
 project record with all context/rationale lives in `CLAUDE.md`.
 
-## v59–v63 all 0.8750; length-cutoff question closed
+## New review package built for outside AIs
 
-None of the five landed. The useful result is **v59**: K-10, a row already
-proven correct, kept its point at 3,668 characters. That rules out a length
-cutoff as the reason the 21 Sep carpets (up to 5.2k characters) failed — they
-failed on content, not truncation. Ticket numbers, signatories, document
-titles and a leading clause number all failed too.
+Two things, both fresh as of today:
 
-141 distinct answers have now failed on K-03, K-05 and K-07, covering every
-number, word, signatory, title and citation form the organizer texts
-contain. Paavas Goyal has solved two of the three in a handful of uploads,
-so something real is being missed, but nothing left in the organizer text
-points at what. Asking the organizers (how `answer` is matched, whether
-these three rows are gradeable) is the only remaining lever.
+- **`external_review/knowledge_review_brief_2026-09-24.md`** — a complete,
+  self-contained rewrite of the review brief. It supersedes the
+  2026-09-18 one. It carries: the measured grader model with its full
+  evidence chain (numbers-subset, the K-08 lakh discovery, K-09's
+  complete-rule requirement, the length-cutoff test that closed the
+  truncation question, containment-matching ruled out); the **Paavas
+  Goyal discovery** (a competitor reached 23/24, so K-03/K-05/K-07 are
+  provably gradeable, not broken keys); the full policy-document,
+  ticket and email text; and an appendix of all **152 distinct answers**
+  already tried, organized by question. It tells the reviewer explicitly
+  to read the appendix before proposing anything and to say whether they
+  did.
+- **`knowledge_score_review/`** (new folder, gitignored) — a plain,
+  ready-to-hand-off copy: the brief plus the current best CSV, the full
+  ledger, `policy_kb.py`, the four PDFs, and the three source CSVs. No
+  key, no `.env` — scanned before writing.
 
-## Housekeeping
-
-Every spent Knowledge candidate CSV (v34 through v63) is removed from the
-working tree. Git history and the ledger keep the full record of what each
-one tested. Only `knowledge_submission.csv` and
-`knowledge_submission_best_0p8750.csv` remain on disk, matching the
-2026-09-16 pattern.
+No Knowledge attempts were spent today. Standing at 0.8750 (9/12), same
+as the last check.
 
 ## Standing
 
@@ -36,5 +37,5 @@ one tested. Only `knowledge_submission.csv` and
 | Migration | **1.0000** |
 | Knowledge | **0.8750** |
 
-Composite **97.50** (4th; Paavas Goyal 99.17). 117/117 tests pass. Commits
-since the last push are local only.
+Composite **97.50**. 117/117 tests pass. Commits since the last push are
+local only.

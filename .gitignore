@@ -5,3 +5,4 @@ __pycache__/
 .env
 dataset/System extracts/submission.csv
 external_review/share/
+knowledge_score_review/

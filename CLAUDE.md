@@ -3368,3 +3368,17 @@ survives; asking the organizers is the only lever left. Housekeeping: all
 spent Knowledge candidate CSVs (v34-v63) removed from the working tree,
 history retained in git and in the ledger; only `knowledge_submission.csv`
 and `knowledge_submission_best_0p8750.csv` remain on disk.
+
+**2026-09-24: a fresh, self-contained review package built.**
+`external_review/knowledge_review_brief_2026-09-24.md` supersedes the
+2026-09-18 brief -- it folds in everything since (the Paavas Goyal 23/24
+discovery, the length-cutoff resolution, all 152 distinct K-03/K-05/K-07
+answers tried, and the full measured-grader evidence chain) into one
+document with explicit instructions to the reviewer (read Appendix C
+before proposing anything; reply with a yes/no on having done so). A
+plain-folder copy, `knowledge_score_review/` (gitignored, mirrors
+`external_review/share/`'s pattern), holds the brief plus the current
+best submission, the full ledger, `policy_kb.py`, the four policy PDFs,
+and `tickets.csv`/`emails.csv`/`knowledge_questions.csv` for the user to
+hand to outside AIs directly. Scanned for the sandbox key before writing
+-- none present.
