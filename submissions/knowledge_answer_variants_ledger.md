@@ -2292,3 +2292,74 @@ signatories, titles and citation forms in both directions. Paavas Goyal
 solved two of the three in five uploads, so whatever they used is not among
 these. No further hypothesis is available from the organizer text; the next
 lever is the organizers themselves.
+
+## 2026-09-24: an outside review audited against the record — two claims false, two real gaps found
+
+A reviewer was sent the fresh 2026-09-24 brief and answered "yes" to having
+read Appendix C. It proposed 8 candidates. Each was checked mechanically
+against the full 152-answer history before building anything.
+
+**Two candidates were false novelty claims, both disproven by entries
+already in the record**:
+- **K-03.1** proposed combining `Buyer` with the old PP-2019 freight
+  threshold (`Rs 2,00,000` / `Rs 2 lakh` / `2L`) alongside the current
+  order's `Rs 3,00,000` / `Rs 3 lakh`. This exact combination was already
+  tried on 2026-09-17 (v34's notation sweep: *"Buyer. From 1 October 2023
+  ... a Rs 3,00,000 order (Rs 3 lakh, Rs 300000, 3L, 0.03 crore) ... The
+  PP-2019 rule ... under which DRI paid freight above Rs 2,00,000 (Rs 2
+  lakh, Rs 200000, 2L), no longer applies."*) and scored 0.8750.
+- **K-05.3** proposed the three-document list plus the Vault filing
+  deadline (`7 days`). An existing answer already reads *"...all are
+  filed in The Vault within 7 days of code creation."*
+
+**Two candidates are genuinely new, and correctly generalise the one
+proven lesson from K-08 (the missing token was the word `lakh`, not the
+comma-digit amount) to K-05 and K-07 for the first time**:
+- **K-07's assertive multi-approver content had never been paired with
+  word-form lakh notation.** Every prior answer asserting `CFO, Plant
+  Head and QA` as the actual required approvals used only comma-digit
+  amounts (`Rs 14,00,000`); every prior answer using the word `lakh`
+  either asserted CFO alone or mentioned Plant Head only as a hedge
+  ("would also need... if direct-material"). The exact combination —
+  assert all three approvers, in word-lakh notation — was untested.
+- **K-05's document spelling was tested in exactly one register.** All 48
+  prior K-05 answers spell the second document `cheque`; the US spelling
+  `check` was never tried.
+
+**One more real gap, lower confidence**: the four-item reading of K-05
+(GST cert, cancelled cheque, MSME declaration, *and* purchase
+requisition) was tried twice before, but both times the count was spelled
+out as the word "four" — never as the digit `4`, and we proved separately
+(v27) that a spelled-out number does not satisfy the same check a digit
+does. The digit-`4` version of this exact content had never been tried.
+
+**Two candidates were rejected on reasoning, not just history**:
+`CFO and GM Procurement` (K-07.2) misreads VOS-7's own matrix — "all
+other vendors" (GM Procurement) is the residual bucket for vendors that
+trigger *neither* the spend nor direct-material condition, not an
+addition on top of CFO — and its content was tried in substance already.
+A buyer/distributor alias framing for K-03 (K-03.2) adds no token beyond
+what several already-tried answers already contain.
+
+**One genuinely fair correction to this file's own Section 3a**: the
+review is right that concluding "no word satisfies these keys" from the
+2026-09-21 vocabulary carpet was overstated — that carpet was built from
+the organizer texts' own spelling throughout, so it never tested a
+spelling variant like `check`. The carpet closed "no organizer-text word
+helps"; it did not close "no word helps," full stop.
+
+### v64–v67 — the four candidates that survived the audit
+
+Each changes exactly one of K-03/K-05/K-07, leaving the other two at the
+banked, already-failing text — a genuine isolation, not a guess, since
+neither untouched row can move either direction.
+
+| File | Row changed | Answer |
+|---|---|---|
+| v64 `k05_check_spelling` | K-05 | `GST registration certificate, cancelled check, and MSME declaration (where applicable)` |
+| v65 `k07_assertive_lakh_words` | K-07 | `CFO, Plant Head, and QA clearance for direct-material vendor with projected annual spend of Rs 14 lakh (Rs 14,00,000 exceeding Rs 10 lakh / Rs 10,00,000 threshold under VOS-7 s3)` |
+| v66 `k05_four_documents` | K-05 | `GST registration certificate, cancelled cheque, MSME declaration, and purchase requisition (4 onboarding documents under VOS-7 step 1 and step 2)` |
+| v67 `k07_signatory_lakh_words` | K-07 | `Chief Financial Officer (CFO Rohit Malhotra) approval required for projected annual spend of Rs 14 lakh / Rs 14,00,000 (above Rs 10 lakh / Rs 10,00,000 limit per VOS-7 s3)` |
+
+A rise on v64 or v66 alone identifies K-05; a rise on v65 or v67 alone
+identifies K-07 — no follow-up isolation upload needed either way.

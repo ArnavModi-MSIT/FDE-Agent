@@ -3392,3 +3392,18 @@ reviewer to open the 39KB brief first to know what to do. It repeats the
 brief's core instruction (read the tried-answers appendix before
 proposing anything, confirm you did) and asks for a mechanism, not just
 more candidate strings.
+
+**2026-09-24: an outside review of the fresh brief audited, not taken on
+faith.** Two of its 8 candidates were false novelty claims -- disproven by
+entries already in the 152-answer history, one of them a near-verbatim
+match already on record. Two are genuinely new and correctly extend the
+one proven K-08 lesson (the missing token was the word `lakh`, not the
+comma amount) to K-05 and K-07 for the first time: an assertive `CFO,
+Plant Head and QA` answer had never been paired with word-form lakh
+notation, and K-05's second document had never been spelled `check`
+(US) instead of `cheque`. A third, lower-confidence gap survived too (a
+digit-`4` document count, vs. two prior attempts that spelled it "four").
+v64-v67 built, each isolated to one row. Results not yet known. The
+review's fair correction to this file's own Section 3a (the 2026-09-21
+vocabulary carpet only ruled out organizer-text *spelling*, not every
+possible word) is recorded in the ledger.
