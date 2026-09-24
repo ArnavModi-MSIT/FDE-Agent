@@ -4,29 +4,17 @@
 quick "what just happened and why" for a human checking in — the full
 project record with all context/rationale lives in `CLAUDE.md`.
 
-## New review package built for outside AIs
+## Short prompt added alongside the review folder
 
-Two things, both fresh as of today:
+`knowledge_score_review/PROMPT.md` — a short cover message to paste into
+an AI chat with the folder's files attached, separate from the long brief
+(`00_READ_FIRST_review_brief.md`). It tells the reviewer to open the brief
+first, read the tried-answers appendix before proposing anything, confirm
+in their reply that they did, and give a mechanism rather than just more
+guesses. Tracked copy at
+`external_review/PROMPT_for_external_AI_review_2026-09-24.md`.
 
-- **`external_review/knowledge_review_brief_2026-09-24.md`** — a complete,
-  self-contained rewrite of the review brief. It supersedes the
-  2026-09-18 one. It carries: the measured grader model with its full
-  evidence chain (numbers-subset, the K-08 lakh discovery, K-09's
-  complete-rule requirement, the length-cutoff test that closed the
-  truncation question, containment-matching ruled out); the **Paavas
-  Goyal discovery** (a competitor reached 23/24, so K-03/K-05/K-07 are
-  provably gradeable, not broken keys); the full policy-document,
-  ticket and email text; and an appendix of all **152 distinct answers**
-  already tried, organized by question. It tells the reviewer explicitly
-  to read the appendix before proposing anything and to say whether they
-  did.
-- **`knowledge_score_review/`** (new folder, gitignored) — a plain,
-  ready-to-hand-off copy: the brief plus the current best CSV, the full
-  ledger, `policy_kb.py`, the four PDFs, and the three source CSVs. No
-  key, no `.env` — scanned before writing.
-
-No Knowledge attempts were spent today. Standing at 0.8750 (9/12), same
-as the last check.
+No Knowledge attempts spent today. Standing unchanged.
 
 ## Standing
 

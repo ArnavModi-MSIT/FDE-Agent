@@ -3382,3 +3382,13 @@ best submission, the full ledger, `policy_kb.py`, the four policy PDFs,
 and `tickets.csv`/`emails.csv`/`knowledge_questions.csv` for the user to
 hand to outside AIs directly. Scanned for the sandbox key before writing
 -- none present.
+
+**Short paste-in prompt added, same day.**
+`external_review/PROMPT_for_external_AI_review_2026-09-24.md` (tracked)
+and `knowledge_score_review/PROMPT.md` (gitignored copy) are a short cover
+message, separate from the long brief -- meant to be pasted directly into
+a chat with the folder's files attached, rather than requiring the
+reviewer to open the 39KB brief first to know what to do. It repeats the
+brief's core instruction (read the tried-answers appendix before
+proposing anything, confirm you did) and asks for a mechanism, not just
+more candidate strings.
