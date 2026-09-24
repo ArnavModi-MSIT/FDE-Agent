@@ -3407,3 +3407,9 @@ v64-v67 built, each isolated to one row. Results not yet known. The
 review's fair correction to this file's own Section 3a (the 2026-09-21
 vocabulary carpet only ruled out organizer-text *spelling*, not every
 possible word) is recorded in the ledger.
+
+**v64–v67 all 0.8750 (2026-09-24).** Neither of the outside review's two
+genuinely new ideas landed: K-05's `check` spelling, K-05's digit-`4`
+document count, K-07's assertive multi-approver content paired with
+word-form lakh notation, and the named-signatory variant all failed. 155
+distinct answers have now failed on K-03/K-05/K-07.

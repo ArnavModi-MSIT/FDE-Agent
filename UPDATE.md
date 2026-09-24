@@ -4,29 +4,18 @@
 quick "what just happened and why" for a human checking in — the full
 project record with all context/rationale lives in `CLAUDE.md`.
 
-## An outside review came back — audited, not trusted
+## v64–v67 all 0.8750
 
-Sent the fresh brief to an outside AI. It proposed 8 candidate answers.
-Checked every one against the 152-answer history before building anything:
+The two genuinely new ideas from the outside review — K-05's `check`
+spelling, and K-07's `CFO, Plant Head and QA` paired with word-form lakh
+notation for the first time — both failed. So did the two lower
+-confidence follow-ons (K-05's digit-4 document count, K-07's named
+signatory). 155 distinct answers have now failed on these three rows.
 
-- **2 were wrong.** Both claimed to fix a "gap" that's already in the
-  record — one (K-05's 7-day filing deadline) matches an existing answer
-  almost word for word.
-- **2 are genuinely new, and sharp.** Both correctly apply the one proven
-  lesson from K-08 (the missing piece was the *word* "lakh," not the
-  comma amount) to K-05 and K-07 for the first time:
-  - K-07: an answer asserting `CFO, Plant Head and QA` (not just CFO) had
-    never been paired with `14 lakh`/`10 lakh` word notation.
-  - K-05: the second document had never been spelled the US way,
-    `check`, instead of `cheque`.
-- **1 more survived**, lower confidence: K-05 as 4 documents (adding
-  purchase requisition), with the count written as digit `4` — the
-  content was tried twice before, but always spelled out as "four," which
-  we've separately proven doesn't count the same as a digit.
-
-Built **v64–v67**, each changing exactly one row, so a rise pinpoints
-which idea landed with no follow-up upload needed. Full audit in the
-ledger.
+Every avenue this project can reason its way to has now been tried:
+wording, case, structure, numbers in every notation, spelling variants,
+and every combination an outside review could add. Knowledge stays at
+0.8750 (9/12). Asking the organizers remains the one real lever left.
 
 ## Standing
 

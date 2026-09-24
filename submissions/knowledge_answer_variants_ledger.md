@@ -2363,3 +2363,13 @@ neither untouched row can move either direction.
 
 A rise on v64 or v66 alone identifies K-05; a rise on v65 or v67 alone
 identifies K-07 — no follow-up isolation upload needed either way.
+
+### v64–v67 results (2026-09-24): all 0.8750
+
+None landed. K-05's `check` spelling and its digit-`4` document count both
+failed; K-07's assertive `CFO, Plant Head and QA` combined with word-form
+lakh notation, and the named-signatory variant, both failed too. The two
+genuinely new ideas the outside review contributed — both correct
+applications of the K-08 lesson to questions it had never been tried on —
+are now closed. 155 distinct answers have failed on K-03, K-05 and K-07
+across every mechanism, spelling, and notation combination found so far.
