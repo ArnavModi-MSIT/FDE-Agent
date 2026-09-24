@@ -3413,3 +3413,16 @@ genuinely new ideas landed: K-05's `check` spelling, K-05's digit-`4`
 document count, K-07's assertive multi-approver content paired with
 word-form lakh notation, and the named-signatory variant all failed. 155
 distinct answers have now failed on K-03/K-05/K-07.
+
+**2026-09-24, later: a second outside review (DeepSeek), also audited.**
+Repeated the exact shape of error the first reviewer made: claiming
+K-05's 3-doc-list-plus-7-days combination was untested when six prior
+answers already contain it, one nearly verbatim -- despite this exact
+rejection being documented in the same day's ledger entry the reviewer
+had access to. Two speculative survivors built (v68/v69: bare `0` and
+`100` for K-03), on an unconfirmed theory the hidden key might be
+structured/numeric for a categorical question. Its critique of this
+file's own reasoning is mostly a restatement of points already in
+Sections 3.6/5(b)/4; its one correct observation (152 vs 141 "distinct"
+counts) reflects two different counting methods, not missing coverage.
+Full audit in the ledger.

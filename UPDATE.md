@@ -4,18 +4,22 @@
 quick "what just happened and why" for a human checking in — the full
 project record with all context/rationale lives in `CLAUDE.md`.
 
-## v64–v67 all 0.8750
+## A second outside review — mostly repeated, two thin survivors
 
-The two genuinely new ideas from the outside review — K-05's `check`
-spelling, and K-07's `CFO, Plant Head and QA` paired with word-form lakh
-notation for the first time — both failed. So did the two lower
--confidence follow-ons (K-05's digit-4 document count, K-07's named
-signatory). 155 distinct answers have now failed on these three rows.
+Sent the same brief to DeepSeek. Checked its 7 candidates against the
+full history before building anything:
 
-Every avenue this project can reason its way to has now been tried:
-wording, case, structure, numbers in every notation, spelling variants,
-and every combination an outside review could add. Knowledge stays at
-0.8750 (9/12). Asking the organizers remains the one real lever left.
+- **5 were wrong or not real hypotheses.** Its main K-05 candidate claims
+  the "filed within 7 days" detail was never tried — six prior answers
+  already have it, nearly word for word in one case, and this exact type
+  of false claim from the *previous* reviewer is already written up in
+  today's earlier ledger entry.
+- **2 survive**, but they're a guess, not a finding: bare `0` and bare
+  `100` for K-03, on the unconfirmed theory the hidden key might be a
+  number rather than a category. Built as v68/v69, K-05 and K-07 left at
+  their banked text.
+
+No strong new lead came out of this round. Standing unchanged.
 
 ## Standing
 

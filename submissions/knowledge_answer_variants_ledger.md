@@ -2373,3 +2373,57 @@ genuinely new ideas the outside review contributed — both correct
 applications of the K-08 lesson to questions it had never been tried on —
 are now closed. 155 distinct answers have failed on K-03, K-05 and K-07
 across every mechanism, spelling, and notation combination found so far.
+
+## 2026-09-24, later: a second outside review (DeepSeek) — one repeated error, two speculative survivors
+
+Sent the same 2026-09-24 brief to a second reviewer. It answered "yes" to
+reading Appendix C and proposed 7 candidates. Checked all 7 mechanically
+before building anything.
+
+**Five were false or effectively already-disproven, and one repeats the
+exact shape of error the first reviewer made yesterday**: it proposed
+K-05's three-document list combined with "filed within 7 days" as
+untested, citing that "no entry carries `7` as filing days." **Six** prior
+K-05 answers already contain "within 7 days" combined with the three
+-document list, one reading almost word for word what was proposed — this
+is documented in yesterday's own ledger entry rejecting a near-identical
+claim from the prior review, which was in the same folder this reviewer
+says it read. Its K-03 "combined" candidate (three cost categories + both
+notations + the supersession year) is also already covered in substance
+by three prior answers that contain every one of its claimed tokens
+together. Its two `CFO's`-based K-07 candidates are technically new exact
+strings but not real hypotheses: a superset of each (`CFO's approval`)
+already failed, and extra content has been separately proven never to
+cost a point (K-10's padding tests), so a bare subset of a losing string
+landing would be a genuinely strange result, not a motivated one.
+
+**Two candidates survive, both speculative**: bare `0` and bare `100` for
+K-03, on the theory the hidden key might be a structured field (e.g. a
+percentage) rather than free text. Neither is a strong content hypothesis
+-- there's no organizer-text evidence the key is numeric at all for a
+categorical question -- but both are genuinely untested exact strings and
+cost nothing, so both are worth spending on.
+
+**On the review's critique of this file's own reasoning**: its point that
+early bundled Knowledge tests don't individually isolate each row doesn't
+hold for the bulk of the record. Since v29 (2026-09-16), every bundled
+test held the 9 proven-correct rows fixed and varied only the 3
+already-known-wrong ones, and scoring is purely additive -- so a bundle's
+score staying at 0.8750 is mathematically sufficient to prove none of its
+rows flipped, not merely suggestive. Its other critiques (the `5` vs
+`500000` distinction, exact whole-string matching as an open
+possibility, weighting Paavas Goyal's discovery) largely restate points
+already in the brief's own Sections 3.6, 5(b) and 4. Its one real,
+correct observation: the brief's "152 distinct answers" and this ledger's
+narrative "141 distinct" use two different counting methods (raw exact
+-string count vs. case/punctuation-normalised count) -- both accurate on
+their own terms, not evidence the search was incomplete.
+
+### v68–v69 — the two survivors
+
+| File | Row changed | Answer |
+|---|---|---|
+| v68 `k03_bare_zero` | K-03 | `0` |
+| v69 `k03_bare_hundred` | K-03 | `100` |
+
+K-05 and K-07 stay at the banked, already-failing text in both files.
