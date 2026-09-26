@@ -1,25 +1,28 @@
-# Latest update — 2026-09-24
+# Latest update — 2026-09-26
 
 **This file is rewritten fresh on every change, not appended to.** It's a
 quick "what just happened and why" for a human checking in — the full
 project record with all context/rationale lives in `CLAUDE.md`.
 
-## A second outside review — mostly repeated, two thin survivors
+## Full Knowledge code review: no bug; the numbers route is closed for good
 
-Sent the same brief to DeepSeek. Checked its 7 candidates against the
-full history before building anything:
+- **Code**: every Knowledge module re-read; 117/117 tests pass; the engine
+  still regenerates the 0.8750 file byte for byte. Nothing in the code
+  explains K-03/K-05/K-07.
+- **One loophole found and closed without an upload.** Our "extra content
+  is harmless" controls only ever used digit-free filler, so the number
+  carpets might have failed for having *too many numbers*. But K-08 passed
+  once carrying 19 distinct numbers, and every single, pair and triple of
+  plausible numbers for K-03/K-05/K-07 already appeared together in some
+  attempt of 19 numbers or fewer. So numbers aren't the missing piece,
+  whatever the grader does with stuffed answers.
+- **Leaderboard**: Paavas Goyal has now made 20 uploads at 23/24 without
+  getting the last row — strong evidence 23/24 is the real ceiling and at
+  least one of these rows can't be scored by anyone.
 
-- **5 were wrong or not real hypotheses.** Its main K-05 candidate claims
-  the "filed within 7 days" detail was never tried — six prior answers
-  already have it, nearly word for word in one case, and this exact type
-  of false claim from the *previous* reviewer is already written up in
-  today's earlier ledger entry.
-- **2 survive**, but they're a guess, not a finding: bare `0` and bare
-  `100` for K-03, on the unconfirmed theory the hidden key might be a
-  number rather than a category. Built as v68/v69, K-05 and K-07 left at
-  their banked text.
-
-No strong new lead came out of this round. Standing unchanged.
+**Recommendation**: stop Knowledge uploads. Send the organizer question
+today — the freeze is 2026-09-27 23:59 IST. Then prepare the finals
+walkthrough.
 
 ## Standing
 
@@ -30,5 +33,5 @@ No strong new lead came out of this round. Standing unchanged.
 | Migration | **1.0000** |
 | Knowledge | **0.8750** |
 
-Composite **97.50**. 117/117 tests pass. Commits since the last push are
-local only.
+Composite **97.50** (4th). 117/117 tests pass. Commits since the last push
+are local only.

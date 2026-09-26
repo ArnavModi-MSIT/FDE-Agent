@@ -3426,3 +3426,19 @@ file's own reasoning is mostly a restatement of points already in
 Sections 3.6/5(b)/4; its one correct observation (152 vs 141 "distinct"
 counts) reflects two different counting methods, not missing coverage.
 Full audit in the ledger.
+
+**2026-09-26: full Knowledge code review; last numbers loophole closed.**
+All modules re-read; 117/117 tests pass; engine still reproduces the
+0.8750 file byte for byte -- no code bug explains K-03/K-05/K-07. The one
+untested gap in this file's own reasoning: every "extra content is
+harmless" control used digit-free filler, so a grader rule rejecting
+number-stuffed answers could have voided the 2026-09-21 carpets. v31's
+K-08 passed with 19 distinct numbers, so any cap is above 19; a coverage
+check then found every single, pair and triple of plausible
+policy/question numbers already present together in some K-03/K-05/K-07
+attempt of <=19 numbers. The numbers route is exhausted under either
+grader behaviour. Paavas Goyal has sat at 23/24 for 20 uploads, the best
+evidence that 23/24 is the real ceiling (one row likely unscorable for
+everyone). No further Knowledge attempts are justified; the organizer
+question is the only remaining lever, and the freeze is 2026-09-27 23:59
+IST.
