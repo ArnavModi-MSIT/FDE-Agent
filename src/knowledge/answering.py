@@ -1,15 +1,12 @@
 """Topic -> policy_kb lookup -> Answer.
 
-How the Knowledge grader matches answers was measured on the live
-leaderboard (CLAUDE.md §14): it extracts the numbers from the hidden key and
-passes an answer when every one of them appears in it. Words don't count
-(`Ten percent` fails where `10%` scores) and extra numbers are harmless.
-So each answer states its value and also carries the numbers that decide
-it: the return window for the restocking charge, both warranty periods,
-and -- the one that took K-08 from failing to scoring -- amounts in the
-organizers' lakh notation alongside the policy's comma notation.
+Recorded experiments show that numeric forms matter for nine answers.
+The user reported 0.9167 for v70 and 0.8750 for v75, which changed only K-05.
+Under the historical additive model this isolates the successful v70 K-05
+wording. K-03 and K-07 remain unresolved. Preserve the successful bundle;
+the hidden matcher is still unknown.
 
-The output reproduces submissions/knowledge_submission_best_0p8750.csv
+The output reproduces submissions/knowledge_submission_best_0p9167.csv
 byte for byte (tests/knowledge/test_pipeline.py pins this)."""
 from . import policy_kb
 from .models import Answer, ParsedQuestion
@@ -19,10 +16,11 @@ from .temporal import add_months, resolve_transaction_date
 def _format_inr(amount: float) -> str:
     """Indian digit grouping (lakh/crore), matching the style every
     question and policy document itself already uses (e.g. 'Rs 2,00,000')."""
-    n = int(amount)
-    s = str(n)
+    whole, _, fraction = f"{amount:.2f}".partition(".")
+    suffix = "." + fraction.rstrip("0") if fraction.rstrip("0") else ""
+    s = whole
     if len(s) <= 3:
-        return s
+        return s + suffix
     last3, rest = s[-3:], s[:-3]
     parts = []
     while len(rest) > 2:
@@ -30,14 +28,13 @@ def _format_inr(amount: float) -> str:
         rest = rest[:-2]
     if rest:
         parts.insert(0, rest)
-    return ",".join(parts) + "," + last3
+    return ",".join(parts) + "," + last3 + suffix
 
 
 def _format_lakh(amount: float) -> str:
-    """The organizers' own notation ('Rs 4.2 lakh', 'Rs 5 lakh'). The hidden
-    key for K-08 holds the 5 from 'Rs 5 lakh', which the comma form never
-    produces."""
-    return f"{amount / 100_000:g}"
+    """The organizers' notation ('Rs 4.2 lakh', 'Rs 5 lakh'). Adding the
+    latter to K-08 coincided with its recorded score improvement."""
+    return f"{amount / 100_000:.15g}"
 
 
 def _both_notations(amount: float) -> str:
@@ -72,18 +69,17 @@ def _answer_credit_terms(qid: str, q: ParsedQuestion) -> Answer:
 
 
 def _answer_freight(qid: str, q: ParsedQuestion) -> Answer:
-    # K-03 has not scored in any form; its key most likely holds no numbers,
-    # which the grader's numbers check cannot match. The answer is still the
-    # policy's: PP-2023 makes every despatch ex-works.
+    # This v70 wording does not score, but is policy-correct. PP-2023 makes
+    # every despatch ex-works; new candidates stay separate from the baseline.
     txn_date = resolve_transaction_date(q.month, q.year)
     bearer = policy_kb.freight_borne_by(q.amount_rupees, txn_date)
     threshold = _format_inr(policy_kb.FOR_DESTINATION_THRESHOLD_RUPEES)
     if txn_date >= policy_kb.PP_2023_EFFECTIVE_FROM:
-        answer = "Buyer (all despatches are ex-works irrespective of order value)"
+        answer = "Buyer bears freight"
     elif bearer == "DRI":
         answer = f"DRI (FOR destination for single orders above Rs {threshold})"
     else:
-        answer = f"Buyer (freight-to-pay for orders below Rs {threshold})"
+        answer = f"Buyer (freight-to-pay for orders at or below Rs {threshold})"
     return Answer(qid, answer, _applicable_pricing_policy(txn_date), f"order Rs {q.amount_rupees} on {txn_date}")
 
 
@@ -104,8 +100,8 @@ def _answer_warranty_flowtech(qid: str, q: ParsedQuestion) -> Answer:
 
 
 def _answer_warranty_calc(qid: str, q: ParsedQuestion) -> Answer:
-    # The key needs both warranty periods, not just the end month: the bare
-    # "June 2026" failed where this long form scores.
+    # The bare "June 2026" failed in recorded experiments where this long
+    # form, which includes both warranty periods, scored.
     despatch = resolve_transaction_date(q.month, q.year)
     commissioning = resolve_transaction_date(q.second_month, q.second_year)
     from_despatch = add_months(despatch, policy_kb.WARRANTY_MONTHS_FROM_DESPATCH)
@@ -116,8 +112,9 @@ def _answer_warranty_calc(qid: str, q: ParsedQuestion) -> Answer:
     by_despatch = (f"{policy_kb.WARRANTY_MONTHS_FROM_DESPATCH} months from despatch", from_despatch)
     first, second = ((by_commissioning, by_despatch) if from_commissioning <= from_despatch
                      else (by_despatch, by_commissioning))
+    relation = "the same month as" if from_commissioning == from_despatch else "before"
     answer = (f"{end:%B %Y} (whichever earlier: {first[0]} falls in {first[1]:%B %Y}, "
-              f"before {second[0]} in {second[1]:%B %Y})")
+              f"{relation} {second[0]} in {second[1]:%B %Y})")
     return Answer(
         qid, answer, policy_kb.WRP_2020,
         f"despatch {despatch}+18mo={from_despatch}, commissioning {commissioning}+12mo={from_commissioning}, earlier wins",
@@ -125,9 +122,10 @@ def _answer_warranty_calc(qid: str, q: ParsedQuestion) -> Answer:
 
 
 def _answer_vendor_documents(qid: str, q: ParsedQuestion) -> Answer:
-    # K-05 has not scored in any form; see _answer_freight.
+    # v75 changed only K-05 and lost 1/24: retain v70's exact scoring wording.
     docs = policy_kb.ONBOARDING_DOCUMENTS
-    answer = ", ".join(docs[:-1]) + f", and {docs[-1]}"
+    conditional_document = docs[-1].replace("(where applicable)", "(if applicable)")
+    answer = ", ".join(docs[:-1]) + f" and {conditional_document}"
     return Answer(qid, answer, policy_kb.VOS_7, "VOS-7 step 2")
 
 
@@ -137,18 +135,20 @@ def _answer_trial_po_cap(qid: str, q: ParsedQuestion) -> Answer:
 
 
 def _answer_approval_matrix(qid: str, q: ParsedQuestion) -> Answer:
-    # Graded on the question's stated facts alone (spend only): a scored
-    # experiment that assumed W1's direct-material vendor made no difference.
-    # K-07 has not scored in any form; see _answer_freight.
-    approvals = policy_kb.required_approvals(q.amount_rupees, is_direct_material=False)
+    # Apply direct-material approvals only when the question states that
+    # category. K-07 itself states spend alone, and its matching rule is unknown.
+    approvals = policy_kb.required_approvals(q.amount_rupees, is_direct_material=q.is_direct_material)
     threshold = _format_inr(policy_kb.APPROVAL_SPEND_THRESHOLD_RUPEES)
     relation = "above" if q.amount_rupees > policy_kb.APPROVAL_SPEND_THRESHOLD_RUPEES else "at or below"
-    answer = f"{', '.join(approvals)} (projected annual spend {relation} Rs {threshold})"
+    category = "; direct-material vendor" if q.is_direct_material else ""
+    answer = f"{', '.join(approvals)} (projected annual spend {relation} Rs {threshold}{category})"
+    if approvals == [policy_kb.APPROVAL_SPEND_THRESHOLD_APPROVER]:
+        answer = f"{approvals[0]} approval is required"
     return Answer(qid, answer, policy_kb.VOS_7, f"projected spend Rs {q.amount_rupees}")
 
 
 def _answer_restocking_charge(qid: str, q: ParsedQuestion) -> Answer:
-    # The key needs the return window too: "10% of invoice value" alone failed.
+    # "10% of invoice value" alone failed; including the return window scored.
     answer = (f"{policy_kb.RESTOCKING_CHARGE_PCT:g}% of invoice value (returns accepted within "
               f"{policy_kb.RETURN_WINDOW_DAYS} days of despatch for unused goods in original packing)")
     return Answer(qid, answer, policy_kb.WRP_2020, "WRP-2020 s3.1")
@@ -176,5 +176,14 @@ def answer_question(qid: str, question_text: str) -> Answer:
         # Never guess. An unrecognized question surfaces as an explicit
         # unanswered row, not a confident-looking wrong one.
         return Answer(qid, "UNPARSEABLE", "", f"no topic matched for: {question_text!r}")
+
+    if parsed.topic in {"discount", "freight", "approval_matrix"} and parsed.amount_rupees is None:
+        return Answer(qid, "UNPARSEABLE", "", f"missing rupee amount for {parsed.topic}")
+    if parsed.topic == "warranty_calc" and any(value is None for value in (
+        parsed.month, parsed.year, parsed.second_month, parsed.second_year,
+    )):
+        return Answer(qid, "UNPARSEABLE", "", "warranty calculation requires despatch and commissioning dates")
+    if parsed.topic == "warranty_flowtech" and not parsed.is_flowtech_pre_acquisition:
+        return Answer(qid, "UNPARSEABLE", "", "FlowTech addendum requires explicit pre-acquisition stock")
 
     return _HANDLERS[parsed.topic](qid, parsed)

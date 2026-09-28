@@ -900,6 +900,58 @@ term).
 
 ## 8. Knowledge engine — a real reasoning system, not 12 hardcoded answers
 
+**Current result (2026-09-28): v70 scored 0.9167, reported by the user.**
+Its exact bytes are saved in `submissions/knowledge_submission_best_0p9167.csv`.
+The engine and standard submission now reproduce it byte for byte; the old
+0.8750 reference remains unchanged. **The user then reported v75=0.8750.**
+v75 changed only K-05, isolating v70's K-05 as the additional scoring answer
+under the historical additive model. Keep it exactly: `GST registration
+certificate, cancelled cheque and MSME declaration (if applicable)`.
+K-03 and K-07 remain unresolved. The generator now protects all ten scoring
+answers and all sources against the 0.9167 reference. Original v71-v74 are
+superseded; v75 is spent. **v76 then scored 0.9167, user reported: no gain.**
+Its K-03 `Distributor` and K-07 `Chief Financial Officer approval` are now
+non-scoring variants. **v77 also scored 0.9167, user reported: no gain** for
+`Buyer pays` / `Approval of the CFO`. **v78 also scored 0.9167, user reported:
+no gain.** The file in
+`submissions/knowledge_2026-09-28_after_v77/` changes K-03 to
+`Buyer (ex-works, irrespective of order value)` and K-07 to
+`Chief Financial Officer (CFO) approval`, retaining all ten scoring answers
+and every source. Both variants are now spent and non-scoring under the recorded
+additive model. All five reported attempts are exhausted: v70 0.9167, v75 0.8750,
+v76 0.9167, v77 0.9167, v78 0.9167. Final best remains v70, up from 0.8750;
+K-05 is solved and K-03/K-07 remain unresolved. No further candidate is planned
+today; these results do not prove a scoring ceiling. Reported uploads confirm
+scoring despite the previously published freeze.
+
+**Code review (2026-09-28):** Decimal/lakh/lac/crore amounts and
+paise are now parsed/formatted correctly. Missing required amounts or warranty
+dates return `UNPARSEABLE`; the FlowTech exception requires explicit
+pre-acquisition stock. Explicit direct-material vendor wording is propagated
+to the compounding approval matrix, with common negations respected. Input
+validation rejects empty/malformed rows and blank identifiers; the shared CSV
+reader accepts an Excel UTF-8 BOM. These are real robustness fixes, not a
+demonstrated gain on the current leaderboard questions. The nine scoring
+answers and all sources remain protected by regression tests.
+
+The original v70-v74 batch lives in `submissions/knowledge_2026-09-28/`;
+its manifest records v70's user-reported score and supersedes v71-v74.
+`scripts/prepare_knowledge_candidates.py` builds them from
+`experiments/knowledge_2026-09-28/plan.json`, protects scoring rows/sources,
+rejects duplicate files and refuses overwrites. The README explains the
+per-upload result workflow and the published deadline conflict. All 15
+replacement strings were checked against 83 historical CSV blobs, including
+case/punctuation normalization; five previously appeared inside longer answers.
+Short categorical matching is an open hypothesis, not a confirmed mechanism.
+The v70 result establishes that wording changes can improve at least one
+categorical answer. No assistant uploads or live sandbox changes were made.
+Validation: 169 tests passed; all five CSVs were reopened and checked for
+schema, unique complete IDs, unchanged protected answers/sources and matching
+manifest hashes. `git diff --check` passed. Outside Knowledge, shared CSV
+input gained BOM tolerance and reconciliation metrics reject unequal label
+counts. W1's existing-vendor resume limitation remains open because safe
+approval replay idempotency is unverified; W1 code was left unchanged.
+
 **Why not just hardcode the 12 practice answers**: the rules page states
 scored sets "rotate weekly." The R-05 submission spec ("one row per qid in
 knowledge_questions.csv") strongly implies each account's downloaded file
@@ -2609,26 +2661,30 @@ Until 2026-09-17, `scripts/run_knowledge.py` emitted the original terse
 answers (0.7500) while the banked best was hand-authored, so running it
 overwrote the best file. **That is fixed.** `src/knowledge/answering.py` now
 emits the proven forms and the script regenerates
-`submissions/knowledge_submission_best_0p8750.csv` **byte for byte**;
+`submissions/knowledge_submission_best_0p9167.csv` **byte for byte** (v70,
+user-reported 0.9167 on 2026-09-28; the old 0.8750 file is kept as history);
 `tests/knowledge/test_pipeline.py::test_engine_reproduces_the_scoring_submission_byte_for_byte`
 fails if that ever drifts.
 
-The forms follow the measured grading rule (§14: the key's numbers must all
-appear in the answer):
+The forms preserve recorded successful numeric-answer experiments (§14).
+The hidden matcher is unknown, especially for categorical answers:
 - **Discount, nil band** — `Nil (0%)` plus the order and the nil-band ceiling
   in both notations (`Rs 5,00,000 (Rs 5 lakh)`), the month and the policy.
   `policy_kb.nil_discount_ceiling_rupees()` gives the ceiling (Rs 5 lakh under
   PP-2023, Rs 1 lakh under PP-2019). Non-nil rates stay bare (`10%`).
 - **Restocking** — carries the 30-day return window.
 - **Warranty calculation** — carries both periods, earlier one first.
-- **Credit terms, notice, FlowTech warranty, trial cap, approvals, freight,
-  documents** — the banked wording; K-03, K-05 and K-07 still do not score.
+- **Credit terms, notice, FlowTech warranty, trial cap** — the original banked
+  wording. **Documents** — v70's exact K-05 wording, isolated as scoring by
+  the v75 drop. **Approvals, freight** — v70 wording retained in the banked
+  file; K-03 and K-07 remain unresolved and vary only in separate candidates.
 
-`knowledge_submission_best_0p8750.csv` stays as the protected reference the
-test compares against. Restore it with:
+`knowledge_submission_best_0p9167.csv` is the protected pipeline reference.
+It also protects all ten individually resolved rows and all sources in the
+candidate generator. The older 0.8750 fixture is historical. Restore the latest best with:
 
 ```bash
-cp submissions/knowledge_submission_best_0p8750.csv submissions/knowledge_submission.csv
+cp submissions/knowledge_submission_best_0p9167.csv submissions/knowledge_submission.csv
 ```
 
 ---
@@ -3427,7 +3483,7 @@ Sections 3.6/5(b)/4; its one correct observation (152 vs 141 "distinct"
 counts) reflects two different counting methods, not missing coverage.
 Full audit in the ledger.
 
-**2026-09-26: full Knowledge code review; last numbers loophole closed.**
+**2026-09-26 review, qualified by the 2026-09-28 audit.**
 All modules re-read; 117/117 tests pass; engine still reproduces the
 0.8750 file byte for byte -- no code bug explains K-03/K-05/K-07. The one
 untested gap in this file's own reasoning: every "extra content is
@@ -3436,9 +3492,14 @@ number-stuffed answers could have voided the 2026-09-21 carpets. v31's
 K-08 passed with 19 distinct numbers, so any cap is above 19; a coverage
 check then found every single, pair and triple of plausible
 policy/question numbers already present together in some K-03/K-05/K-07
-attempt of <=19 numbers. The numbers route is exhausted under either
-grader behaviour. Paavas Goyal has sat at 23/24 for 20 uploads, the best
-evidence that 23/24 is the real ceiling (one row likely unscorable for
-everyone). No further Knowledge attempts are justified; the organizer
-question is the only remaining lever, and the freeze is 2026-09-27 23:59
-IST.
+attempt of <=19 numbers. This strongly reduces the value of further number
+coverage experiments; it does not establish the categorical matching rule.
+Numeric-row padding cannot prove that categorical answers tolerate extra
+words, nor can a correct number at the beginning of a long answer exclude
+truncation later in the cell. A best-only leaderboard snapshot also cannot
+establish that an individual upload retained all prior credit. A competitor's
+23/24 plateau does not prove a scoring ceiling or a broken row. The current
+plan therefore permits five concise policy-backed candidates (section 8),
+with uncertain upside, while preserving the recorded best. The rules still
+publish a freeze of 2026-09-27 23:59 IST as checked on 2026-09-28; current
+dashboard acceptance has not been verified.

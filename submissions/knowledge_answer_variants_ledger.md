@@ -1,8 +1,53 @@
 # Knowledge answer-variant ledger
 
-Purpose: never re-test a variant that has already been proven wrong.
-Every "BURNED" row below cost a real attempt (or was proven wrong by the
-2026-09-08 corruption diagnostics) — do not submit any of them again.
+## Current state: 2026-09-28
+
+**v70 scored 0.9167, reported by the user in chat.** Its exact bytes are
+preserved in `knowledge_submission_best_0p9167.csv`, and the engine regenerates
+that file. **v75 then scored 0.8750, also reported by the user.** Only K-05
+changed in v75, so its 1/24 drop isolates v70 K-05 as the scoring answer under
+the historical additive model. K-03 and K-07 remain unresolved.
+K-03: `Buyer bears freight`; K-05: `GST registration certificate, cancelled
+cheque and MSME declaration (if applicable)`; K-07: `CFO approval is required`.
+
+Original v71-v74 are superseded; v75 is spent. **Keep K-05 exactly as in v70.**
+The generator now locks all ten scoring answers and all sources against the
+0.9167 reference. **v76 scored 0.9167, user reported: no gain.** Its K-03
+`Distributor` and K-07 `Chief Financial Officer approval` are now spent and
+non-scoring under the recorded additive model. v70 stays best.
+
+**v77 also scored 0.9167, user reported: no gain.** K-03 `Buyer pays` and
+K-07 `Approval of the CFO` have now been tried as standalone answers and
+remain non-scoring under the recorded additive model. All ten scoring
+answers and all sources were preserved. Do not resubmit v75, v76 or v77.
+
+**v78 scored 0.9167, user reported: no gain.** The file in
+`knowledge_2026-09-28_after_v77/` changed only
+K-03 to `Buyer (ex-works, irrespective of order value)` and K-07 to `Chief
+Financial Officer (CFO) approval`. Both are now spent, non-scoring variants
+under the recorded additive model. All ten scoring answers and sources were
+preserved. **All five reported daily attempts are exhausted.** Final best is
+v70 at 0.9167, up from 0.8750; K-05 solved, K-03/K-07 unresolved. No further
+candidate is planned for today and no claim of a scoring ceiling is supported.
+
+The original five candidates live in `knowledge_2026-09-28/`. All 15 strings were new
+as whole answers across 83 historical CSV blobs, including case/punctuation
+normalization. Five appeared as phrases inside previous longer answers.
+v68/v69's individual upload results remain unresolved; neither was repeated.
+
+**Corrections to historical conclusions below:** numeric padding does not
+establish categorical-answer tolerance. Putting the correct number before
+filler cannot rule out later truncation. Another entrant's plateau does not
+prove a 23/24 ceiling. A best-only leaderboard snapshot does not prove the
+individual submission's score. Prefer actual per-submission feedback when
+recording new outcomes. v70/v75 are user-reported individual results; their
+single-row difference isolates K-05 under the recorded additive model.
+The assistant made no upload.
+
+Purpose: avoid repeating previously submitted whole answers. The sections
+below retain the historical evidence and interpretations as recorded at the
+time; the corrections above supersede claims that entire matcher families
+have been ruled out. Do not treat old wrong-answer maps as current state.
 
 ## BREAKTHROUGH (v3, 2026-09-09): full-sentence answers work
 

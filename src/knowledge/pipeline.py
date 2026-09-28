@@ -10,6 +10,11 @@ from .submission import write_submission
 
 def run(data_dir: str, output_path: str) -> Dict:
     rows = read_csv_rows(os.path.join(data_dir, "knowledge_questions.csv"))
+    if not rows:
+        raise ValueError("Knowledge input contains no questions")
+    for index, row in enumerate(rows, start=2):
+        if None in row or any(not row.get(field) or not row[field].strip() for field in ("qid", "question")):
+            raise ValueError(f"Knowledge input row {index}: expected nonblank qid and question columns")
 
     answers: Dict[str, Dict[str, str]] = {}
     for row in rows:

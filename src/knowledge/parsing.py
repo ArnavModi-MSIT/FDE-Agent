@@ -24,7 +24,18 @@ _MONTH_PATTERN = re.compile(
 # evidence any specific synonym is actually used), neither of which is
 # added here for that reason. Every practice question already parses
 # identically before and after this change (Rs is unaffected).
-_AMOUNT_PATTERN = re.compile(r"(?:\bRs\.?|\bINR\b|₹)\s*([\d,]+)", re.IGNORECASE)
+_AMOUNT_PATTERN = re.compile(
+    r"(?:\bRs\.?|\bINR\b|₹)\s*(\d[\d,]*(?:\.\d+)?)"
+    r"(?:\s*(lakhs?|lacs?|crores?)\b)?",
+    re.IGNORECASE,
+)
+_AMOUNT_MULTIPLIERS = {"lakh": 100_000, "lac": 100_000, "crore": 10_000_000}
+_DIRECT_MATERIAL_PATTERN = re.compile(r"\bdirect[\s-]+materials?\b", re.IGNORECASE)
+_PRE_ACQUISITION_PATTERN = re.compile(r"\bpre[\s-]+acquisition\b", re.IGNORECASE)
+_NEGATED_PREFIX = re.compile(
+    r"\b(?:not|non)(?:[\s-]+(?:a|an|for|considered|classified|as|from|the))*[\s-]+$",
+    re.IGNORECASE,
+)
 
 # warranty_calc questions state two dates (despatch, commissioning) --
 # extracting them by "first date mentioned = despatch, second = commissioning"
@@ -78,7 +89,19 @@ def _extract_amount(text: str) -> Optional[float]:
     match = _AMOUNT_PATTERN.search(text)
     if not match:
         return None
-    return float(match.group(1).replace(",", ""))
+    value = float(match.group(1).replace(",", ""))
+    unit = match.group(2)
+    if unit:
+        value *= _AMOUNT_MULTIPLIERS[unit.lower().rstrip("s")]
+    return value
+
+
+def _has_unnegated_marker(text: str, pattern: re.Pattern) -> bool:
+    """Only explicit, unnegated category markers enable policy exceptions."""
+    matches = list(pattern.finditer(text))
+    return bool(matches) and all(
+        not _NEGATED_PREFIX.search(text[:match.start()]) for match in matches
+    )
 
 
 def _extract_month_years(text: str) -> List[Tuple[int, int]]:
@@ -93,15 +116,17 @@ def _extract_despatch_and_commissioning_dates(
     role-keyword (despatch/dispatch vs commission) it sits closest to in
     the text -- not by which date is mentioned first. Falls back to
     positional order (first date=despatch, second=commissioning) only
-    when the keyword-proximity pairing is unavailable or ambiguous (both
-    keywords nearest the same date), preserving today's behavior in that
-    case rather than guessing further."""
+    when both role keywords exist but the keyword-proximity pairing is
+    ambiguous (both keywords nearest the same date). Missing dates or
+    role keywords leave the calculation unanswered."""
     date_matches = list(_MONTH_PATTERN.finditer(text))
     if len(date_matches) < 2:
         return None, None, None, None
 
     despatch_kw = _DESPATCH_KEYWORD_PATTERN.search(text)
     commission_kw = _COMMISSION_KEYWORD_PATTERN.search(text)
+    if despatch_kw is None or commission_kw is None:
+        return None, None, None, None
     if despatch_kw and commission_kw:
         despatch_match = min(date_matches, key=lambda m: abs(m.start() - despatch_kw.start()))
         commission_match = min(date_matches, key=lambda m: abs(m.start() - commission_kw.start()))
@@ -144,5 +169,8 @@ def parse_question(text: str) -> ParsedQuestion:
         second_month=second_month,
         second_year=second_year,
         tier=_extract_tier(text),
-        is_flowtech_pre_acquisition=("flowtech" in text_lower and "pre-acquisition" in text_lower),
+        is_flowtech_pre_acquisition=(
+            "flowtech" in text_lower and _has_unnegated_marker(text, _PRE_ACQUISITION_PATTERN)
+        ),
+        is_direct_material=_has_unnegated_marker(text, _DIRECT_MATERIAL_PATTERN),
     )

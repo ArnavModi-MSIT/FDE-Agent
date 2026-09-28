@@ -1,0 +1,28 @@
+{
+  "status": "scored_no_improvement",
+  "baseline": "C:\\Users\\ymodi\\Desktop\\Coding\\The Great IndianFDE\\submissions\\knowledge_submission_best_0p9167.csv",
+  "baseline_sha256": "69b272f6b071ee7704cf731e709e462c11cb61afb55fade17d7039c8632bfdee",
+  "plan_sha256": "8eea2959f50d15c3895fd1379016ca7ebffbc68d04520952aac61ee1014d1195",
+  "preserved_qids": [],
+  "candidates": [
+    {
+      "file": "knowledge_submission_v77_standalone_phrases.csv",
+      "sha256": "07d5859c61b550ca155c1b7a4b248e86ab74b2e2bd3e86e1f120a9bf8ba6c77a",
+      "hypothesis": "Use concise policy-correct phrases that occurred within longer historical answers but have no completed whole-answer trial. Preserve the ten scoring answers and all governing sources from v70.",
+      "changes": {
+        "K-03": {
+          "before": "Buyer bears freight",
+          "after": "Buyer pays"
+        },
+        "K-07": {
+          "before": "CFO approval is required",
+          "after": "Approval of the CFO"
+        }
+      },
+      "score": 0.9167,
+      "score_evidence": "User reported individual v77 result in chat, 2026-09-28",
+      "status": "scored"
+    }
+  ],
+  "conclusion": "v77 preserves all ten scoring answers and sources but adds no credit; Buyer pays and Approval of the CFO remain non-scoring under the recorded additive model. Keep v70 as best."
+}

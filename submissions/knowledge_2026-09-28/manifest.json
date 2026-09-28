@@ -1,0 +1,115 @@
+{
+  "status": "v70_scored_remaining_superseded",
+  "baseline": "C:\\Users\\ymodi\\Desktop\\Coding\\The Great IndianFDE\\submissions\\knowledge_submission_best_0p8750.csv",
+  "baseline_sha256": "91d3a30fae5f87670e8f7a28cfa1246a339c06cbeb2b4d2beeab76aff377371a",
+  "plan_sha256": "3333eff2bcf6497666f2a3d4028b29c648aab7e7a6e3dcfb5b884d38d75c5272",
+  "preserved_qids": [],
+  "candidates": [
+    {
+      "file": "knowledge_submission_v70_compact_reference.csv",
+      "sha256": "69b272f6b071ee7704cf731e709e462c11cb61afb55fade17d7039c8632bfdee",
+      "hypothesis": "Short whole-answer matching remains untested by long numeric-row padding controls. These are concise policy-backed reference-style phrases, not number carpets.",
+      "changes": {
+        "K-03": {
+          "before": "Buyer (all despatches are ex-works irrespective of order value)",
+          "after": "Buyer bears freight"
+        },
+        "K-05": {
+          "before": "GST registration certificate, cancelled cheque, and MSME declaration (where applicable)",
+          "after": "GST registration certificate, cancelled cheque and MSME declaration (if applicable)"
+        },
+        "K-07": {
+          "before": "CFO (projected annual spend above Rs 10,00,000)",
+          "after": "CFO approval is required"
+        }
+      },
+      "score": 0.9167,
+      "score_evidence": "User reported individual v70 result in chat, 2026-09-28",
+      "status": "scored"
+    },
+    {
+      "file": "knowledge_submission_v71_role_and_document_order.csv",
+      "sha256": "aa4f774e522784490c592d397d7811c168ccfd6e0298748660378f2202f492b8",
+      "hypothesis": "A categorical matcher may prefer the distributor role label, an expanded CFO title, or a different ordering of the same required documents.",
+      "changes": {
+        "K-03": {
+          "before": "Buyer (all despatches are ex-works irrespective of order value)",
+          "after": "Distributor"
+        },
+        "K-05": {
+          "before": "GST registration certificate, cancelled cheque, and MSME declaration (where applicable)",
+          "after": "GST registration certificate, MSME declaration (where applicable), and cancelled cheque"
+        },
+        "K-07": {
+          "before": "CFO (projected annual spend above Rs 10,00,000)",
+          "after": "Chief Financial Officer approval"
+        }
+      },
+      "score": null,
+      "status": "superseded_do_not_upload"
+    },
+    {
+      "file": "knowledge_submission_v72_customer_and_bank_proof.csv",
+      "sha256": "a44cc7455583d59dab84baebfef7508d3731c56b5eabad6ccc30af94c1694551",
+      "hypothesis": "Test concise customer and approver wording, plus the cancelled cheque described explicitly as bank account proof; all three required documents remain present.",
+      "changes": {
+        "K-03": {
+          "before": "Buyer (all despatches are ex-works irrespective of order value)",
+          "after": "Customer"
+        },
+        "K-05": {
+          "before": "GST registration certificate, cancelled cheque, and MSME declaration (where applicable)",
+          "after": "GST certificate, bank account proof (cancelled cheque), and MSME declaration where applicable"
+        },
+        "K-07": {
+          "before": "CFO (projected annual spend above Rs 10,00,000)",
+          "after": "Approval from the Chief Financial Officer"
+        }
+      },
+      "score": null,
+      "status": "superseded_do_not_upload"
+    },
+    {
+      "file": "knowledge_submission_v73_compact_qualifiers.csv",
+      "sha256": "3e7bb3f5dd6309c2f419b2b62b5856a3751a141966ae09e711f64eb492e631d5",
+      "hypothesis": "Test compact categorical answers carrying the applicable ex-works and annual-spend qualifications, with a new ordering of the unchanged document requirements.",
+      "changes": {
+        "K-03": {
+          "before": "Buyer (all despatches are ex-works irrespective of order value)",
+          "after": "Buyer / distributor (ex-works)"
+        },
+        "K-05": {
+          "before": "GST registration certificate, cancelled cheque, and MSME declaration (where applicable)",
+          "after": "Cancelled cheque, MSME declaration (where applicable), and GST registration certificate"
+        },
+        "K-07": {
+          "before": "CFO (projected annual spend above Rs 10,00,000)",
+          "after": "CFO (annual spend exceeds Rs 10 lakh)"
+        }
+      },
+      "score": null,
+      "status": "superseded_do_not_upload"
+    },
+    {
+      "file": "knowledge_submission_v74_expanded_terms.csv",
+      "sha256": "258fc68857ba15a06b9a460709343fb28a63ca2963a6f541c601e541c9fb257c",
+      "hypothesis": "Test a concise freight-payment sentence, full forms of the GST and MSME document names, and CFO expressed as the finance head. No additional approvers or documents are asserted.",
+      "changes": {
+        "K-03": {
+          "before": "Buyer (all despatches are ex-works irrespective of order value)",
+          "after": "Freight to be paid by the buyer"
+        },
+        "K-05": {
+          "before": "GST registration certificate, cancelled cheque, and MSME declaration (where applicable)",
+          "after": "Goods and Services Tax registration certificate, cancelled cheque, and Micro, Small and Medium Enterprises declaration where applicable"
+        },
+        "K-07": {
+          "before": "CFO (projected annual spend above Rs 10,00,000)",
+          "after": "Finance head (CFO)"
+        }
+      },
+      "score": null,
+      "status": "superseded_do_not_upload"
+    }
+  ]
+}

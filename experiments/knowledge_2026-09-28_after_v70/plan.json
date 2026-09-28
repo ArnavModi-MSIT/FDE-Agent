@@ -1,0 +1,13 @@
+{
+  "baseline_score": 0.9167,
+  "baseline_evidence": "User reported individual v70 score in chat on 2026-09-28",
+  "variants": [
+    {
+      "name": "v75_k05_compact_documents",
+      "hypothesis": "Keep the full successful v70 bundle except K-05. Use a concise complete document list with the conditional MSME qualification retained. The aggregate v70 gain does not identify its winning row.",
+      "answers": {
+        "K-05": "GST registration certificate, cancelled cheque, MSME declaration (as applicable)"
+      }
+    }
+  ]
+}

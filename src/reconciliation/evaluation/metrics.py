@@ -13,6 +13,11 @@ CLASSES = [
 
 
 def per_class_f1(y_true: List[str], y_pred: List[str]) -> Dict[str, Dict[str, float]]:
+    if len(y_true) != len(y_pred):
+        raise ValueError(
+            f"Expected equal label counts, got {len(y_true)} true labels "
+            f"and {len(y_pred)} predictions"
+        )
     result = {}
     for cls in CLASSES:
         tp = sum(1 for t, p in zip(y_true, y_pred) if t == cls and p == cls)

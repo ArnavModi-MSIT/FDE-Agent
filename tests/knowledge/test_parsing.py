@@ -1,4 +1,5 @@
 from knowledge.parsing import parse_question
+import pytest
 
 # The 12 real practice questions, topic-labeled by hand -- proves the
 # classifier routes every one of them correctly, not just a synthetic case.
@@ -66,6 +67,32 @@ def test_amount_extraction_handles_inr_prefix():
 def test_amount_extraction_handles_rupee_symbol():
     parsed = parse_question("A distributor places a single order of ₹7,20,000 in March 2024. What discount applies?")
     assert parsed.amount_rupees == 720_000
+
+
+@pytest.mark.parametrize(("amount", "expected"), [
+    ("Rs 7.2 lakh", 720_000),
+    ("Rs. 14 lakhs", 1_400_000),
+    ("INR 5 lac", 500_000),
+    ("₹0.05 crore", 500_000),
+    ("Rs 2 crores", 20_000_000),
+    ("Rs 4,99,999.99", 499_999.99),
+])
+def test_amount_extraction_scales_indian_units_and_keeps_decimals(amount, expected):
+    parsed = parse_question(f"What discount applies to a single order of {amount} in March 2024?")
+    assert parsed.amount_rupees == expected
+
+
+@pytest.mark.parametrize(("category", "expected"), [
+    ("direct-material", True),
+    ("direct material", True),
+    ("indirect-material", False),
+    ("non-direct-material", False),
+    ("not a direct-material", False),
+    ("not classified as a direct material", False),
+])
+def test_direct_material_category_requires_unnegated_marker(category, expected):
+    parsed = parse_question(f"A {category} vendor spends Rs 14 lakh. Whose approval is required?")
+    assert parsed.is_direct_material is expected
 
 
 def test_warranty_calc_extracts_both_dates_in_order():

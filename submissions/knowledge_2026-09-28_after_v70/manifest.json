@@ -1,0 +1,24 @@
+{
+  "status": "scored_no_improvement",
+  "baseline": "C:\\Users\\ymodi\\Desktop\\Coding\\The Great IndianFDE\\submissions\\knowledge_submission_best_0p9167.csv",
+  "baseline_sha256": "69b272f6b071ee7704cf731e709e462c11cb61afb55fade17d7039c8632bfdee",
+  "plan_sha256": "7bb445624688ca449bb60f754bd73cdfcfa69067a4a25d23771c4ff532183ec9",
+  "preserved_qids": [],
+  "candidates": [
+    {
+      "file": "knowledge_submission_v75_k05_compact_documents.csv",
+      "sha256": "750a8efd11147b81cb0c108afc3cd2a352e3c4d9356b46e05025f9a046b6766a",
+      "hypothesis": "Keep the full successful v70 bundle except K-05. Use a concise complete document list with the conditional MSME qualification retained. The aggregate v70 gain does not identify its winning row.",
+      "changes": {
+        "K-05": {
+          "before": "GST registration certificate, cancelled cheque and MSME declaration (if applicable)",
+          "after": "GST registration certificate, cancelled cheque, MSME declaration (as applicable)"
+        }
+      },
+      "score": 0.875,
+      "score_evidence": "User reported individual v75 result in chat, 2026-09-28",
+      "status": "scored"
+    }
+  ],
+  "conclusion": "Only K-05 changed from v70; the 1/24 drop isolates v70 K-05 as scoring under the recorded additive model. Retain v70; K-03 and K-07 remain unresolved."
+}

@@ -20,6 +20,7 @@ class ParsedQuestion:
     second_year: Optional[int] = None
     tier: Optional[str] = None
     is_flowtech_pre_acquisition: bool = False
+    is_direct_material: bool = False
 
 
 @dataclass(frozen=True)
