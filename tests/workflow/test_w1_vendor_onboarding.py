@@ -19,8 +19,8 @@ def test_matches_on_case_insensitive_name():
 
 
 def test_real_sandbox_shape_no_false_positive():
-    # Real near-duplicate pattern confirmed in the sandbox (CLAUDE.md sec
-    # 9): a different real vendor's ALL-CAPS formal-name duplicate must
+    # Real near-duplicate pattern confirmed in the sandbox: a different
+    # real vendor's ALL-CAPS formal-name duplicate must
     # never accidentally match Sri Ranga Castings.
     vendors = [{"vendor_id": "V-1055", "vendor_name": "SHARMA BEARINGS PVT. LTD.", "gstin": "29XBJJU05331ZB"}]
     assert find_existing_vendor_in_list(vendors) is None

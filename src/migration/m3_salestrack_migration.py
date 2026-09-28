@@ -1,8 +1,8 @@
 """M3 -- Finish the SalesTrack migration. For every customer still
 migrated_to_salestrack == "N", flip to "Y" and assign a unique crm_id of
 the form ST-#####. The 55 already-migrated accounts keep their existing
-crm_id untouched -- confirmed real count from /crm/customers (see
-CLAUDE.md sec 9): 85 total, 55 with migrated_to_salestrack == "Y" already,
+crm_id untouched -- confirmed from /crm/customers: 85 total, 55 with
+migrated_to_salestrack == "Y" already,
 30 still "N"."""
 import random
 from typing import Dict, List

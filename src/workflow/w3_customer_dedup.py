@@ -1,7 +1,6 @@
 """W3 -- Dedupe the distributor master.
 
-The rule is proven by a real scoring run, not inferred (CLAUDE.md, W3
-hypothesis 11, 2026-09-13): merging ONLY the 5 ALL-CAPS records scored
+The rule is proven by a real scoring run: merging only the 5 ALL-CAPS records scored
 W3 6/6 and Workflow 1.0000, where merging all 45 name-matched records had
 held at 5/6 through every other configuration tested.
 

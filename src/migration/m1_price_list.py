@@ -1,5 +1,5 @@
-"""M1 -- Load the 2023 price list. Confirmed against real sandbox data
-(see CLAUDE.md sec 9): a product WITH a list_price_2019 is currently
+"""M1 -- Load the 2023 price list. Confirmed against sandbox data:
+a product WITH a list_price_2019 is currently
 stuck at that stale figure in drishti_price; a product with NO
 list_price_2019 already shows list_price_2023 as its drishti_price.
 Task brief: 'Set drishti_price to list_price_2023 for every product that

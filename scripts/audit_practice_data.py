@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
-"""Permanent, re-runnable record of the empirical checks CLAUDE.md's design
-decisions are based on. Every 'confirmed real in the data' claim in that
-file should trace back to a check that runs here -- narration alone isn't
+"""Permanent, re-runnable record of the empirical checks behind the design.
+Every 'confirmed real in the data' claim should trace back to a check here -- narration alone isn't
 verification. Run: .venv/Scripts/python.exe scripts/audit_practice_data.py
 """
 import csv
@@ -159,5 +158,5 @@ if __name__ == "__main__":
         all_ok = all_ok and ok
 
     if not all_ok:
-        raise SystemExit("One or more practice-data assumptions no longer hold -- re-check CLAUDE.md's design rationale.")
+        raise SystemExit("One or more practice-data assumptions no longer hold -- re-check the design rationale.")
     print("All practice-data assumptions confirmed.")

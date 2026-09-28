@@ -3,7 +3,7 @@ the DRI SKU whose description equals the FlowTech description minus the
 " (FlowTech)" suffix AND whose list_price_2023 matches. Falls back to
 list_price_2019 only when list_price_2023 is None on the FT side.
 
-Real edge cases found in the live sandbox (see CLAUDE.md sec 9), each
+Real edge cases found in the live sandbox, each
 handled deliberately rather than glossed over:
 - FT-1442 has list_price_2023 = None. Never match on an absent price
   from either side (None == None is not a real price match) -- but a

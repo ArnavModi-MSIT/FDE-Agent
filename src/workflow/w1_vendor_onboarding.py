@@ -23,7 +23,7 @@ IS_MSME_REGISTERED = "Y"
 
 def find_existing_vendor_in_list(vendors: List[Dict]) -> Optional[Dict]:
     """Pure matching logic, directly testable. Confirmed real risk from
-    the sandbox's own vendor list (CLAUDE.md sec 9): 6 near-duplicate
+    the sandbox's own vendor list: 6 near-duplicate
     vendors already exist under a different code/ALL-CAPS name for the
     same real company. Matches on GSTIN (should be invariant across name
     -format drift) or an exact case-insensitive name match -- NOT fuzzy

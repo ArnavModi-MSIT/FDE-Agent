@@ -1,6 +1,5 @@
-"""Minimal DRI sandbox client, built from real calls actually made against
-it (GET /erp/vendors, /erp/products, /crm/customers -- see CLAUDE.md sec 9),
-not a pre-guessed retry/rate-limit framework. Every response observed so
+"""Minimal DRI sandbox client, built from observed responses from
+GET /erp/vendors, /erp/products, and /crm/customers. Every response observed so
 far is a small JSON object wrapping a list under a named key
 (e.g. {"vendors": [...]}), 200 status, no pagination at these row counts
 (60/120/85). Extend this file only when a real call shows a behavior it

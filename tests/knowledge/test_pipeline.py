@@ -39,11 +39,9 @@ def test_submission_has_required_header_and_every_qid_answered(tmp_path):
 
 
 def test_engine_reproduces_the_scoring_submission_byte_for_byte(tmp_path):
-    # User reported v70 scored 0.9167 on 2026-09-28. Bank the whole bundle:
-    # v75's single-row regression subsequently isolated the gain to K-05.
-    # The engine must regenerate it exactly,
-    # so running scripts/run_knowledge.py can never overwrite the banked
-    # best with a weaker file again.
+    # The protected reference scored 0.9167. The engine must regenerate it
+    # exactly so scripts/run_knowledge.py cannot overwrite the best output
+    # with a weaker answer bundle.
     out_path = tmp_path / "submission.csv"
     run(DATA_DIR, str(out_path))
     best = os.path.join(REPO_ROOT, "submissions", "knowledge_submission_best_0p9167.csv")

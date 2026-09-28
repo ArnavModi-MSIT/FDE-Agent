@@ -1,7 +1,6 @@
 """W2 -- The MD's exceptions report. Deliberately reuses reconciliation/
 directly (classify_invoice, flag_duplicates, matching) rather than a
-second classifier -- see CLAUDE.md sec 9: this is the whole reason
-reconciliation/pipeline.py was built to expose per-invoice detail, not
+second classifier. Reconciliation exposes per-invoice detail, not
 just the final CSV. The CSV Reconciliation family and this Workflow task
 must never be able to disagree about what's wrong with a given invoice.
 

@@ -1,8 +1,7 @@
 """Question text -> ParsedQuestion. Regex-based, not an LLM call --
 matches this project's deterministic-first discipline, and every practice
 question follows a consistent template shape. If the hidden/rotated set
-uses genuinely different phrasing this won't generalize -- that's a real,
-documented limitation (see CLAUDE.md), not silently assumed away: an
+uses genuinely different phrasing this won't generalize: an
 unrecognized question produces topic=None, which answering.py refuses to
 guess an answer for, rather than a wrong confident one."""
 import re

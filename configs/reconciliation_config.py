@@ -1,6 +1,6 @@
 # Tunable thresholds for the reconciliation engine. Centralized so nothing
 # in checks/ or classify/ hardcodes a business rule -- every value here was
-# confirmed against the real practice data before being set (see CLAUDE.md).
+# confirmed against the supplied practice data before being set.
 
 GST_RATE_PCT = 18.0            # every one of 250 practice invoices declares this
 GST_TOLERANCE_RUPEES = 0.05    # matches the starter kit's own tolerance

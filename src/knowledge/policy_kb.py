@@ -1,6 +1,5 @@
 """Structured policy knowledge base -- every value here is transcribed
-directly from the real PDFs in dataset/Document store/, read in full
-before this file was written (see CLAUDE.md for the source quotes). This
+directly from the PDFs in dataset/Document store/. This
 is a fixed, tiny set of 4 documents; parsing them at runtime would add
 complexity for no benefit, so they're baked in here instead, with an
 explicit citation comment at every value.
@@ -73,7 +72,7 @@ RETURN_WINDOW_DAYS = 30
 # WRP-2020 Addendum A: FlowTech pre-acquisition stock gets 24 months from
 # despatch instead of the standard 18/12 rule -- but the addendum is an
 # unsigned, undated scan flagged by Compliance for regularization. Real
-# ambiguity, not a clean lookup -- see CLAUDE.md.
+# ambiguity, not a clean lookup.
 FLOWTECH_ADDENDUM_PROVENANCE_NOTE = (
     "per WRP-2020 Addendum A -- an unsigned, undated scan on file, "
     "flagged by Compliance for regularization"
